@@ -19,10 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends AbstractController
 {
     /**
-     * Get all events
+     * Get all events.
+     *
      * @Route("/events", name="get-all-events", methods={"GET"})
-     * @param EventRepository $eventRepository
-     * @return JsonResponse
      */
     public function getAllEvents(EventRepository $eventRepository): JsonResponse
     {
@@ -38,8 +37,6 @@ class EventController extends AbstractController
      * Find one event by its id
      * @Route("/events/{id}", requirements={"id": "\d+"}, name="get-event", methods={"GET"})
      * @param $id
-     * @param EventRepository $eventRepository
-     * @return JsonResponse
      */
     public function getEvent($id, EventRepository $eventRepository): JsonResponse
     {
@@ -52,11 +49,9 @@ class EventController extends AbstractController
     }
 
     /**
-     * Add one event
+     * Add one event.
+     *
      * @Route("/events/add", name="add-event", methods={"POST"})
-     * @param Request $request
-     * @param ValidatorInterface $validator
-     * @return JsonResponse
      */
     public function addEvent(Request $request, ValidatorInterface $validator): JsonResponse
     {
@@ -72,18 +67,15 @@ class EventController extends AbstractController
         $entityManager->flush();
 
         return $this->json($event, Response::HTTP_CREATED, ['Content-Type', 'application/json']);
-
     }
 
     /**
-     * Update event
+     * Update event.
+     *
      * @Route("/events/{id}/update", requirements={"id": "\d+"}, name="udpdate-event", methods={"PUT"})
      * @ParamConverter("id", class="App:Event", options={"id": "id"})
+     *
      * @param $id
-     * @param Request $request
-     * @param EventRepository $eventRepository
-     * @param EntityManagerInterface $entityManager
-     * @return JsonResponse
      */
     public function updateEvent($id, Request $request, EventRepository $eventRepository, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -102,43 +94,40 @@ class EventController extends AbstractController
         if ($form->isValid()) {
             $entityManager->persist($event);
             $entityManager->flush();
+
             return $this->json($event, Response::HTTP_OK, ['Content-Type', 'application/json']);
-        }
-        else {
+        } else {
             return $this->json($form, Response::HTTP_BAD_REQUEST, ['Content-Type', 'application/json']);
         }
     }
 
     /**
-     * Delete event
+     * Delete event.
+     *
      * @Route("/events/{id}/delete", requirements={"id": "\d+"}, name="delete-event", methods={"DELETE"})
+     *
      * @param $id
-     * @param EntityManagerInterface $entityManager
-     * @param EventRepository $eventRepository
-     * @return JsonResponse
      */
     public function deleteEvent($id, EntityManagerInterface $entityManager, EventRepository $eventRepository): JsonResponse
     {
         $event = $eventRepository->find($id);
         if (empty($event)) {
-            return $this->json(['message' => "Evenement inconnu"], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
+            return $this->json(['message' => 'Evenement inconnu'], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
         }
 
         $entityManager->remove($event);
         $entityManager->flush();
-        return $this->json(null,Response::HTTP_NO_CONTENT, ['Content-Type', 'application/json']);
 
+        return $this->json(null, Response::HTTP_NO_CONTENT, ['Content-Type', 'application/json']);
     }
 
     /**
-     * Add participant to one event
+     * Add participant to one event.
+     *
      * @Route("/events/{id}/add-participant/{memberId}", requirements={"id": "\d+"}, name="add-participant-to-event", methods={"PUT"})
+     *
      * @param $id
      * @param $memberId
-     * @param EventRepository $eventRepository
-     * @param MemberRepository $memberRepository
-     * @param EntityManagerInterface $entityManager
-     * @return JsonResponse
      */
     public function addParticipantToEvent($id, $memberId, EventRepository $eventRepository, MemberRepository $memberRepository, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -155,12 +144,12 @@ class EventController extends AbstractController
         $numberOfParticipants = count($eventParticipants = $event->getParticipants());
         $maximumNumberOfParticipants = $event->getMaximumNumberOfParticipants();
         if ($numberOfParticipants >= $maximumNumberOfParticipants) {
-            return $this->json(['message' => "L'évènement est complet"], Response::HTTP_OK, ['Content-Type', 'application/json'] );
+            return $this->json(['message' => "L'évènement est complet"], Response::HTTP_OK, ['Content-Type', 'application/json']);
         }
 
         $registrationDeadline = $event->getRegistrationDeadline();
         if ($registrationDeadline < new DateTime('NOW')) {
-            return $this->json(['message' => "les inscriptions pour cet évènement sont terminées"], Response::HTTP_OK, ['Content-Type', 'application/json']);
+            return $this->json(['message' => 'les inscriptions pour cet évènement sont terminées'], Response::HTTP_OK, ['Content-Type', 'application/json']);
         }
 
         $participants = $event->getParticipants()->toArray();
@@ -177,14 +166,12 @@ class EventController extends AbstractController
     }
 
     /**
-     * Remove participant from event
+     * Remove participant from event.
+     *
      * @Route("/events/{id}/remove-participant/{memberId}", requirements={"id": "\d+"}, name="add-participant-to-event", methods={"PUT"})
+     *
      * @param $id
      * @param $memberId
-     * @param EventRepository $eventRepository
-     * @param MemberRepository $memberRepository
-     * @param EntityManagerInterface $entityManager
-     * @return JsonResponse
      */
     public function removeParticipantFromEvent($id, $memberId, EventRepository $eventRepository, MemberRepository $memberRepository, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -210,5 +197,4 @@ class EventController extends AbstractController
 
         return $this->json($event, Response::HTTP_OK, ['Content-Type', 'application/json']);
     }
-
 }

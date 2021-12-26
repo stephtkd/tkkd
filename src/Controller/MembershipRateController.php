@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Entity\MembershipRate;
 use App\Form\MembershipRateType;
@@ -13,15 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class MembershipRateController extends AbstractController
 {
-
     /**
-     * Get all membership rates
+     * Get all membership rates.
+     *
      * @Route("/membership-rates", name="get-all-membership-rates", methods={"GET"})
-     * @param MembershipRateRepository $membershipRateRepository
-     * @return JsonResponse
      */
     public function getAllMembershipRates(MembershipRateRepository $membershipRateRepository): JsonResponse
     {
@@ -31,16 +29,15 @@ class MembershipRateController extends AbstractController
         }
 
         return $this->json($membershipRates, Response::HTTP_OK, ['Content-Type', 'application/json']);
-
     }
 
     /**
-     * Get one membership rate
+     * Get one membership rate.
+     *
      * @Route("/membership-rates/{id}", requirements={"id": "\d+"}, name="get-one-membership-rate", methods={"GET"})
      * @ParamConverter("membershipRate", class="App:MembershipRate")
+     *
      * @param $id
-     * @param MembershipRateRepository $membershipRateRepository
-     * @return JsonResponse
      */
     public function getMembershipRate($id, MembershipRateRepository $membershipRateRepository): JsonResponse
     {
@@ -53,12 +50,9 @@ class MembershipRateController extends AbstractController
     }
 
     /**
-     * Add one membership Rate
+     * Add one membership Rate.
+     *
      * @Route("/membership-rates/add", name="add-membership-rate", methods={"POST"})
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param ValidatorInterface $validator
-     * @return Response
      */
     public function addMemberShipRate(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
@@ -80,48 +74,44 @@ class MembershipRateController extends AbstractController
 
         $entityManager->persist($membershipRate);
         $entityManager->flush();
+
         return $this->json($membershipRate);
     }
 
     /**
-     * Delete one membership rate by its id
+     * Delete one membership rate by its id.
+     *
      * @Route("/membership-rates/{id}/delete/", requirements={"id": "\d+"}, name="delete-one-membership-rate-by-id", methods={"DELETE"})
      * @ParamConverter("membershipRate", class="App:MembershipRate", options={"id": "id"})
+     *
      * @param $id
-     * @param EntityManagerInterface $entityManager
-     * @param MembershipRateRepository $membershipRateRepository
-     * @return JsonResponse
      */
     public function deleteMembershipRate($id, EntityManagerInterface $entityManager, MembershipRateRepository $membershipRateRepository): JsonResponse
     {
         $membershipRate = $membershipRateRepository->find($id);
         if (empty($membershipRate)) {
-            return $this->json(['message' => "Tarif inconnu"], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
+            return $this->json(['message' => 'Tarif inconnu'], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
         }
 
         $entityManager->remove($membershipRate);
         $entityManager->flush();
 
-        return $this->json(null,Response::HTTP_NO_CONTENT, ['Content-Type', 'application/json']);
+        return $this->json(null, Response::HTTP_NO_CONTENT, ['Content-Type', 'application/json']);
     }
 
-
     /**
-     * Update one membership rate
+     * Update one membership rate.
+     *
      * @Route("/membership-rates/update/{id}", requirements={"id": "\d+"}, name="udpdate-one-membership-rate-by-id", methods={"PUT"})
      * @ParamConverter("membershipRate", class="App:MembershipRate", options={"id": "id"})
+     *
      * @param $id
-     * @param Request $request
-     * @param MembershipRateRepository $membershipRateRepository
-     * @param EntityManagerInterface $entityManager
-     * @param ValidatorInterface $validator
-     * @return JsonResponse
      */
     public function updateMembershipRate($id, Request $request, MembershipRateRepository $membershipRateRepository, EntityManagerInterface $entityManager, ValidatorInterface $validator): JsonResponse
     {
         $membershipRate = $membershipRateRepository->find($id);
         if (empty($membershipRate)) {
-            return $this->json(['message' => "Tarif inconnu"], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
+            return $this->json(['message' => 'Tarif inconnu'], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
         }
 
         $form = $this->createForm(MembershipRateType::class, $membershipRate);
@@ -132,24 +122,25 @@ class MembershipRateController extends AbstractController
         if ($form->isValid()) {
             $entityManager->persist($membershipRate);
             $entityManager->flush();
+
             return $this->json($membershipRate, Response::HTTP_OK, ['Content-Type', 'application/json']);
-        }
-        else {
+        } else {
             return $this->json($form, Response::HTTP_BAD_REQUEST, ['Content-Type', 'application/json']);
         }
     }
 
     /**
-     * Get members by Membership Rate
+     * Get members by Membership Rate.
+     *
      * @Route("/membership-rates/members/{id}", requirements={"id": "\d+"}, name="get-members-by-membership-rate", methods={"GET"})
      * @ParamConverter("membershipRate", class="App:MembershipRate", options={"id": "id"})
+     *
      * @param $membershipRate
-     * @param MembershipRateRepository $membershipRateRepository
-     * @return JsonResponse
      */
     public function getMembersByMembershipRate($membershipRate, MembershipRateRepository $membershipRateRepository): JsonResponse
     {
         $members = $membershipRate->getMembers();
+
         return $this->json($members);
     }
 }

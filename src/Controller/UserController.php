@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * Get all users
+     * Get all users.
+     *
      * @Route("/users", name="get-all-users", methods={"GET"})
-     * @param UserRepository $userRepository
-     * @return JsonResponse
      */
     public function getAllUsers(UserRepository $userRepository): JsonResponse
     {
@@ -26,18 +24,15 @@ class UserController extends AbstractController
 
         if ($users) {
             return $this->json($users);
-        }
-        else {
+        } else {
             return $this->json(null);
         }
-
     }
 
     /**
-     * Add one user
+     * Add one user.
+     *
      * @Route("/users/add", name="add-user", methods={"POST"})
-     * @param Request $request
-     * @return JsonResponse
      */
     public function addUser(Request $request): JsonResponse
     {
@@ -46,33 +41,33 @@ class UserController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
+
         return $this->json($user);
     }
 
     /**
-     * Find one user by his id
+     * Find one user by his id.
+     *
      * @Route("/users/{id}", requirements={"id": "\d+"}, name="get-user", methods={"GET"})
+     *
      * @param $id
-     * @param UserRepository $userRepository
-     * @return JsonResponse
      */
     public function getUserById($id, UserRepository $userRepository): JsonResponse
     {
-            $user = $userRepository->find($id);
-            if (empty($user)) {
-                return $this->json(['message' => "Cet user n'existe pas"], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
-            }
-            return $this->json($user, RESPONSE::HTTP_OK, ['Content-Type', 'application/json']);
+        $user = $userRepository->find($id);
+        if (empty($user)) {
+            return $this->json(['message' => "Cet user n'existe pas"], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
+        }
 
+        return $this->json($user, RESPONSE::HTTP_OK, ['Content-Type', 'application/json']);
     }
 
     /**
-     * Delete one user by his id
+     * Delete one user by his id.
+     *
      * @Route("/users/{id}/delete", requirements={"id": "\d+"}, name="delete-one-user-by-id", methods={"DELETE"})
+     *
      * @param $id
-     * @param EntityManagerInterface $entityManager
-     * @param UserRepository $userRepository
-     * @return JsonResponse
      */
     public function deleteUser($id, EntityManagerInterface $entityManager, UserRepository $userRepository): JsonResponse
     {
@@ -82,15 +77,16 @@ class UserController extends AbstractController
         }
         $entityManager->remove($user);
         $entityManager->flush();
+
         return $this->json(null, Response::HTTP_OK, ['Content-Type', 'application/json']);
     }
 
     /**
-     * Get members linked to one user
+     * Get members linked to one user.
+     *
      * @Route("/users/{id}/get-members/", requirements={"id": "\d+"}, name="get-members-by-user", methods={"GET"})
+     *
      * @param $id
-     * @param UserRepository $userRepository
-     * @return JsonResponse
      */
     public function getMembersByUser($id, UserRepository $userRepository): JsonResponse
     {
@@ -103,8 +99,7 @@ class UserController extends AbstractController
         if (empty($userMembers)) {
             return $this->json(['message' => 'Pas d\'adhérent lié à cet utilisateur'], Response::HTTP_OK, ['Content-Type', 'application/json']);
         }
+
         return $this->json($userMembers, Response::HTTP_OK, ['Content-Type', 'application/json']);
-
     }
-
 }

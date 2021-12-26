@@ -3,19 +3,40 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
 
-    <h1>Register</h1>
+    <div class="d-flex justify-content-center">
+        {{ form_start(registrationForm) }}
+        {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        <div class="form-group">
+            {{ form_label(registrationForm.email) }}
+            {{ form_widget(registrationForm.email, {'attr':
+                {'class':'form-control'}}) }}
+            {{ form_errors(registrationForm.email) }}
+        </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+        <div class="form-group">
+
+            {{ form_label(registrationForm.plainPassword) }}
+            {{ form_widget(registrationForm.plainPassword, {'attr':
+                {'class':'form-control'}}) }}
+            {{ form_errors(registrationForm.plainPassword) }}
+
+        </div>
+
+        <div class="form-group">
+
+            {{ form_label(registrationForm.agreeTerms) }}
+            {{ form_widget(registrationForm.agreeTerms, {'attr':
+                {'class':'form-control'}}) }}
+            {{ form_errors(registrationForm.agreeTerms) }}
+
+        </div>
+
+
+            {{ form_row(registrationForm.register, {'attr':{'class':'btn btn-info'}}) }}
+            {{ form_end(registrationForm) }}
+
+    </div>
+
 {% endblock %}
