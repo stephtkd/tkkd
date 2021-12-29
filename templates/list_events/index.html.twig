@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List Events{% endblock %}
+
+{% block body %}
+    <h1 class="d-flex justify-content-center">{{ 'List Events' }}</h1>
+    <div class="d-flex flex-row justify-content-around flex-wrap">
+        {% for events in listEvents %}
+            <div class=",card" style="width: 18rem;">
+                <img class=",card-img-top" src="{{ asset('img/'~events.linkImage) }}" height="200px" alt="image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ events.name }}</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">First Price
+                            {{ events.price }} Euros
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
