@@ -39,6 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @Assert\NotBlank (message="Veuillez renseigner un mot de passe")
+     *
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
@@ -56,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private ?string $lastName;
 
-     /**
+    /**
      * @ORM\OneToMany(targetEntity=Member::class, mappedBy="responsibleAdult")
      */
     private $members;
@@ -65,11 +66,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private bool $isVerified = false;
-    /**
-     * @var ArrayCollection
-     */
-    private ArrayCollection $adherents;
 
+    private ArrayCollection $adherents;
 
     public function __construct()
     {
@@ -216,6 +214,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $member->setResponsibleAdult(null);
             }
         }
+
         return $this;
     }
 

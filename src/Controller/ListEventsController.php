@@ -14,7 +14,7 @@ class ListEventsController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $listEventsRepository = $em->getRepository(EventPage::class);
-        $listEvents = $listEventsRepository->findAll();
+        $listEvents = $listEventsRepository->orderingEvents();
 
         return $this->render('list_events/index.html.twig', [
             'listEvents' => $listEvents,

@@ -490,6 +490,4 @@ class Member
 
         return $this;
     }
-
-
 }

@@ -7,7 +7,6 @@ use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
  */
@@ -37,7 +36,8 @@ class Post
      *      max = 55,
      *      minMessage = "Le type d'article ne doit pas faire moins de {{ limit }} caractères",
      *      maxMessage = "le type d'article ne doit pas dépasser {{ limit }} caractères"
-     * )
+     * ).
+     *
      * @ORM\Column(type="string", length=55)
      */
     private $type;

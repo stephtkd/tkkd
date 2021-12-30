@@ -4,10 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\EventRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use DateTimeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -52,7 +52,6 @@ class Event
     private $childRate;
 
     /**
-     *
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $startDate;
@@ -166,12 +165,12 @@ class Event
         return $this;
     }
 
-    public function getRegistrationDeadline(): ?\DateTimeInterface
+    public function getRegistrationDeadline(): ?DateTimeInterface
     {
         return $this->registrationDeadline;
     }
 
-    public function setRegistrationDeadline(?\DateTimeInterface $registrationDeadline): self
+    public function setRegistrationDeadline(?DateTimeInterface $registrationDeadline): self
     {
         $this->registrationDeadline = $registrationDeadline;
 

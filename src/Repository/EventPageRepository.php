@@ -19,6 +19,15 @@ class EventPageRepository extends ServiceEntityRepository
         parent::__construct($registry, EventPage::class);
     }
 
+    // Get Events By DESC
+    public function orderingEvents(): mixed
+    {
+        $listEvents = $this->getEntityManager()
+            ->createQuery(dql: 'SELECT event_page FROM App\Entity\EventPage event_page ORDER BY event_page.id DESC')
+            ->getResult();
+
+        return $listEvents;
+    }
     // /**
     //  * @return EventPage[] Returns an array of EventPage objects
     //  */
