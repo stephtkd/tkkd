@@ -57,4 +57,14 @@ class AdminController extends AbstractController
             'my_form' => $formEvents->createView(),
         ]);
     }
+
+    #[Route('/update/{id}', name: 'update', methods: 'GET|PUT')]
+    public function update(Request $request, $id): Response
+    {
+    }
+
+    #[Route('/delete/{id}', name: 'delete', methods: 'GET|DELETE', priority: 10)]
+    public function delete(Request $request, $id): Response
+    {
+    }
 }
