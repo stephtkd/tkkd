@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="145797e0-d4cd-4e74-9da3-fd112746b7b7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/twig.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/twig.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/list_events/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/list_events/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -160,7 +158,7 @@
       <updated>1640182250960</updated>
       <workItem from="1640182317068" duration="17207000" />
       <workItem from="1640534786201" duration="20747000" />
-      <workItem from="1640778020927" duration="17920000" />
+      <workItem from="1640778020927" duration="19684000" />
     </task>
     <servers />
   </component>

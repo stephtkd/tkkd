@@ -21,7 +21,7 @@
                     </ul>
                     <div class="card-body">
                         <a class="btn btn-info mt-2" href="{{ path('insert') }}">Ajouter un nouveau événement </a>
-                        <a class="btn btn-warning mt-2" href="#">Edit events</a>
+                        <a class="btn btn-warning mt-2" href="{{ path('update', {'id': events.id}) }}">Editert l'événement</a>
                         <a class="btn btn-danger mt-2" href="#">Delete new events</a>
                     </div>
 
