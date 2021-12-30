@@ -3,16 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="145797e0-d4cd-4e74-9da3-fd112746b7b7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/EventController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/EventController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/MemberController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/MemberController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/MembershipController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/MembershipController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/EventType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/EventType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/MemberType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/MemberType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/MembershipRateType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/MembershipRateType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/PostType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PostType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/list_events/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/list_events/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +157,7 @@
       <updated>1640182250960</updated>
       <workItem from="1640182317068" duration="17207000" />
       <workItem from="1640534786201" duration="20747000" />
-      <workItem from="1640778020927" duration="14586000" />
+      <workItem from="1640778020927" duration="15511000" />
     </task>
     <servers />
   </component>

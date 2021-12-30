@@ -8,6 +8,14 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import '../assets/styles/app.scss';
 
-
 // start the Stimulus application
 import '../assets/bootstrap';
+
+// Jquery
+const $ = require('jquery');
+
+$ (".custom-file-input").on("change", () => {
+    let filename = $ (this).val().split("\\").pop();
+    $(this).siblings(".custom.file.label")
+        .addClass("selected").html(filename);
+});
