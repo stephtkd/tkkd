@@ -21,7 +21,7 @@ class MembershipRateType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => MembershipRate::class,
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ]);
     }
 }

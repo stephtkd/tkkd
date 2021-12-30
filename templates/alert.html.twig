@@ -1,0 +1,1 @@
+<div class="d-flex flex-row justify-content-center m-5">        {% for message in app.session.flashbag.get('message') %}                <span class="alert alert-{{ app.session.get('status') }}">                {{ message }}        </span>        {% endfor %}</div>

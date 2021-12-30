@@ -56,7 +56,8 @@ class MemberController extends AbstractController
     }
 
     /**
-     * Add one member
+     * Add one member.
+     *
      * @Route("/members/add", name="add-member", methods={"POST"})
      */
     public function addMember(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository, MembershipRateRepository $membershipRateRepository, ValidatorInterface $validator): Response

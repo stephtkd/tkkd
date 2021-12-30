@@ -41,11 +41,11 @@ class MembershipController extends AbstractController
     }
 
     /**
-     * allows to validate membership-paiement
+     * allows to validate membership-paiement.
+     *
      * @Route("/members/{id}/validate-membership-paiement", requirements={"id": "\d+"}, name="validate-membership-paiement", methods={"POST"})
      * @ParamConverter("member", class="App:Member", options={"id": "id"})
-     * @param MemberRepository $memberRepository
-     * @param MembershipRepository $membershipRepository
+     *
      * @param $member
      */
     public function validateMembershipPaiement(MemberRepository $memberRepository, MembershipRepository $membershipRepository, $member): JsonResponse
@@ -55,13 +55,14 @@ class MembershipController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        if ($membershipState == "Paiement en attente") {
-            $member->setMembershipState("Validation en attente");
+        if ('Paiement en attente' == $membershipState) {
+            $member->setMembershipState('Validation en attente');
             $entityManager->persist($member);
             $entityManager->flush();
+
             return $this->json($member);
-        } elseif ($membershipState == "Validation en attente") {
-            return $this->json(['erreur' => "le paiement a déjà été validé"]);
+        } elseif ('Validation en attente' == $membershipState) {
+            return $this->json(['erreur' => 'le paiement a déjà été validé']);
         }
     }
 }

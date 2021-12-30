@@ -34,8 +34,10 @@ class EventController extends AbstractController
     }
 
     /**
-     * Find one event by its id
+     * Find one event by its id.
+     *
      * @Route("/events/{id}", requirements={"id": "\d+"}, name="get-event", methods={"GET"})
+     *
      * @param $id
      */
     public function getEvent($id, EventRepository $eventRepository): JsonResponse
