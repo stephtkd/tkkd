@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\EventPage;
 use App\Form\EventsType;
+use App\Repository\EventPageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,5 +107,22 @@ class AdminController extends AbstractController
         return $this->render('Admin/admin.html.twig', [
             'my_form' => $formEvents->createView(),
         ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete', methods: 'GET|POST')]
+    public function delete(Request $request, $id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $eventsRepository = $em->getRepository(EventPage::class);
+        $event = $eventsRepository->find($id);
+
+        $em->remove($event);
+        $em->flush();
+
+        $session = $request->getSession();
+        $session->getFlashBag()->add('message', 'L\'événement a été supprimé');
+        $session->set('status', 'danger');
+
+        return $this->redirect($this->generateUrl('list'));
     }
 }
