@@ -21,6 +21,7 @@ class AdminController extends AbstractController
         $formEvents = $this->createForm(EventsType::class, $event);
         $formEvents->add('add', SubmitType::class, [
             'label' => 'Ajouter un événement',
+            'validation_groups' => ['registration', 'all'],
         ]);
 
         $formEvents->handleRequest($request);
@@ -74,6 +75,7 @@ class AdminController extends AbstractController
 
         $formEvents->add('add', SubmitType::class, [
             'label' => 'Mise à jour d\'un événement',
+            'validation_groups' => ['all'],
         ]);
 
         $formEvents->handleRequest($request);

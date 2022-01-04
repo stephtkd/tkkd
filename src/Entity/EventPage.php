@@ -3,10 +3,20 @@
 namespace App\Entity;
 
 use App\Repository\EventPageRepository;
+use App\Validator\Antispam;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=EventPageRepository::class)
+ *
+ * @UniqueEntity (
+ *     fields={"name"},
+ *     message="erreur l'événement existe déjà",
+ *     groups="registration"
+ * )
  */
 class EventPage
 {
@@ -19,13 +29,26 @@ class EventPage
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Length (
+     * min = 2,
+     * max = 30,
+     * minMessage="Votre nom d'événement doit faire au moins {{ limit }} caractères",
+     * maxMessage="Votre nom d'événement doit faire au moins doit faire au moins {{ limit }} caractères",
+     * groups="all"
+     *
+     * )
+     *
+     * @Antispam(message="Votre nom de produit : %string% ne doit contenir que des caractères alphanumériques",
+     *     groups={"all"})
      */
     private $name;
+
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $price;
+    private ?int $price;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
