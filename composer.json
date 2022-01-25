@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.0",
+        "php": ">=8",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
@@ -16,7 +16,6 @@
         "doctrine/orm": "^2.10",
         "friendsofphp/php-cs-fixer": "^3.3",
         "friendsofsymfony/rest-bundle": "^3.1",
-        "fzaninotto/faker": "^1.5",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^6.2",

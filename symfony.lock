@@ -147,9 +147,6 @@
             "ref": "fa845143b7e0a4c70aedd1a88c549e6d977e9ae5"
         }
     },
-    "fzaninotto/faker": {
-        "version": "v1.9.2"
-    },
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
