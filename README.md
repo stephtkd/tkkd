@@ -1,5 +1,7 @@
 ![kolabee](https://kolabee.com/wp-content/uploads/2020/12/Kolabee-Logotype.png)
 
+********** Détail du projet dans WIKI **********
+
 # Projet kolabee By SII
 
 Pour lancer le projet il faut le clonner depuis le depot git.
