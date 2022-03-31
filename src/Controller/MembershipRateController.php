@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class MembershipRateController extends AbstractController
 {
     /**
-     * Get all membership rates.
+     * Get all affiliated rates.
      *
-     * @Route("/membership-rates", name="get-all-membership-rates", methods={"GET"})
+     * @Route("/affiliated-rates", name="get-all-affiliated-rates", methods={"GET"})
      */
     public function getAllMembershipRates(MembershipRateRepository $membershipRateRepository): JsonResponse
     {
@@ -32,9 +32,9 @@ class MembershipRateController extends AbstractController
     }
 
     /**
-     * Get one membership rate.
+     * Get one affiliated rate.
      *
-     * @Route("/membership-rates/{id}", requirements={"id": "\d+"}, name="get-one-membership-rate", methods={"GET"})
+     * @Route("/affiliated-rates/{id}", requirements={"id": "\d+"}, name="get-one-affiliated-rate", methods={"GET"})
      * @ParamConverter("membershipRate", class="App:MembershipRate")
      *
      * @param $id
@@ -50,9 +50,9 @@ class MembershipRateController extends AbstractController
     }
 
     /**
-     * Add one membership Rate.
+     * Add one affiliated Rate.
      *
-     * @Route("/membership-rates/add", name="add-membership-rate", methods={"POST"})
+     * @Route("/affiliated-rates/add", name="add-affiliated-rate", methods={"POST"})
      */
     public function addMemberShipRate(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
@@ -79,9 +79,9 @@ class MembershipRateController extends AbstractController
     }
 
     /**
-     * Delete one membership rate by its id.
+     * Delete one affiliated rate by its id.
      *
-     * @Route("/membership-rates/{id}/delete/", requirements={"id": "\d+"}, name="delete-one-membership-rate-by-id", methods={"DELETE"})
+     * @Route("/affiliated-rates/{id}/delete/", requirements={"id": "\d+"}, name="delete-one-affiliated-rate-by-id", methods={"DELETE"})
      * @ParamConverter("membershipRate", class="App:MembershipRate", options={"id": "id"})
      *
      * @param $id
@@ -100,9 +100,9 @@ class MembershipRateController extends AbstractController
     }
 
     /**
-     * Update one membership rate.
+     * Update one affiliated rate.
      *
-     * @Route("/membership-rates/update/{id}", requirements={"id": "\d+"}, name="udpdate-one-membership-rate-by-id", methods={"PUT"})
+     * @Route("/affiliated-rates/update/{id}", requirements={"id": "\d+"}, name="udpdate-one-affiliated-rate-by-id", methods={"PUT"})
      * @ParamConverter("membershipRate", class="App:MembershipRate", options={"id": "id"})
      *
      * @param $id
@@ -132,7 +132,7 @@ class MembershipRateController extends AbstractController
     /**
      * Get members by Membership Rate.
      *
-     * @Route("/membership-rates/members/{id}", requirements={"id": "\d+"}, name="get-members-by-membership-rate", methods={"GET"})
+     * @Route("/affiliated-rates/members/{id}", requirements={"id": "\d+"}, name="get-members-by-affiliated-rate", methods={"GET"})
      * @ParamConverter("membershipRate", class="App:MembershipRate", options={"id": "id"})
      *
      * @param $membershipRate

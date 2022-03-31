@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use ApiPlatform\Core\Validator\ValidatorInterface;
+use App\Classe\affiliated;
 use App\Entity\Member;
 use App\Entity\Membership;
 use App\Form\MemberType;
@@ -23,6 +24,53 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MemberController extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * member file.
+     *
+     * @Route("/account/members", name="account_member")
+     */
+    public function index(): Response
+    {
+        return $this->render('account/member.html.twig');
+
+    }
+
+    #[Route('/account/members/form', name: 'account_member_add')]
+    public function add(affiliated $affiliated, Request $request): Response
+    {
+        $affiliate = new Member();
+
+        $form = $this->createForm(MemberType::class, $affiliate);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $affiliate->setResponsibleAdult();
+            $this->entityManager->persist($affiliate);
+            $this->entityManager->flush();
+
+             if ($affiliated->get()) {
+                return $this->redirectToRoute('app_account');
+             }
+             else{
+                return $this->redirectToRoute('account_member');
+             }
+        }
+
+        return $this->render('account/memberForm.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+
     /**
      * Get all members.
      *
@@ -228,18 +276,18 @@ class MemberController extends AbstractController
      * @Route("/members/{id}/get-user", requirements={"id": "\d+"}, name="get-responsible-adult", methods={"GET"})
      * @ParamConverter("member", class="App:Member", options={"id": "id"})
      *
-     * @param $member
+  #   * @param $member
      */
-    public function getResponsibleAdult($member, MemberRepository $memberRepository): JsonResponse
-    {
-        $member = $memberRepository->find($member);
-        if (empty($member)) {
-            return $this->json(['message' => 'Aucun membre correspondant'], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
-        }
-        $userResponsible = $member->getResponsibleAdult();
+   # public function getResponsibleAdult($member, MemberRepository $memberRepository): JsonResponse
+   # {
+       # $member = $memberRepository->find($member);
+       # if (empty($member)) {
+           # return $this->json(['message' => 'Aucun membre correspondant'], Response::HTTP_NOT_FOUND, ['Content-Type', 'application/json']);
+       # }
+       # $userResponsible = $member->getResponsibleAdult();
 
-        return $this->json($userResponsible, Response::HTTP_OK, ['Content-Type', 'application/json']);
-    }
+      #  return $this->json($userResponsible, Response::HTTP_OK, ['Content-Type', 'application/json']);
+   # }
 
     /**
      * Get Members with finished membership.

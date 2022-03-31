@@ -1,0 +1,36 @@
+body {
+    position: relative;
+    background: #fff3e0;
+}
+
+/* Header navbar */
+.navbar-item, .navbar-item a{
+    color: white;
+}
+
+/* Carousel */
+.carousel-inner img {
+    width: 100%;
+    height: auto;
+    /*background-size: cover;
+    background-position: center;*/
+}
+
+/* Account */
+.account-item {
+    background-color: #ffcc80;
+    padding: 70px;
+}
+.account-item a {
+    text-transform: uppercase;
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+}
+
+.account-item a:hover {
+    color: #d50000;
+    text-decoration: none;
+
+}
+

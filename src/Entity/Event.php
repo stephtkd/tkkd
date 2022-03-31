@@ -26,10 +26,15 @@ class Event
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $label;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="text")
      */
     private $description;
 
@@ -71,6 +76,17 @@ class Event
      */
     private $participants;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $price;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkImage;
+
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -81,14 +97,26 @@ class Event
         return $this->id;
     }
 
-    public function getLabel(): ?string
+    public function getName(): ?string
     {
-        return $this->label;
+        return $this->name;
     }
 
-    public function setLabel(string $label): self
+    public function setName(string $name): self
     {
-        $this->label = $label;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
@@ -173,6 +201,30 @@ class Event
     public function setRegistrationDeadline(?DateTimeInterface $registrationDeadline): self
     {
         $this->registrationDeadline = $registrationDeadline;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getLinkImage(): ?string
+    {
+        return $this->linkImage;
+    }
+
+    public function setLinkImage(?string $linkImage): self
+    {
+        $this->linkImage = $linkImage;
 
         return $this;
     }

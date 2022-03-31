@@ -350,6 +350,7 @@ class Member
         return $this;
     }
 
+
     public function getEmergencyPhone(): ?string
     {
         return $this->emergencyPhone;

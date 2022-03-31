@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Taekwonkido Phenix{% endblock %}
+
+{% block body %}
+
+ <!-- Video of Taekwonkido Phenix -->
+    <video class="w-100" style="background-size: cover; background-position: center;" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+        <source src="{{ asset('/upload/VideoPhenix.m4v') }}" type="video/mp4">
+    </video>
+
+
+<!-- Description of Taekwonkido Phenix -->
+
+    <div class="cols-md-8 m-5">
+        {% for homeComment in homeComment %}
+        <h2>{{ homeComment.title|raw }}</h2>
+        <p>{{ homeComment.description|raw }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="container-fluid mt-5">
+    <div class="title-events m-3">
+        <h2>Prochain événements</h2>
+
+    </div>
+
+ <!-- Card for the events -->
+<div class="row m-3">
+    {% for event in events %}
+    <div class="card mb-8 shadow p-2 mb-5 bg-white rounded w-50">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="/upload/{{ event.linkimage }}" class="card-img" alt="{{ event.name }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name|raw }}</h5>
+                    <p class="card-text">{{ event.description|raw  }}</p>
+                </div>
+                <a href="{{ path('app_event', { 'slug' : event.slug}) }}" class="btn btn-dark float-right">Informations</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

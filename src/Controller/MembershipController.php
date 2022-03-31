@@ -12,9 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class MembershipController extends AbstractController
 {
     /**
-     * allows admin to validate a membership after payment and document verification.
+     * allows admin to validate a affiliated after payment and document verification.
      *
-     * @Route("/members/{id}/validate-membership-documents-and-paiement", requirements={"id": "\d+"}, name="validate-membership", methods={"POST"})
+     * @Route("/members/{id}/validate-affiliated-documents-and-paiement", requirements={"id": "\d+"}, name="validate-affiliated", methods={"POST"})
      * @ParamConverter("member", class="App:Member", options={"id": "id"})
      *
      * @param $member
@@ -41,9 +41,9 @@ class MembershipController extends AbstractController
     }
 
     /**
-     * allows to validate membership-paiement.
+     * allows to validate affiliated-paiement.
      *
-     * @Route("/members/{id}/validate-membership-paiement", requirements={"id": "\d+"}, name="validate-membership-paiement", methods={"POST"})
+     * @Route("/members/{id}/validate-affiliated-paiement", requirements={"id": "\d+"}, name="validate-affiliated-paiement", methods={"POST"})
      * @ParamConverter("member", class="App:Member", options={"id": "id"})
      *
      * @param $member
