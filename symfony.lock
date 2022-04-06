@@ -146,11 +146,11 @@
         "version": "v1.0.7"
     },
     "friendsofsymfony/ckeditor-bundle": {
-        "version": "2.4",
+        "version": "5.0",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "master",
-            "version": "2.0",
+            "version": "5.0",
             "ref": "f5ad42002183a6881962683e6d84bbb25cdfce5d"
         },
         "files": [
@@ -165,6 +165,28 @@
             "version": "2.2",
             "ref": "fa845143b7e0a4c70aedd1a88c549e6d977e9ae5"
         }
+    },
+    "gregwar/captcha": {
+        "version": "v1.1.9"
+    },
+    "gregwar/captcha-bundle": {
+        "version": "v2.2.0"
+    },
+    "helios-ag/fm-elfinder-bundle": {
+        "version": "12.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "10.0",
+            "ref": "addd79a9903ee92664f4cff61eb6cdd1b95945e7"
+        },
+        "files": [
+            "./config/packages/fm_elfinder.yaml",
+            "./config/routes/fm_elfinder.yaml"
+        ]
+    },
+    "jms/metadata": {
+        "version": "2.6.1"
     },
     "laminas/laminas-code": {
         "version": "4.5.1"
@@ -225,6 +247,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "studio-42/elfinder": {
+        "version": "2.1.61"
     },
     "symfony/asset": {
         "version": "v5.4.3"
@@ -300,7 +325,7 @@
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "5.4",
+            "version": "5.4.*",
             "ref": "3cd216a4d007b78d8554d44a5b1c0a446dab24fb"
         },
         "files": [
@@ -540,6 +565,18 @@
     },
     "twig/twig": {
         "version": "v3.3.8"
+    },
+    "vich/uploader-bundle": {
+        "version": "1.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.7",
+            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
+        },
+        "files": [
+            "./config/packages/vich_uploader.yaml"
+        ]
     },
     "webmozart/assert": {
         "version": "1.10.0"

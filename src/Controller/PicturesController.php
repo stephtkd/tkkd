@@ -18,12 +18,12 @@ class PicturesController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/pictures', name: 'app_pictures')]
+    #[Route('/pictures', name: 'app_pictures')] // page photos
 
     public function index(): Response
     {
-        $SlidePictures = $this->entityManager->getRepository(SlidePicture::class)->findAll();
-        $AlbumPictures= $this->entityManager->getRepository(AlbumPicture::class)->findAll();
+        $SlidePictures = $this->entityManager->getRepository(SlidePicture::class)->findAll(); // affichage du slide photos configurable dans l'easyAdmin
+        $AlbumPictures= $this->entityManager->getRepository(AlbumPicture::class)->findAll(); // affichage des cards qui presente les albums photos configurable dans l'easyAdmin
 
         return $this->render('pictures/index.html.twig', [
             'SlidePictures' => $SlidePictures,
@@ -32,7 +32,7 @@ class PicturesController extends AbstractController
         ]);
     }
 
-    #[Route('/pictures/{slug}', name: 'app_pictures_slug')]
+    #[Route('/pictures/{slug}', name: 'app_pictures_slug')] // affichage des photos dans l'album photo configurable dans l'easyAdmin
     public function show($slug): Response
     {
         {

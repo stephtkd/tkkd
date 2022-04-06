@@ -18,7 +18,7 @@ class AccountChangePasswordController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/account/change-password', name: 'app_account_change_password')]
+    #[Route('/account/change-password', name: 'app_account_change_password')] // modifier le password existant et le renvoyer par un formulaire
 
     public function index(Request $request, UserPasswordHasherInterface $encoder): Response
     {

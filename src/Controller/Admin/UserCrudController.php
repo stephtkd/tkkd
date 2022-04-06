@@ -17,7 +17,7 @@ class UserCrudController extends AbstractCrudController
     }
 
 
-    public function configureFields(string $pageName): iterable
+    public function configureFields(string $pageName): iterable // gere les utilisateur du site
     {
         return [
             IdField::new('id'),
@@ -30,7 +30,8 @@ class UserCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX, 'Utilisateurs');
+            ->setPageTitle(Crud::PAGE_INDEX, 'Utilisateurs')
+            ->setDefaultSort(['id' => 'DESC']);
     }
 
 }

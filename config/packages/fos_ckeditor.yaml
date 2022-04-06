@@ -6,8 +6,10 @@ fos_ck_editor:
     base_path: "build/ckeditor"
     js_path: "build/ckeditor/ckeditor.js"
     configs:
-        main_config:
+        default:
             language: fr
             toolbar:  full
-            extraPlugins: "dialogui, dialog, widgetselection, button, notification, toolbar, lineutils, clipboard, widget, codesnippet"
+            filebrowserBrowseRoute: elfinder
+            filebrowserBrowseRouteParameters: []
+
 

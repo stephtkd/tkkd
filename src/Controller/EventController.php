@@ -17,7 +17,7 @@ class EventController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/event/{slug}', name: 'app_event')]
+    #[Route('/event/{slug}', name: 'app_event')] // page "presentationde l'evenement" => show de l'evenement de l'accueil
     public function show($slug): Response
     {
         {

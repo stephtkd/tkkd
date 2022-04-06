@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\User;
+
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -14,9 +16,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+
 class RegistrationFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void  //formulaire d'inscription de compte au site
     {
         $builder
 
@@ -63,13 +66,19 @@ class RegistrationFormType extends AbstractType
                     ])]
                 ])
 
+            ->add('captcha', CaptchaType::class, array(
+                'width' => 200,
+                'height' => 50,
+                'invalid_message' => 'Le Captcha n\'est pas correcte'
+            ))
+
             ->add('submit', SubmitType::class, [
                 'label' => "S'inscrire",
                 'attr' => [
                     'class' => 'btn-block btn-dark'
                 ]
-            ])
-        ;
+            ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin', name: 'admin')] //Dashboard de l'Admin avec EasyAdmin 4
     public function index(): Response
     {
         return $this->render('Admin/Dashboard.html.twig');
@@ -48,7 +48,7 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('Taekwonkido Phenix');
     }
 
-    public function configureMenuItems(): iterable
+    public function configureMenuItems(): iterable //les menus du dashboard pour geres le site
     {
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
 

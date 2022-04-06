@@ -21,7 +21,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/register", name="app_register") //inscription/creation de compte au site
      */
     public function index(Request $request, UserPasswordHasherInterface $encoder): Response
     {
@@ -62,24 +62,24 @@ class RegistrationController extends AbstractController
     }
 
     /**
-  //   * @Route("/verify/email", name="app_verify_email")
+     * @Route("/verify/email", name="app_verify_email")
      */
-   // public function verifyUserEmail(Request $request): Response
- //   {
-      //  $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    public function verifyUserEmail(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         // validate email confirmation link, sets User::isVerified=true and persists
-        // try {
-        //   $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        //} catch (VerifyEmailExceptionInterface $exception) {
-        //  $this->addFlash('verify_email_error', $exception->getReason());
+         try {
+           $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
+        } catch (VerifyEmailExceptionInterface $exception) {
+          $this->addFlash('verify_email_error', $exception->getReason());
 
-        //return $this->redirectToRoute('app_register');
-        //}
+        return $this->redirectToRoute('app_register');
+        }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-     //   $this->addFlash('success', 'Votre adresse e-mail a été vérifiée.');//Your email address has been verified
+        $this->addFlash('success', 'Votre adresse e-mail a été vérifiée.');//Your email address has been verified
 
-      //  return $this->redirectToRoute('app_register');
-   // }
+        return $this->redirectToRoute('app_register');
+    }
 }

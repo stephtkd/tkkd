@@ -18,7 +18,7 @@ class HomeCommentCrudController extends AbstractCrudController
     }
 
 
-    public function configureFields(string $pageName): iterable
+    public function configureFields(string $pageName): iterable //configure le texte sous la video dans la page Accueil
     {
         return [
             IdField::new('id')->hideOnForm(),

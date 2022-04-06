@@ -18,11 +18,11 @@ class HomeController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/', name: 'app_home')]
+    #[Route('/', name: 'app_home')] // page accueil
     public function index(): Response
     {
-        $events= $this->entityManager->getRepository(Event::class)->findAll();
-        $homeComment = $this->entityManager->getRepository(HomeComment::class)->findAll();
+        $events= $this->entityManager->getRepository(Event::class)->findAll(); // affichage des cards evenements configurable dans l'easyAdmin
+        $homeComment = $this->entityManager->getRepository(HomeComment::class)->findAll(); // affichage du texte configurable dans l'easyAdmin
 
 
         if (!$homeComment) {

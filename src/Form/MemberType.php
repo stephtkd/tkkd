@@ -65,11 +65,33 @@ class MemberType extends AbstractType
                 'required' => false
             ])
             ->add('level', ChoiceType::class,[
-                'label' => 'Niveau',
+                'label' => 'Grade',
                 'choices'  => [
-                    'Débutant' => true,
-                    'Intermédiaire'=> true,
-                    'Confirmé'=> true
+                    'aucun' => true,
+                    '14e keup'=> true,
+                    '13e keup'=> true,
+                    '12e keup' => true,
+                    '11e keup'=> true,
+                    '10e keup'=> true,
+                    '9e keup' => true,
+                    '8e keup'=> true,
+                    '7e keup'=> true,
+                    '6e keup' => true,
+                    '5e keup'=> true,
+                    '4e keup'=> true,
+                    '3e keup'=> true,
+                    '2e keup'=> true,
+                    '1e keup' => true,
+                    'BanDan'=> true,
+                    '1er Dan/Poom'=> true,
+                    '2e Dan/Poom' => true,
+                    '3e Dan/Poom'=> true,
+                    '4e Dan'=> true,
+                    '5e Dan' => true,
+                    '6e Dan'=> true,
+                    '7e Dan'=> true,
+                    '8e Dan'=> true,
+                    '9e Dan'=> true
                 ]
             ])
             ->add('emergencyPhone', TelType::class, [

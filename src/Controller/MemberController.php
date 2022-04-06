@@ -34,7 +34,7 @@ class MemberController extends AbstractController
     /**
      * member file.
      *
-     * @Route("/account/members", name="account_member")
+     * @Route("/account/members", name="account_member") // affichage du recapitulatif du fomulaire d'inscription d'adhesion
      */
     public function index(): Response
     {
@@ -42,7 +42,7 @@ class MemberController extends AbstractController
 
     }
 
-    #[Route('/account/members/form', name: 'account_member_add')]
+    #[Route('/account/members/form', name: 'account_member_add')] //affichage du formulaire d'adhesion
     public function add(affiliated $affiliated, Request $request): Response
     {
         $affiliate = new Member();

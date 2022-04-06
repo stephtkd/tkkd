@@ -17,7 +17,7 @@ class ContactController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/contact', name: 'app_contact')]
+    #[Route('/contact', name: 'app_contact')] // page contact
     public function index(): Response
     {
         $contact = $this->entityManager->getRepository(Contact::class)->findAll();

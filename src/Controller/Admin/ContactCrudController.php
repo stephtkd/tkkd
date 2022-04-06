@@ -18,7 +18,7 @@ class ContactCrudController extends AbstractCrudController
     }
 
 
-    public function configureFields(string $pageName): iterable
+    public function configureFields(string $pageName): iterable // configure la page contact
     {
         return [
             IdField::new('id')->hideOnForm(),

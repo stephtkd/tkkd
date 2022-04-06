@@ -17,7 +17,7 @@ class SlidePictureCrudController extends AbstractCrudController
     }
 
 
-    public function configureFields(string $pageName): iterable
+    public function configureFields(string $pageName): iterable // configure le slide photo dans la page photos
     {
         return [
             IdField::new('id')->hideOnForm(), // enleve l'affichage du id
