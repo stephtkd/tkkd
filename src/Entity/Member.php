@@ -171,10 +171,17 @@ class Member
      */
     private $memberships;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="members")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->memberships = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -338,14 +345,14 @@ class Member
         return $this;
     }
 
-    public function getResponsibleAdult(): ?User
+    public function getUser(): ArrayCollection
     {
-        return $this->responsibleAdult;
+        return $this->user;
     }
 
-    public function setResponsibleAdult(?User $responsibleAdult): self
+    public function setUser(?User $user): self
     {
-        $this->responsibleAdult = $responsibleAdult;
+        $this->user = $user;
 
         return $this;
     }
@@ -491,4 +498,5 @@ class Member
 
         return $this;
     }
+
 }

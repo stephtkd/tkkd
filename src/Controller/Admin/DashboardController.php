@@ -3,13 +3,16 @@
 namespace App\Controller\Admin;
 
 use App\Entity\AlbumPicture;
+use App\Entity\CategoryAlbum;
 use App\Entity\Contact;
 use App\Entity\Event;
 use App\Entity\HomeComment;
 use App\Entity\Member;
 use App\Entity\Membership;
 use App\Entity\MembershipRate;
+use App\Entity\PicturesAlbum;
 use App\Entity\SlidePicture;
+use App\Entity\Tag;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -50,10 +53,11 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable //les menus du dashboard pour geres le site
     {
-        yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
+        yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home'); // les icones fontawesome.com/icons
 
         yield MenuItem::section('Gestion des comptes');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', User::class);
+        yield MenuItem::linkToCrud('Comptes Utilisateurs', 'fas fa-list', User::class);
+        yield MenuItem::linkToCrud('Tableau Adhérents', 'fas fa-table', Member::class);
 
         yield MenuItem::section('Gestion de la page d\'accueil');
         yield MenuItem::linkToCrud('Accueil', 'fas fa-pen', HomeComment::class);
@@ -62,7 +66,10 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion des photos');
         yield MenuItem::linkToCrud('Slide', 'fas fa-desktop', SlidePicture::class);
+        yield MenuItem::linkToCrud('Catégorie Album Photo', 'fas fa-thumbtack', CategoryAlbum::class);
+        yield MenuItem::linkToCrud('Tag Album Photo', 'fas fa-tags', Tag::class);
         yield MenuItem::linkToCrud('Album Photo', 'fas fa-images', AlbumPicture::class);
+        yield MenuItem::linkToCrud('Photo',  'fas fa-images',PicturesAlbum::class);
 
         yield MenuItem::section('Gestion de la page Contact');
         yield MenuItem::linkToCrud('Contact', 'fas fa-pen', Contact::class);

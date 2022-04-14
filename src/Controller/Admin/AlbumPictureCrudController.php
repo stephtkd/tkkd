@@ -3,10 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\AlbumPicture;
-use App\Entity\AlbumPictureImages;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use App\Form\TagType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -14,7 +14,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 class AlbumPictureCrudController extends AbstractCrudController
 {
@@ -30,11 +31,13 @@ class AlbumPictureCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(), // enleve l'affichage du id
             TextField::new('title', 'Titre de l\'album photo'),
             SlugField::new('slug')->setTargetFieldName('title'),
-            TextEditorField::new('description', 'Description de l\'album')->setFormType(CKEditorType::class), // appel du CKEditor
-             TextField::new('imageFile')->setFormType(VichImageType::class),
-            ImageField::new('image', 'Image')
-                ->setBasePath('upload/AlbumPicture/')
-                ->setUploadDir('public/upload/AlbumPicture')->onlyOnIndex()
+            TextEditorField::new('description', 'Description de l\'album')
+                ->setFormType(CKEditorType::class), // appel du CKEditor
+            AssociationField::new('categoryAlbum', 'Catégorie de l\'album'),
+            AssociationField::new('Tag', 'Tag de l\'album'),
+            ImageField::new('picture', 'image principal de l\'album')
+                 ->setBasePath('upload/') //système d'upload des images
+                 ->setUploadDir('public/upload')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
 
@@ -45,9 +48,20 @@ class AlbumPictureCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX, 'Album photo') //le titre de la page
-            ->setDefaultSort(['id' => 'DESC'])  // id par ordre decroissant
-            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig'); //faire fonctionne CKEditor
+            // Les labels utilisés pour faire référence à l'entité dans les titres, les boutons, etc.
+            ->setEntityLabelInSingular('Album Photo')
+            ->setEntityLabelInPlural('Albums Photos')
+            // Le titre visible en haut de la page et le contenu de l'élément <title>
+            // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
+            ->setPageTitle('index', 'Liste des %entity_label_plural%')
+            ->setPageTitle('new', 'Créer un %entity_label_singular%')
+            ->setPageTitle('edit', 'Modifier l\'%entity_label_singular% <small>(#%entity_id%)</small>')
+            // Définit le tri initial appliqué à la liste
+            // (l'utilisateur peut ensuite modifier ce tri en cliquant sur les colonnes de la table)
+            ->setDefaultSort(['id' => 'DESC'])
+            //la vue de CKEditor
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig')
+        ;
     }
 
 }

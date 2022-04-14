@@ -23,7 +23,7 @@ class affiliated
         $affiliated = $this->session->get('affiliated', []);
 
         if (!empty($affiliated[$id])) {
-            $affiliated[$id]++;
+            $affiliated[$id]++; // ajoute 1 produit
         }
         else{
             $affiliated[$id] = 1;
@@ -41,7 +41,7 @@ class affiliated
         return $this->session->remove('affiliated');
     }
 
-    public function delete($id)
+    public function delete($id) //supprime un membre
     {
         $affiliated = $this->session->get('affiliated', []);
 
@@ -50,7 +50,7 @@ class affiliated
         return $this->session->set('affiliated', $affiliated);
     }
 
-    public function decrease($id) /* Enleve un membre*/
+    public function decrease($id) // Enleve un membre
     {
         $affiliated = $this->session->get('affiliated', []);
 
@@ -63,7 +63,7 @@ class affiliated
         return $this->session->set('affiliated', $affiliated);
     }
 
-    public function getFull(): arrayy
+    public function getFull(): array
     {
 
         $affiliatedComplete = [];

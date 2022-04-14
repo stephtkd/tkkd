@@ -1,0 +1,9 @@
+{% extends 'bundles/TwigBundle/Exception/index.html.twig' %}
+
+{% block title %} Page introuvable - Taekwonkido Phenix {% endblock %}
+
+{% block content %}
+    {% block message %}Page introuvable{% endblock %}
+    {% block description %}Cette page est inaccessible. Désolé.{% endblock %}
+        <a href="{{ path('app_home') }}" class="btn btn-dark">Revenir à l'accueil</a>
+{% endblock %}

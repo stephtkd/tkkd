@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Classe\Search;
 use App\Entity\AlbumPicture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -43,6 +44,39 @@ class AlbumPictureRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+
+    /**
+     * Requête pour récupérer les albums en fonction de la recherche de l'utilisateur (a = albumPicture, c = categoriesAlbum, t = tags)
+     * @return AlbumPicture[]
+     */
+    public function findWithSearch(Search $search)
+    {
+        $query = $this //ajouter t = tag
+            ->createQueryBuilder('a')
+            ->select('c', 'a')
+            ->join('a.categoryAlbum', 'c');
+
+        if (!empty($search->categoriesAlbum)) { // recherche des catégories
+            $query = $query
+                ->andWhere('c.id IN (:categoriesAlbum)')
+                ->setParameter('categoriesAlbum', $search->categoriesAlbum);
+        }
+
+       /* if (!empty($search->Tags)) { //recherche par tags
+            $query = $query
+                ->andWhere('t.id IN (:Tags)')
+                ->setParameter('Tags', $search->Tags);
+        }*/
+
+        if (!empty($search->string)) { // recherche quand on écrit la valeur
+            $query = $query
+                ->andWhere('p.name LIKE :string')
+                ->setParameter('string', "%{$search->string}%");
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     // /**

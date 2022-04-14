@@ -16,4 +16,4 @@ fm_elfinder:
                         path: upload/images # Chemin d'upload
                         upload_allow: ['image/png', 'image/jpg', 'image/jpeg'] # Fichiers autorisés
                         upload_deny: ['all'] # Fichiers interdits
-                        upload_max_size: 32M # Taille maximum
+                        upload_max_size: 500M # Taille maximum

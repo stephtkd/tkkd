@@ -6,26 +6,39 @@
 
     <h1>Adhérent</h1>
     <a href="{{ path('account_member_add') }}" class="btn btn-dark btn-sm float-right">Ajouter un adhérent</a>
-    C'est dans cette espace que vous allez gérer toutes vos donner adhérent <br>
+    Dans cette espace vous allez gérer toutes vos donner adhérent <br>
     <a href="{{ path('app_account') }}">Retour</a>
     <hr>
-
-        <div class="row">
-
+    {% if app.user.members|length == 0 %}
+    <p class="text-left">
+        Vous n'avez pas encore ajouté d'adresse dans votre compte client. <br>
+        Pour en ajouter une, veuillez <a href="{{ path('account_member_add') }}">Cliquer ici</a>
+    </p>
+    {% else %}
+    <div class="row">
+        {% for member in app.user.members %}
                 <div class="col-md-4">
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
-                            <h5 class="card-title"></h5>
+                            <h5 class="card-title">{{ member.name }}</h5>
                             <p class="card-text">
+                                {{member.email }}<br>
+                                {{ member.birthdate|date("m/d/Y") }},<br>
+                                {{ member.streetAddress }},<br>
+                                {{ member.postalCode }} - {{ address.city }}
                                 <br>
+                                Numéro de téléphone : {{ member.phone_number }},<br>
+
 
                             </p>
-                            <a href="">Modifier</a> | <a href="">Supprimer</a>
+                            <a href="{{ path('account_member_edit', { 'id' : member.id }) }}">Modifier</a> | <a href="{{ path('account_member_delete', { 'id' : member.id }) }}">Supprimer</a>
                         </div>
                     </div>
                 </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
-        </div>
 
 
 

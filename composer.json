@@ -20,7 +20,6 @@
         "friendsofsymfony/rest-bundle": "^3.3",
         "gregwar/captcha-bundle": "^2.2",
         "helios-ag/fm-elfinder-bundle": "^12.1",
-        "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.4.*.*",
@@ -41,8 +40,7 @@
         "symfony/twig-bundle": "5.4.*",
         "symfony/validator": "5.4.*",
         "symfony/webpack-encore-bundle": "^1.14",
-        "symfony/yaml": "5.4.*",
-        "vich/uploader-bundle": "^1.19"
+        "symfony/yaml": "5.4.*"
     },
     "config": {
         "optimize-autoloader": true,

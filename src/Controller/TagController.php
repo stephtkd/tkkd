@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Tag;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class TagController extends AbstractController
+{
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    #[Route('/pictures/tag', name: 'app_tag')]
+    public function index(): Response
+    {
+        return $this->render('tag/index.html.twig');
+    }
+
+    #[Route('/pictures/tag/{slug}', name: 'app_tag_slug')] // page
+    public function show($slug): Response
+    {
+        $Tag = $this->entityManager->getRepository(Tag::class)->findOneBySlug($slug);
+
+        if (!$Tag) {
+            return $this->redirectToRoute('Tags');
+        }
+
+        return $this->render('tag/index.html.twig', [
+            'Tag' => $Tag,
+
+        ]);
+    }
+}

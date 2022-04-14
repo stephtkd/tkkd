@@ -32,7 +32,10 @@ class MembershipRateCrudController extends AbstractCrudController
     {
         return $crud
             ->setPageTitle(Crud::PAGE_INDEX, 'Créer un Tarif d\'Adhésion')
-            ->setDefaultSort(['id' => 'DESC']);
+            // Définit le tri initial appliqué à la liste
+            // (l'utilisateur peut ensuite modifier ce tri en cliquant sur les colonnes de la table)
+            ->setDefaultSort(['id' => 'DESC'])
+            ;
     }
 
 }

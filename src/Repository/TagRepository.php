@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\EventPage;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method EventPage|null find($id, $lockMode = null, $lockVersion = null)
- * @method EventPage|null findOneBy(array $criteria, array $orderBy = null)
- * @method EventPage[]    findAll()
- * @method EventPage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Tag|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Tag[]    findAll()
+ * @method Tag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EventPageRepository extends ServiceEntityRepository
+class TagRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, EventPage::class);
+        parent::__construct($registry, Tag::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(EventPage $entity, bool $flush = true): void
+    public function add(Tag $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class EventPageRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(EventPage $entity, bool $flush = true): void
+    public function remove(Tag $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,15 +46,15 @@ class EventPageRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return EventPage[] Returns an array of EventPage objects
+    //  * @return Tag[] Returns an array of Tag objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
+            ->orderBy('t.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -63,10 +63,10 @@ class EventPageRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?EventPage
+    public function findOneBySomeField($value): ?Tag
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

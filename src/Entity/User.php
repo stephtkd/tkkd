@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="`user`")
  * @ApiResource()
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
@@ -58,7 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastName;
 
     /**
-     * @ORM\OneToMany(targetEntity=Member::class, mappedBy="responsibleAdult")
+     * @ORM\OneToMany(targetEntity=Member::class, mappedBy="user")
      */
     private $members;
 
@@ -69,11 +70,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private ArrayCollection $adherents;
 
+
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
         $this->members = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -164,6 +168,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function getFullName(): string
+    {
+        return $this->getFirstName().' '.$this->getLastName();
+    }
+
     public function getLastName(): ?string
     {
         return $this->lastName;
@@ -200,7 +209,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->members->contains($member)) {
             $this->members[] = $member;
-            $member->setResponsibleAdult($this);
+            $member->setUser($this);
         }
 
         return $this;
@@ -210,8 +219,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->members->removeElement($member)) {
             // set the owning side to null (unless already changed)
-            if ($member->getResponsibleAdult() === $this) {
-                $member->setResponsibleAdult(null);
+            if ($member->getUser() === $this) {
+                $member->setUser(null);
             }
         }
 
@@ -234,6 +243,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->isVerified;
     }
-
 
 }

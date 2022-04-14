@@ -1182,6 +1182,11 @@
     "error-stack-parser" "^2.0.0"
     "string-width" "^4.2.3"
 
+"@orchidjs/sifter@^0.9.1":
+  "integrity" "sha512-bdW8vKTlWXfoAvUud0a4OeVPrtdvHH8gTshKqndzxAI6bXGPBejgry2wvIz0OZOqOuWuFAJWgNCjq/6S85U77A=="
+  "resolved" "https://registry.npmjs.org/@orchidjs/sifter/-/sifter-0.9.1.tgz"
+  "version" "0.9.1"
+
 "@symfony/stimulus-bridge@^3.0.0":
   "integrity" "sha512-efoQP0DWIXNOh9zPN5JUEokTMQyFBbVO5ioUQIRRAw9y0Qj6bv+mshAnljUzI7xupTZu9zNH4XjY1d0tnl/n9A=="
   "resolved" "https://registry.npmjs.org/@symfony/stimulus-bridge/-/stimulus-bridge-3.0.0.tgz"
@@ -5441,6 +5446,13 @@
   "integrity" "sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA=="
   "resolved" "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz"
   "version" "1.0.1"
+
+"tom-select@^2.0.1":
+  "integrity" "sha512-HTFf0OTwA2k8YCUqIZOenvr+ZrV4LMOUjCn3n5XS8wIpigcxKVvs5XRhBSGedhRJ8s+VmemIqy6rnabgBYX+6w=="
+  "resolved" "https://registry.npmjs.org/tom-select/-/tom-select-2.0.1.tgz"
+  "version" "2.0.1"
+  dependencies:
+    "@orchidjs/sifter" "^0.9.1"
 
 "tough-cookie@~2.5.0":
   "integrity" "sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g=="

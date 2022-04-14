@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MemberType extends AbstractType
 {
@@ -26,101 +27,115 @@ class MemberType extends AbstractType
         $builder
 
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'required' => true,
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Nom de Famille'
+                'label' => 'Nom de Famille',
+                'required' => true
 
             ])
-            ->add('sex', ChoiceType::class, [
+            /*->add('sex', ChoiceType::class, [
                 'label' => 'Sexe',
+                'required' => true,
                 'choices'  => [
-                        'Homme'=> true,
-                        'Femme'=> true
+                    '' => 0,
+                    'Homme'=> 1,
+                    'Femme'=> 2
                 ]
-            ])
+            ])*/
             ->add('birthdate', BirthdayType::class, [
-                'label' => 'Date de naissance'
+                'label' => 'Date de naissance',
+                'required' => true
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Email',
+                'required' => true,
             ])
             ->add('streetAdress', TextType::class, [
-                'label' => 'Adresse'
+                'label' => 'Adresse',
+                'required' => true,
             ])
             ->add('postalCode', TextType::class, [
-                'label' => 'Code Postal'
+                'label' => 'Code Postal',
+                'required' => true,
             ])
             ->add('city', TextType::class, [
-                'label' => 'Ville'
+                'label' => 'Ville',
+                'required' => true,
             ])
             ->add('nationality', TextType::class, [
-                'label' => 'Nationalité'
+                'label' => 'Nationalité',
+                'required' => true,
             ])
             ->add('phoneNumber', TelType::class, [
-                'label' => 'Téléphone'
+                'label' => 'Téléphone',
+                'required' => true,
             ])
             ->add('comment', TextareaType::class, [
                 'label' => 'Commentaire',
                 'required' => false
             ])
-            ->add('level', ChoiceType::class,[
+           /* ->add('level', ChoiceType::class,[
                 'label' => 'Grade',
                 'choices'  => [
-                    'aucun' => true,
-                    '14e keup'=> true,
-                    '13e keup'=> true,
-                    '12e keup' => true,
-                    '11e keup'=> true,
-                    '10e keup'=> true,
-                    '9e keup' => true,
-                    '8e keup'=> true,
-                    '7e keup'=> true,
-                    '6e keup' => true,
-                    '5e keup'=> true,
-                    '4e keup'=> true,
-                    '3e keup'=> true,
-                    '2e keup'=> true,
-                    '1e keup' => true,
-                    'BanDan'=> true,
-                    '1er Dan/Poom'=> true,
-                    '2e Dan/Poom' => true,
-                    '3e Dan/Poom'=> true,
-                    '4e Dan'=> true,
-                    '5e Dan' => true,
-                    '6e Dan'=> true,
-                    '7e Dan'=> true,
-                    '8e Dan'=> true,
-                    '9e Dan'=> true
+                    'aucun' => 0,
+                    '14e keup'=> 1,
+                    '13e keup'=> 2,
+                    '12e keup' => 3,
+                    '11e keup'=> 4,
+                    '10e keup'=> 5,
+                    '9e keup' => 6,
+                    '8e keup'=> 7,
+                    '7e keup'=> 8,
+                    '6e keup' => 9,
+                    '5e keup'=> 10,
+                    '4e keup'=> 11,
+                    '3e keup'=> 12,
+                    '2e keup'=> 13,
+                    '1e keup' => 14,
+                    'BanDan'=> 15,
+                    '1er Dan/Poom'=> 16,
+                    '2e Dan/Poom' => 17,
+                    '3e Dan/Poom'=> 18,
+                    '4e Dan'=> 19,
+                    '5e Dan' => 20,
+                    '6e Dan'=> 21,
+                    '7e Dan'=> 22,
+                    '8e Dan'=> 23,
+                    '9e Dan'=> 24
                 ]
-            ])
+            ])*/
             ->add('emergencyPhone', TelType::class, [
                 'label' => "Téléphone d'urgence",
+                'required' => true,
                  'attr'  => [
                     'placeholder' => 'Numéro de la personne à contacter en cas d\'urgence'
                  ]
             ])
-            ->add('status', ChoiceType::class,[
+            /*->add('status', ChoiceType::class,[
                 'label' => 'Status',
                 'choices'  => [
-                    'Elève' => true,
-                    'Président'=> true,
-                    'Trésorier'=> true,
-                    'Secrétaire'=> true,
-                    'Professeur'=> true,
-                    'Assistant'=> true
+                    'Elève' => 1,
+                    'Président'=> 2,
+                    'Trésorier'=> 3,
+                    'Secrétaire'=> 4,
+                    'Professeur'=> 5,
+                    'Assistant'=> 6
                 ]
-            ])
+            ])*/
             ->add('photoName', FileType::class, [
                 'label' => 'Photo de l\'adhérent',
                 'required' => false
             ])
             ->add('medicalCertificateName',FileType::class, [
-                'label' => 'Certificat médical'
+                'label' => 'Certificat médical',
+                'required' => true,
             ] )
            /* ->add('responsibleAdult', EntityType::class, [
                 'class' => User::class,
-                 'label' => 'Responsable Adulte'
+                 'label' => 'Responsable Adulte',
+                'required' => false
             ])*/
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',

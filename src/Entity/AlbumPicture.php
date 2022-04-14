@@ -6,12 +6,11 @@ use App\Repository\AlbumPictureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=AlbumPictureRepository::class)
- * @Vich\Uploadable
  */
 class AlbumPicture
 {
@@ -21,7 +20,6 @@ class AlbumPicture
      * @ORM\Column(type="integer")
      */
     private $id;
-
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -49,40 +47,52 @@ class AlbumPicture
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="AlbumPictureImages", mappedBy="AlbumPicture",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=PicturesAlbum::class, mappedBy="AlbumPicture", orphanRemoval=true,cascade={"persist"})
      */
-    private $albumPictureImages;
+    private $picturesAlbums;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=CategoryAlbum::class, inversedBy="categoryAlbum")
+     */
+    private $categoryAlbum;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="albumPictures")
+     */
+    private $Tag;
 
     public function __construct()
     {
         $this->updatedAt = new \DateTime();
-        $this->albumPictureImages = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->picture;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
 
-    public function setPicture($picture)
+    public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
 
         return $this;
     }
 
-    public function getPicture()
-    {
-        return $this->picture;
-    }
-
     public function getTitle(): ?string
     {
         return $this->title;
     }
+
     public function setTitle(?string $title): self
     {
         $this->title = $title;
@@ -126,46 +136,63 @@ class AlbumPicture
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, AlbumPictureImages>
+     * @return Collection<int, PicturesAlbum>
      */
-    public function getAlbumPictureImages(): Collection
+    public function getPicturesAlbums(): Collection
     {
-        return $this->albumPictureImages;
+        return $this->picturesAlbums;
     }
 
-    public function addAlbumPictureImage(AlbumPictureImages $albumPictureImage): self
+    public function addPicturesAlbum(PicturesAlbum $picturesAlbum): self
     {
-        if (!$this->albumPictureImages->contains($albumPictureImage)) {
-            $this->albumPictureImages[] = $albumPictureImage;
-            $albumPictureImage->setAlbumPicture($this);
+        if (!$this->picturesAlbums->contains($picturesAlbum)) {
+            $this->picturesAlbums[] = $picturesAlbum;
+            $picturesAlbum->setAlbumPicture($this);
         }
 
         return $this;
     }
 
-    public function removeAlbumPictureImage(AlbumPictureImages $albumPictureImage): self
+    public function removePicturesAlbum(PicturesAlbum $picturesAlbum): self
     {
-        if ($this->albumPictureImages->removeElement($albumPictureImage)) {
+        if ($this->picturesAlbums->removeElement($picturesAlbum)) {
             // set the owning side to null (unless already changed)
-            if ($albumPictureImage->getAlbumPicture() === $this) {
-                $albumPictureImage->setAlbumPicture(null);
+            if ($picturesAlbum->getAlbumPicture() === $this) {
+                $picturesAlbum->setAlbumPicture(null);
             }
         }
 
         return $this;
     }
+
+    public function getCategoryAlbum(): ?CategoryAlbum
+    {
+        return $this->categoryAlbum;
+    }
+
+    public function setCategoryAlbum(?CategoryAlbum $categoryAlbum): self
+    {
+        $this->categoryAlbum = $categoryAlbum;
+
+        return $this;
+    }
+
+    public function getTag(): ?Tag
+    {
+        return $this->Tag;
+    }
+
+    public function setTag(?Tag $Tag): self
+    {
+        $this->Tag = $Tag;
+
+        return $this;
+    }
+
+
+
+
+
 
 }
