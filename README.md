@@ -52,3 +52,8 @@ Ne pas oublier de mettre le .env.local dans le .gitignore
 
         An exception has been thrown during the rendering of a template ("Could not find the entrypoints file from Webpack
 Penser à faire le npm install + npm run build
+
+Remarque pour la génération de diagramme UML :
+cf https://plantuml.com/fr/
+et https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml#use-plantuml-server-as-render
+et https://github.com/Hywan/Database-to-PlantUML pour convertir une BDD en UML
