@@ -23,7 +23,7 @@ ex :
          php bin/console doctrine:migrations:migrate
 et vérifier que la BDD a bien été créée et que les tables contiennent des enregistrements.
 
-* Enfin, lancer les commandes suivantes :
+* Enfin, lancer les commandes suivantes (attention : il faut **node v14** ou +) :
 
         npm install
         npm run build
