@@ -9,7 +9,7 @@
 import '../assets/styles/app.scss';
 
 // start the Stimulus application
-import '../assets/bootstrap';
+import '../public/build/bootstrap';
 
 // Jquery
 const $ = require('jquery');

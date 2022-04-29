@@ -34,50 +34,60 @@
     </div>
 
     <!-- Filtre/recherche par tags et catégories des Albums photos -->
-    <div class="col-md-3">
-        {{ form(form) }}
-    </div>
-    <div class="p-4">
-        <h4 class="fst-italic">Années des Albums Photos</h4>
-        <ol class="list-unstyled mb-0">
-            {% for Tag in Tags %}
-                <a class="text-decoration-none" href="{{ path('app_tag_slug', { 'slug' : Tag.slug}) }}" style="color:{{ Tag.color }}">{{ Tag.title}}</a>
-            {% endfor %}
-        </ol>
-        <h4 class="fst-italic">Catégories des Albums Photos</h4>
-        <ol class="list-unstyled mb-0">
-            {% for CategoryAlbum in CategoriesAlbum %}
-               <a class="text-decoration-none" href="{{ path('app_category_album_slug', { 'slug' : CategoryAlbum.slug}) }}" style="color:{{ CategoryAlbum.color }}">{{ CategoryAlbum.name}}</a>
-            {% endfor %}
-        </ol>
+
+    <div class="row m-5">
+        <div class="col-md-3">
+            {{ form(form) }}
+        </div>
+        <div class="col-md-9">
+            <div class="col-md-5 ">
+                <h4 class="fst-italic">Années des Albums Photos</h4>
+                <ol class="list-unstyled mb-0">
+                    {% for Tag in Tags %}
+                        <a class="text-decoration-none" href="{{ path('app_tag_slug', { 'slug' : Tag.slug}) }}" style="color:{{ Tag.color }}">{{ Tag.title}}</a>
+                    {% endfor %}
+                </ol>
+                <h4 class="fst-italic">Catégories des Albums Photos</h4>
+                <ol class="list-unstyled mb-0">
+                    {% for CategoryAlbum in CategoriesAlbum %}
+                        <a class="text-decoration-none" href="{{ path('app_category_album_slug', { 'slug' : CategoryAlbum.slug}) }}" style="color:{{ CategoryAlbum.color }}">{{ CategoryAlbum.name}}</a>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
     </div>
 
-        <!-- Card for pictures events -->
-        <div class="row m-3">
+        <!-- Card for pictures  -->
+    <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
     {% for AlbumPicture in AlbumPictures %}
-        <div class="card mb-8 shadow p-3 mb-5 bg-white rounded w-50">
-            <div class="row no-gutters">
-                <div class="col-md-4">
-                    <img src="{{ AlbumPicture.picture }}" class="card-img"  alt="image des album photo">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ AlbumPicture.title|raw }}</h5>
-                        <p class="card-text">{{ AlbumPicture.description|raw }}</p>
-                    </div>
+        <div class="col">
+            <div class="card">
+                <img src="/upload/{{ AlbumPicture.picture }}" class="card-img-top" alt="image des album photo" style="height: auto; width: 100%;"/>
+                <div class="card-body">
+                    <h5 class="card-title">{{ AlbumPicture.title|raw }}</h5>
+                    <p class="card-text">
+                        {{ AlbumPicture.description|raw }}
+                    </p>
                     <a href="{{ path('app_pictures_slug', { 'slug' : AlbumPicture.slug}) }}" class="btn btn-dark float-right">Album Photo</a>
                 </div>
             </div>
         </div>
-    </div>
     {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-5">
+        {% do AlbumPictures.setPageRange(5) %}
+        {{ knp_pagination_render(AlbumPictures, 'Bundles/TwigBundle/Pagination/pagination.html.twig') }}
+    </div>
+
 
 {% endblock %}
 
 {% block javascript %}
 
 $('.carousel').carousel({
-    interval: 2000
+    interval: 1000
 })
 
 {% endblock %}

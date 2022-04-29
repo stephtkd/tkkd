@@ -1,5 +1,7 @@
 body {
     position: relative;
+    width: 100vw;
+    height: auto;
     background: #fff3e0;
 }
 
@@ -16,7 +18,7 @@ body {
     background-position: center;*/
 }
 
-/* Account */
+/* Account Menu */
 .account-item {
     background-color: #ffcc80;
     padding: 70px;

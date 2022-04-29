@@ -29,7 +29,6 @@ class PicturesAlbum
 
     /**
      * @ORM\ManyToOne(targetEntity=AlbumPicture::class, inversedBy="picturesAlbums")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $AlbumPicture;
 
@@ -67,9 +66,9 @@ class PicturesAlbum
         return $this->AlbumPicture;
     }
 
-    public function setAlbumPicture(?AlbumPicture $AlbumPicture): self
+    public function setAlbumPicture(?AlbumPicture $AlbumPictures): self
     {
-        $this->AlbumPicture = $AlbumPicture;
+        $this->AlbumPicture = $AlbumPictures;
 
         return $this;
     }

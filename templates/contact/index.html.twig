@@ -4,18 +4,19 @@
 
 {% block body %}
 
-<div class="row">
-    <div class="p-md-5 p-4">
-        {% for contact in contact %}
-        <h2>{{ contact.title|raw }}</h2>
-        <p>{{ contact.description|raw }}</p>
-        {% endfor %}
-
-        <div class="col-md-5 d-flex align-items-stretch">
-            <iframe src="https://www.google.com/maps/d/embed?mid=1__ILB_e6YEN76J0myRQXsZH2yvg&ehbc=2E312F" width="640" height="480"></iframe>
+    <div class="row m-5">
+        <div class="col-md-6">
+            {% for contact in contact %}
+                <h2>{{ contact.title|raw }}</h2>
+                <p>{{ contact.description|raw }}</p>
+            {% endfor %}
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-5 align-items-stretch">
+                <iframe src="https://www.google.com/maps/d/embed?mid=1__ILB_e6YEN76J0myRQXsZH2yvg&ehbc=2E312F" width="740" height="580"></iframe>
+            </div>
         </div>
     </div>
-</div>
 
 
 {% endblock %}

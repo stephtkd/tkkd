@@ -66,10 +66,9 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion des photos');
         yield MenuItem::linkToCrud('Slide', 'fas fa-desktop', SlidePicture::class);
-        yield MenuItem::linkToCrud('Catégorie Album Photo', 'fas fa-thumbtack', CategoryAlbum::class);
         yield MenuItem::linkToCrud('Tag Album Photo', 'fas fa-tags', Tag::class);
         yield MenuItem::linkToCrud('Album Photo', 'fas fa-images', AlbumPicture::class);
-        yield MenuItem::linkToCrud('Photo',  'fas fa-images',PicturesAlbum::class);
+       // yield MenuItem::linkToCrud('Photo',  'fas fa-images',PicturesAlbum::class);
 
         yield MenuItem::section('Gestion de la page Contact');
         yield MenuItem::linkToCrud('Contact', 'fas fa-pen', Contact::class);
