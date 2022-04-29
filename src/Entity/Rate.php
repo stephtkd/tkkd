@@ -39,9 +39,16 @@ class Rate
      */
     private $events;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Criteria::class, mappedBy="criteria")
+     */
+    private $criterias;
+
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->criterias = new ArrayCollection();
 
     }
 
@@ -108,6 +115,36 @@ class Rate
     {
         if ($this->events->removeElement($event)) {
             $event->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Criteria>
+     */
+    public function getCriterias(): Collection
+    {
+        return $this->criterias;
+    }
+
+    public function addCriteria(Criteria $criteria): self
+    {
+        if (!$this->criterias->contains($criteria)) {
+            $this->criterias[] = $criteria;
+            $criteria->setCriteria($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCriteria(Criteria $criteria): self
+    {
+        if ($this->criterias->removeElement($criteria)) {
+            // set the owning side to null (unless already changed)
+            if ($criteria->getCriteria() === $this) {
+                $criteria->setCriteria(null);
+            }
         }
 
         return $this;

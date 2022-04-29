@@ -5,12 +5,14 @@ namespace App\Controller\Admin;
 use App\Entity\AlbumPicture;
 use App\Entity\CategoryAlbum;
 use App\Entity\Contact;
+use App\Entity\Criteria;
 use App\Entity\Event;
 use App\Entity\HomeComment;
 use App\Entity\Member;
 use App\Entity\Membership;
 use App\Entity\MembershipRate;
 use App\Entity\PicturesAlbum;
+use App\Entity\Rate;
 use App\Entity\SlidePicture;
 use App\Entity\Tag;
 use App\Entity\User;
@@ -75,6 +77,8 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion des Adhésions');
         yield MenuItem::linkToCrud('Tarif Adhésion', 'fas fa-cash-register', MembershipRate::class);
+        yield MenuItem::linkToCrud('Critère', 'fas fa-keyboard', Criteria::class);
+        yield MenuItem::linkToCrud('Nom du Tarif', 'fas fa-marker', Rate::class);
 
 
     }
