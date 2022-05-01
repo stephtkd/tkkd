@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AlbumPicture index{% endblock %}
+
+{% block body %}
+    <h1>AlbumPicture index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Picture</th>
+                <th>Title</th>
+                <th>UpdatedAt</th>
+                <th>Slug</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for album_picture in album_pictures %}
+            <tr>
+                <td>{{ album_picture.id }}</td>
+                <td>{{ album_picture.picture }}</td>
+                <td>{{ album_picture.title }}</td>
+
+                <td>{{ album_picture.slug }}</td>
+                <td>{{ album_picture.description }}</td>
+                <td>
+                    <a href="{{ path('app_album_picture_show', {'id': album_picture.id}) }}">show</a>
+                    <a href="{{ path('app_album_picture_edit', {'id': album_picture.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_album_picture_new') }}">Create new</a>
+{% endblock %}

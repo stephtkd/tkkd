@@ -22,7 +22,7 @@ class AlbumPicture
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $picture;
 
@@ -30,11 +30,6 @@ class AlbumPicture
      * @ORM\Column(type="string", length=255)
      */
     private $title;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -47,14 +42,10 @@ class AlbumPicture
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=PicturesAlbum::class, mappedBy="AlbumPicture", orphanRemoval=true,cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=PicturesAlbum::class, mappedBy="AlbumPicture", orphanRemoval=true, cascade={"persist"})
      */
     private $picturesAlbums;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=CategoryAlbum::class, inversedBy="categoryAlbum")
-     */
-    private $categoryAlbum;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="albumPictures")
@@ -63,13 +54,10 @@ class AlbumPicture
 
     public function __construct()
     {
-        $this->updatedAt = new \DateTime();
+        $this->picturesAlbums = new ArrayCollection();
     }
 
-    public function __toString()
-    {
-        return $this->picture;
-    }
+
 
     public function getId(): ?int
     {
@@ -100,17 +88,6 @@ class AlbumPicture
         return $this;
     }
 
-    public function setUpdateAt(\DateTimeInterface $updateAt): self
-    {
-        $this->title = $updateAt;
-
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
 
     public function getSlug(): ?string
     {
@@ -156,7 +133,8 @@ class AlbumPicture
 
     public function removePicturesAlbum(PicturesAlbum $picturesAlbum): self
     {
-        if ($this->picturesAlbums->removeElement($picturesAlbum)) {
+        if ($this->picturesAlbums->contains($picturesAlbum)) {
+            $this->picturesAlbums->removeElement($picturesAlbum);
             // set the owning side to null (unless already changed)
             if ($picturesAlbum->getAlbumPicture() === $this) {
                 $picturesAlbum->setAlbumPicture(null);
@@ -166,17 +144,6 @@ class AlbumPicture
         return $this;
     }
 
-    public function getCategoryAlbum(): ?CategoryAlbum
-    {
-        return $this->categoryAlbum;
-    }
-
-    public function setCategoryAlbum(?CategoryAlbum $categoryAlbum): self
-    {
-        $this->categoryAlbum = $categoryAlbum;
-
-        return $this;
-    }
 
     public function getTag(): ?Tag
     {

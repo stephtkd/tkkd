@@ -43,30 +43,37 @@ class MemberController extends AbstractController
     }
 
     #[Route('/account/members/form', name: 'account_member_add')] //affichage du formulaire d'adhesion, d'ajout de membre
-    public function add(affiliated $affiliated, Request $request): Response
+    public function add(Request $request, affiliated $affiliated): Response
     {
         $member = new Member();
-
         $form = $this->createForm(MemberType::class, $member);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $member->setUser($this->getUser());
-            $this->entityManager->persist($member);
-            $this->entityManager->flush();
 
-             if ($affiliated->get()) {
-                return $this->redirectToRoute('app_account');
-             }
-             else{
-                return $this->redirectToRoute('account_member');
-             }
+                $file = $member->getPhotoName();
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move(
+                        $this->getParameter('member_directory'),
+                        $fileName);
+                $member->setPhotoName($fileName);
+
+                $member->setUser($this->getUser());
+                $this->entityManager->persist($member);
+                $this->entityManager->flush();
+
+                if ($affiliated->get()) {
+                    return $this->redirectToRoute('app_account');
+                } else {
+                    return $this->redirectToRoute('account_member');
+                }
+
+
         }
 
         return $this->render('account/memberForm.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 

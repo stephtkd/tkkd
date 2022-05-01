@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AlbumPicture{% endblock %}
+
+{% block body %}
+    <h1>AlbumPicture</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ album_picture.id }}</td>
+            </tr>
+            <tr>
+                <th>Picture</th>
+                <td>{{ album_picture.picture }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ album_picture.title }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ album_picture.updatedAt ? album_picture.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ album_picture.slug }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ album_picture.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_album_picture_index') }}">back to list</a>
+
+    <a href="{{ path('app_album_picture_edit', {'id': album_picture.id}) }}">edit</a>
+
+    {{ include('album_picture/_delete_form.html.twig') }}
+{% endblock %}
