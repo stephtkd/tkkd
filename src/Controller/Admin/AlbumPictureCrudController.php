@@ -3,11 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\AlbumPicture;
-use App\Form\TagType;
+use App\Form\AlbumPictureType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
@@ -30,7 +32,8 @@ class AlbumPictureCrudController extends AbstractCrudController
          return[
             IdField::new('id')->hideOnForm(), // enleve l'affichage du id
             TextField::new('title', 'Titre de l\'album photo'),
-            SlugField::new('slug')->setTargetFieldName('title'),
+            SlugField::new('slug', 'Création de l\'URL')
+                ->setTargetFieldName('title'),
             TextEditorField::new('description', 'Description de l\'album')
                 ->setFormType(CKEditorType::class), // appel du CKEditor
             AssociationField::new('categoryAlbum', 'Catégorie de l\'album'),
@@ -40,7 +43,13 @@ class AlbumPictureCrudController extends AbstractCrudController
                  ->setUploadDir('public/upload')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
-
+             // Intégrer un système de multi upload d'image avec AlbumPictureType
+           /* ImageField::new('PictureAlbum', 'Photos de l\'album')
+                ->setBasePath('upload/') //système d'upload des images
+                ->setUploadDir('public/upload')
+                ->setFormType(AlbumPictureType::class)
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired(false),*/
         ];
     }
 

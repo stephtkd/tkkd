@@ -3,11 +3,8 @@
 namespace App\Form;
 
 use App\Entity\AlbumPicture;
-use App\Entity\PicturesAlbum;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,12 +13,14 @@ class AlbumPictureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // On ajoute le champ "images" dans le formulaire
+            // Intégrer un système de multi upload d'image avec AlbumPictureType dans l'EasyAdmin (AlbumPictureCrudController)
             // Il n'est pas lié à la base de données (mapped à false)
-            ->add('images', FileType::class,[
+            ->add('PicturesAlbum', FileType::class,[
                 'label' => false,
                 'multiple' => true,
-                'required' => false
+                'mapped' => false,
+                'required' => false,
+
             ])
 
         ;

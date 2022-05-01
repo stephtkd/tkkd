@@ -62,28 +62,4 @@ class affiliated
         }
         return $this->session->set('affiliated', $affiliated);
     }
-
-    public function getFull(): array
-    {
-
-        $affiliatedComplete = [];
-
-        if ($this->get()) {
-            foreach ($this->get() as $id => $quantity){
-                $member = $this->entityManager->getRepository(Member::class)->findOneById($id);
-
-                if(!$member){
-                    $this->delete($id);
-                    continue;
-                }
-
-                $affiliatedComplete[] = [
-                    'member' => $member,
-                    'quantity' => $quantity
-                ];
-            }
-        }
-        return $affiliatedComplete;
-    }
-
 }

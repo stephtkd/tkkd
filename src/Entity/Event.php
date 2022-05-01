@@ -45,18 +45,6 @@ class Event
     private $maximumNumberOfParticipants;
 
     /**
-     * @Assert\PositiveOrZero(message="Le montant du prix ne peut pas être négatif")
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $adultRate;
-
-    /**
-     * @Assert\PositiveOrZero(message="Le montant du prix ne peut pas être négatif")
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $childRate;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $startDate;
@@ -65,6 +53,16 @@ class Event
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $endDate;
+
+    /**
+     * @ORM\Column(type="string", length=55, nullable=true)
+     */
+    private $season;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $registrationOpenDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -76,10 +74,6 @@ class Event
      */
     private $participants;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private ?int $price;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -145,29 +139,6 @@ class Event
         return $this;
     }
 
-    public function getAdultRate(): ?float
-    {
-        return $this->adultRate;
-    }
-
-    public function setAdultRate(?float $adultRate): self
-    {
-        $this->adultRate = $adultRate;
-
-        return $this;
-    }
-
-    public function getChildRate(): ?float
-    {
-        return $this->childRate;
-    }
-
-    public function setChildRate(?float $childRate): self
-    {
-        $this->childRate = $childRate;
-
-        return $this;
-    }
 
     public function getStartDate(): ?DateTimeInterface
     {
@@ -193,6 +164,30 @@ class Event
         return $this;
     }
 
+    public function getSeason(): ?string
+    {
+        return $this->season;
+    }
+
+    public function setSeason(?string $season): self
+    {
+        $this->season = $season;
+
+        return $this;
+    }
+
+    public function getRegistrationOpenDate(): ?DateTimeInterface
+    {
+        return $this->registrationOpenDate;
+    }
+
+    public function setRegistrationOpenDate(?DateTimeInterface $registrationOpenDate): self
+    {
+        $this->registrationOpenDate = $registrationOpenDate;
+
+        return $this;
+    }
+
     public function getRegistrationDeadline(): ?DateTimeInterface
     {
         return $this->registrationDeadline;
@@ -201,18 +196,6 @@ class Event
     public function setRegistrationDeadline(?DateTimeInterface $registrationDeadline): self
     {
         $this->registrationDeadline = $registrationDeadline;
-
-        return $this;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): self
-    {
-        $this->price = $price;
 
         return $this;
     }

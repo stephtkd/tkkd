@@ -6,7 +6,6 @@ use App\Entity\Event;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
@@ -14,7 +13,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use FM\ElfinderBundle\Form\Type\ElFinderType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class EventCrudController extends AbstractCrudController
@@ -39,7 +37,7 @@ class EventCrudController extends AbstractCrudController
             DateTimeField::new('registration_deadline', 'Date limite d\'inscription'),
             MoneyField::new('price', 'Tarif')->setCurrency('EUR'),
             ImageField::new('link_image', 'Image')
-               ->setBasePath('upload/')
+                ->setBasePath('upload/')
                 ->setUploadDir('public/upload')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
