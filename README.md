@@ -1,7 +1,6 @@
 ![kolabee](https://kolabee.com/wp-content/uploads/2020/12/Kolabee-Logotype.png)
 
 * Détail du projet dans WIKI 
-* Systéme de gestion de BDD Mariadb 10.3.34
 # Projet kolabee By SII
 
 Pour lancer le projet il faut le clonner depuis le depot git.
@@ -40,3 +39,5 @@ S'il manque une variable d'environnement, la définir dans .env : APP_AUTHOR=TOT
         The metadata storage is not up to date, please run the sync-metadata-storage command to fix this issue
 Vérifier l'url de la base de données dans le .env, si besoin redéfinir cette url dans un fichier .env.local qui va surcharger les valeurs du .env
 Ne pas oublier de mettre le .env.local dans le .gitignore
+
+Penser à faire le npm install + npm run build
