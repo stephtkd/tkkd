@@ -8,6 +8,11 @@ Pour lancer le projet il faut le clonner depuis le depot git.
 * Se déplacer dans le projet depuis le terminal et lancer la commande :
     
         composer install et composer update
+        
+* Créer le fichier .env.local à la racine (copie du .env) et corriger la ligne DATABASE_URL. Penser à mettre à jour la version de mysql :
+ex : 
+
+        DATABASE_URL="mysql://sc1cenacle_tkkd_symfony:change-me@127.0.0.1:3306/sc1cenacle_tkkd_symfony?serverVersion=10.3.34-MariaDB"        
 
 * Puis : ouvrir le dossier avec votre IDE ensuit dans le terminal lancer la commande suivante pour créer la BDD
             
@@ -17,6 +22,11 @@ Pour lancer le projet il faut le clonner depuis le depot git.
          php bin/console make:migration
          php bin/console doctrine:migrations:migrate
 et vérifier que la BDD a bien été créée et que les tables contiennent des enregistrements.
+
+* Enfin, lancer les commandes suivantes :
+
+        npm install
+        npm run build
 
 Toujours depuis le terminal lancer la commande suivante pour démarrer le projet :
 
