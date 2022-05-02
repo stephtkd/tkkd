@@ -114,12 +114,12 @@ class Member
     private ?string $level;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false)
      */
     private ?bool $instructor;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false)
      */
     private ?bool $bureau;
 
@@ -130,7 +130,7 @@ class Member
     private ?string $emergencyPhone;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false)
      */
     private ?bool $upToDateMembership;
 
@@ -139,6 +139,11 @@ class Member
      * @ORM\Column(type="string", length=55, nullable=true)
      */
     private ?string $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=MembershipRate::class, inversedBy="members")
+     */
+    private ?MembershipRate $membershipRate;
 
     /**
      * @Assert\Choice({"Paiement en attente", "Validation en attente", "Validée", "Terminée"})
@@ -154,7 +159,7 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\File(mimeTypes={"image/jpeg", "image/png", "image/pdf"})
+     * @Assert\File(mimeTypes={"image/gif", "image/jpeg", "image/png", "image/pdf"})
      */
     private $medicalCertificateName;
 
@@ -169,6 +174,12 @@ class Member
     private $memberships;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="members")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $responsibleAdult;
@@ -177,6 +188,7 @@ class Member
     {
         $this->events = new ArrayCollection();
         $this->memberships = new ArrayCollection();
+        $this->user = new ArrayCollection();
 
     }
 
@@ -353,6 +365,19 @@ class Member
         return $this;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
     public function getEmergencyPhone(): ?string
     {
         return $this->emergencyPhone;
@@ -385,6 +410,18 @@ class Member
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getMembershipRate(): ?MembershipRate
+    {
+        return $this->membershipRate;
+    }
+
+    public function setMembershipRate(?MembershipRate $membershipRate): self
+    {
+        $this->membershipRate = $membershipRate;
 
         return $this;
     }
