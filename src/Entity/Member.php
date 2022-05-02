@@ -107,22 +107,21 @@ class Member
     private ?string $comment;
 
     /**
-     * @Assert\Choice({"Débutant", "Intermédiaire", "Confirmé"}, message="La valeur du niveau n'est pas correcte")
+     * @Assert\Choice({"aucun","14e keup", "13e keup", "12e keup", "11e keup", "10e keup", "9e keup", "8e keup","7e keup","6e keup","5e keup","4e keup","3e keup","2e keup","1er keup","BanDan","1er Dan/Poom","2e Dan/Poom","3e Dan/Poom","4e Dan","5e Dan","6e Dan","7e Dan", "8e Dan", "9e Dan"}, message="La valeur du niveau n'est pas correcte")
      * @Assert\NotBlank (message="Veuillez renseigner le niveau de l'adhérent")
      * @ORM\Column(type="string", length=55, nullable=true)
      */
     private ?string $level;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    private ?DateTimeInterface $suscriptionDate;
+    private ?bool $instructor;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="members")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="boolean")
      */
-    private ?User $responsibleAdult;
+    private ?bool $bureau;
 
     /**
      * @Assert\NotBlank (message="Veuillez renseigner le numéro de la personne à contacter en cas d'urgence")
@@ -136,14 +135,10 @@ class Member
     private ?bool $upToDateMembership;
 
     /**
+     * @Assert\Choice({"Elève","Président","Trésorier","Secrétaire","Professeur","Assistant"})
      * @ORM\Column(type="string", length=55, nullable=true)
      */
     private ?string $status;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=MembershipRate::class, inversedBy="members")
-     */
-    private ?MembershipRate $membershipRate;
 
     /**
      * @Assert\Choice({"Paiement en attente", "Validation en attente", "Validée", "Terminée"})
@@ -153,11 +148,13 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={"image/gif", "image/jpeg", "image/jpg", "image/png"})
      */
     private $photoName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={"image/jpeg", "image/png", "image/pdf"})
      */
     private $medicalCertificateName;
 
@@ -172,16 +169,15 @@ class Member
     private $memberships;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="members")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $user;
+    private $responsibleAdult;
 
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->memberships = new ArrayCollection();
-        $this->user = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -333,30 +329,29 @@ class Member
         return $this;
     }
 
-    public function getSuscriptionDate(): ?DateTimeInterface
+    public function getInstructor(): ?bool
     {
-        return $this->suscriptionDate;
+        return $this->instructor;
     }
 
-    public function setSuscriptionDate(?DateTimeInterface $suscriptionDate): self
+    public function setInstructor(bool $instructor): self
     {
-        $this->suscriptionDate = $suscriptionDate;
+        $this->instructor = $instructor;
 
         return $this;
     }
 
-    public function getUser(): ArrayCollection
+    public function getBureau(): ?bool
     {
-        return $this->user;
+        return $this->bureau;
     }
 
-    public function setUser(?User $user): self
+    public function setBureau(bool $bureau): self
     {
-        $this->user = $user;
+        $this->bureau = $bureau;
 
         return $this;
     }
-
 
     public function getEmergencyPhone(): ?string
     {
@@ -390,18 +385,6 @@ class Member
     public function setStatus(?string $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getMembershipRate(): ?MembershipRate
-    {
-        return $this->membershipRate;
-    }
-
-    public function setMembershipRate(?MembershipRate $membershipRate): self
-    {
-        $this->membershipRate = $membershipRate;
 
         return $this;
     }
@@ -495,6 +478,18 @@ class Member
                 $membership->setMember(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getResponsibleAdult(): ?string
+    {
+        return $this->responsibleAdult;
+    }
+
+    public function setResponsibleAdult(?string $responsibleAdult): self
+    {
+        $this->responsibleAdult = $responsibleAdult;
 
         return $this;
     }

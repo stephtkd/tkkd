@@ -1,6 +1,7 @@
 ![kolabee](https://kolabee.com/wp-content/uploads/2020/12/Kolabee-Logotype.png)
 
 * Détail du projet dans WIKI 
+
 # Projet kolabee By SII
 
 Pour lancer le projet il faut le clonner depuis le depot git.
@@ -66,6 +67,7 @@ Ne pas oublier de mettre le .env.local dans le .gitignore
 
         An exception has been thrown during the rendering of a template ("Could not find the entrypoints file from Webpack
 Penser à faire le npm install + npm run build
+
 
 Remarque pour la génération de diagramme UML :
 cf https://plantuml.com/fr/

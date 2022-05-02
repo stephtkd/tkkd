@@ -3,12 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Member;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,8 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 
 class MemberType extends AbstractType
 {
@@ -35,15 +32,14 @@ class MemberType extends AbstractType
                 'required' => true
 
             ])
-            /*->add('sex', ChoiceType::class, [
+            ->add('sex', ChoiceType::class, [
                 'label' => 'Sexe',
                 'required' => true,
                 'choices'  => [
-                    '' => 0,
-                    'Homme'=> 1,
-                    'Femme'=> 2
+                    'Homme'=> 'Homme',
+                    'Femme'=> 'Femme'
                 ]
-            ])*/
+            ])
             ->add('birthdate', BirthdayType::class, [
                 'label' => 'Date de naissance',
                 'required' => true
@@ -76,36 +72,37 @@ class MemberType extends AbstractType
                 'label' => 'Commentaire',
                 'required' => false
             ])
-           /* ->add('level', ChoiceType::class,[
+            ->add('level', ChoiceType::class,[
                 'label' => 'Grade',
+                'required' => true,
                 'choices'  => [
-                    'aucun' => 0,
-                    '14e keup'=> 1,
-                    '13e keup'=> 2,
-                    '12e keup' => 3,
-                    '11e keup'=> 4,
-                    '10e keup'=> 5,
-                    '9e keup' => 6,
-                    '8e keup'=> 7,
-                    '7e keup'=> 8,
-                    '6e keup' => 9,
-                    '5e keup'=> 10,
-                    '4e keup'=> 11,
-                    '3e keup'=> 12,
-                    '2e keup'=> 13,
-                    '1e keup' => 14,
-                    'BanDan'=> 15,
-                    '1er Dan/Poom'=> 16,
-                    '2e Dan/Poom' => 17,
-                    '3e Dan/Poom'=> 18,
-                    '4e Dan'=> 19,
-                    '5e Dan' => 20,
-                    '6e Dan'=> 21,
-                    '7e Dan'=> 22,
-                    '8e Dan'=> 23,
-                    '9e Dan'=> 24
+                    'aucun'=> 'aucun',
+                    '14e keup'=> '14e keup',
+                    '13e keup'=> '13e keup',
+                    '12e keup' => '12e keup',
+                    '11e keup'=> '11e keup',
+                    '10e keup'=> '10e keup',
+                    '9e keup' => '9e keup',
+                    '8e keup'=> '8e keup',
+                    '7e keup'=> '7e keup',
+                    '6e keup' => '6e keup',
+                    '5e keup'=> '5e keup',
+                    '4e keup'=> '4e keup',
+                    '3e keup'=> '3e keup',
+                    '2e keup'=> '2e keup',
+                    '1e keup' => '1e keup',
+                    'BanDan'=> 'BanDan',
+                    '1er Dan/Poom'=> '1er Dan/Poom',
+                    '2e Dan/Poom' => '2e Dan/Poom',
+                    '3e Dan/Poom'=> '3e Dan/Poom',
+                    '4e Dan'=> '4e Dan',
+                    '5e Dan' => '5e Dan',
+                    '6e Dan'=> '6e Dan',
+                    '7e Dan'=> '7e Dan',
+                    '8e Dan'=> '8e Dan',
+                    '9e Dan'=> '9e Dan'
                 ]
-            ])*/
+            ])
             ->add('emergencyPhone', TelType::class, [
                 'label' => "Téléphone d'urgence",
                 'required' => true,
@@ -113,30 +110,39 @@ class MemberType extends AbstractType
                     'placeholder' => 'Numéro de la personne à contacter en cas d\'urgence'
                  ]
             ])
-            /*->add('status', ChoiceType::class,[
+            ->add('status', ChoiceType::class,[
                 'label' => 'Status',
+                'required' => true,
                 'choices'  => [
-                    'Elève' => 1,
-                    'Président'=> 2,
-                    'Trésorier'=> 3,
-                    'Secrétaire'=> 4,
-                    'Professeur'=> 5,
-                    'Assistant'=> 6
+                    'Elève' => 'Elève',
+                    'Président'=> 'Président',
+                    'Trésorier'=> 'Trésorier',
+                    'Secrétaire'=> 'Secrétaire',
+                    'Professeur'=> 'Professeur',
+                    'Assistant'=> 'Assistant'
                 ]
-            ])*/
+            ])
             ->add('photoName', FileType::class, [
+                'data_class' => null,
                 'label' => 'Photo de l\'adhérent',
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new Image(['maxSize' => '1024k'])
+                ],
             ])
             ->add('medicalCertificateName',FileType::class, [
+                'data_class' => null,
                 'label' => 'Certificat médical',
-                'required' => true,
-            ] )
-           /* ->add('responsibleAdult', EntityType::class, [
-                'class' => User::class,
-                 'label' => 'Responsable Adulte',
+
+                'required' => false,
+                'constraints' => [
+                    new Image(['maxSize' => '1024k'])
+                ],
+            ])
+            ->add('responsibleAdult', TextType::class, [
+                 'label' => 'Adulte Responsable ',
                 'required' => false
-            ])*/
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',
                 'attr' => [

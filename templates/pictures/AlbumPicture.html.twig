@@ -10,9 +10,19 @@
 
     <h2>{{ AlbumPicture.title|raw }}</h2>
 
-    <figure class="col-md-4">
-        <img src="{{ AlbumPicture.picture }}" class="img-fluid z-depth-1" alt="Photo de l'album">
-    </figure>
+    <!-- Gallery -->
+    <div class="row">
+        {% for PicturesAlbum in PicturesAlbums %}
+        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+            <img
+                    src="/upload/{{ PicturesAlbum.name }}"
+                    class="w-100 mb-2 mb-md-4 shadow-1-strong rounded"
+                    alt="Photos de l'album"
+            />
+        </div>
+        {% endfor %}
+    </div>
+
 
 
 {% endblock %}

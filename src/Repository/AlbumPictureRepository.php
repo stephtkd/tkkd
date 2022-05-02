@@ -48,31 +48,32 @@ class AlbumPictureRepository extends ServiceEntityRepository
 
 
     /**
-     * Requête pour récupérer les albums en fonction de la recherche de l'utilisateur (a = albumPicture, c = categoriesAlbum, t = tags)
+     * Requête pour récupérer les albums en fonction de la recherche de l'utilisateur (a = albumPicture, c = CategoriesAlbum, t = tags)
      * @return AlbumPicture[]
      */
     public function findWithSearch(Search $search)
     {
         $query = $this //ajouter t = tag
             ->createQueryBuilder('a')
+            ->orderBy('a.categoryAlbum', 'DESC')
             ->select('c', 'a')
             ->join('a.categoryAlbum', 'c');
 
         if (!empty($search->categoriesAlbum)) { // recherche des catégories
             $query = $query
-                ->andWhere('c.id IN (:categoriesAlbum)')
-                ->setParameter('categoriesAlbum', $search->categoriesAlbum);
+                ->andWhere('c.id IN (:CategoriesAlbum)')
+                ->setParameter('CategoriesAlbum', $search->CategoriesAlbum);
         }
 
-       /* if (!empty($search->Tags)) { //recherche par tags
+        if (!empty($search->Tags)) { //recherche par tags
             $query = $query
                 ->andWhere('t.id IN (:Tags)')
                 ->setParameter('Tags', $search->Tags);
-        }*/
+        }
 
-        if (!empty($search->string)) { // recherche quand on écrit la valeur
+        if (!empty($search->string)) {
             $query = $query
-                ->andWhere('p.name LIKE :string')
+                ->andWhere('a.title LIKE :string')
                 ->setParameter('string', "%{$search->string}%");
         }
 

@@ -1,8 +1,10 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']
+
     globals:
         author: '%env(APP_AUTHOR)%'
-    form_themes: ['bootstrap_5_layout.html.twig']
+
 
 
 when@test:

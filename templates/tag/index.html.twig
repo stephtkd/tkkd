@@ -4,8 +4,34 @@
 
 {% block body %}
 
-    <div class="mb-4">
+    <div class="mb-4 m-5">
         <h3 style="color:{{ Tag.color }}">{{ Tag.title}}</h3>
+    </div>
+
+    <!-- Card for pictures  -->
+    <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
+        {% for AlbumPicture in AlbumPictures %}
+            <div class="col">
+                <div class="card">
+                    <img src="/upload/{{ AlbumPicture.picture }}" class="card-img-top" alt="image des album photo" style="height: auto; width: 100%;"/>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ AlbumPicture.title|raw }}</h5>
+                        <p class="card-text">
+                            {{ AlbumPicture.description|raw }}
+                        </p>
+                        <a href="{{ path('app_pictures_slug', { 'slug' : AlbumPicture.slug}) }}" class="btn btn-dark float-right">Album Photo</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+
+    <div class="d-flex justify-content-center mt-5">
+        {% do AlbumPictures.setPageRange(5) %}
+        {{ knp_pagination_render(AlbumPictures, 'Bundles/TwigBundle/Pagination/pagination.html.twig') }}
     </div>
 
 {% endblock %}
