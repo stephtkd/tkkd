@@ -26,12 +26,7 @@ class MembershipRate
 
     /**
      * @Assert\NotBlank(message="Veuillez renseigner un libellé pour le tarif")
-     * @Assert\Length(
-     *     min=5,
-     *     max=55,
-     *     minMessage="Le libellé doit être d'au moins 5 caractères",
-     *     maxMessage="Le libellé ne peut pas excéder 55 caractères")
-     * @ORM\Column(type="string", length=55)
+     * @ORM\Column(type="string", length=255)
      */
     private ?string $label;
 

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - Taekwonkido Phenix{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-center m-3">
+        <h1 class="text-dark">Connexion à votre compte Taekwonkido Phenix </h1>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <label for="inputEmail">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+            <label for="inputPassword">Mot De Passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+            <button class="btn btn-lg btn-info btn-block mt-3" type="submit">
+                Se connecter
+            </button>
+            <hr>
+            <p class="text-center fw-bold">Ou souhaitez vous<a href="{{ path('app_register') }}"> créer un compte</a>?</p>
+            <p class="text-center fw-bold">Ou j'ai oublié mon<a href="{{ path('app_reset_password') }}"> Mot de passe</a></p>
+        </form>
+    </div>
+{% endblock %}

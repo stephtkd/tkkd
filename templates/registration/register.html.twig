@@ -1,42 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
 
-    <div class="d-flex justify-content-center">
-        {{ form_start(registrationForm) }}
-        {{ form_errors(registrationForm) }}
+    <div class="d-flex justify-content-center m-3">
 
-        <div class="form-group">
-            {{ form_label(registrationForm.email) }}
-            {{ form_widget(registrationForm.email, {'attr':
-                {'class':'form-control'}}) }}
-            {{ form_errors(registrationForm.email) }}
-        </div>
+        {% for flashError in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+        {% endfor %}
 
-        <div class="form-group">
-
-            {{ form_label(registrationForm.plainPassword) }}
-            {{ form_widget(registrationForm.plainPassword, {'attr':
-                {'class':'form-control'}}) }}
-            {{ form_errors(registrationForm.plainPassword) }}
-
-        </div>
-
-        <div class="form-group">
-
-            {{ form_label(registrationForm.agreeTerms) }}
-            {{ form_widget(registrationForm.agreeTerms, {'attr':
-                {'class':'form-control'}}) }}
-            {{ form_errors(registrationForm.agreeTerms) }}
-
-        </div>
-
-
-            {{ form_row(registrationForm.register, {'attr':{'class':'btn btn-info'}}) }}
-            {{ form_end(registrationForm) }}
-
+        <h1 class="text-dark">Créer votre compte Taekwonkido Phenix </h1>
     </div>
+
+    <div class="d-flex justify-content-center m-5">
+        {{ form(registrationForm) }}
+    </div>
+
 
 {% endblock %}

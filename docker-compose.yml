@@ -4,11 +4,12 @@ services:
     db:
         container_name: db
         image: mysql:5.7
-        volumes:
-            - ./data/mysql:/var/lib/mysql
+        #volumes:
+            #- ./data/mysql:/var/lib/mysql
             # Fichier de config spécifique pour mettre la base en debug (attention à la volumétrie de la table general_log)
             #- ./config/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
         ports:
             - "3306:3306"
+        command: --default-authentication-plugin=mysql_native_password
         environment:
             - MYSQL_ROOT_PASSWORD=root

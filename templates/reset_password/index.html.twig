@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié - Taekwonkido Phenix {% endblock %}
+
+{% block body %}
+    <div class="d-flex  justify-content-center">
+        <h2 class="pt-5">Réinitialiser mon mot de passe</h2>
+    </div>
+        <div class="d-flex justify-content-center m-5">
+            <form method="post">
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-info">{{ message }}</div>
+                {% endfor %}
+
+                <label for="inputEmail">Email</label>
+                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Merci de renseigner votre email" autocomplete="email" required autofocus>
+                <button class="btn btn-dark mt-3 mb-3" type="submit">
+                    Valider
+                </button>
+                <hr>
+                <p class="fw-bold">Ou souhaitez vous<a href="{{ path('app_login') }}"> vous connecter</a>?</p>
+            </form>
+    </div>
+{% endblock %}
