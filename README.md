@@ -1,7 +1,6 @@
 ![kolabee](https://kolabee.com/wp-content/uploads/2020/12/Kolabee-Logotype.png)
 
 * Détail du projet dans WIKI 
-* Systéme de gestion de BDD Mariadb 10.3.34
 
 # Projet kolabee By SII
 
