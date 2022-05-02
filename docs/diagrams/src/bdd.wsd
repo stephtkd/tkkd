@@ -1,0 +1,205 @@
+@startuml
+!define table(x) class x << (T,#ffebf3) >>
+hide methods
+hide stereotypes
+skinparam classFontColor #3b0018
+skinparam classArrowColor #ff0066
+skinparam classBorderColor #ff0066
+skinparam classBackgroundColor ##f6f4ee
+skinparam shadowing false
+
+table(membership_rate) {
+    {field} +id			int(11)
+    {field} label		varchar(255)
+    {field} price		double
+    {field} maximum_age	?int(11)
+}
+
+
+table(pictures_album) {
+    {field} +id					int(11)
+    {field} album_picture_id	int(11)
+    {field} name				varchar(255)
+    {field} images				varchar(255)
+}
+
+album_picture <-- pictures_album : on album_picture_id = id
+
+table(album_picture) {
+    {field} +id					int(11)
+    {field} title				varchar(255)
+    {field} description			longtext
+    {field} slug				varchar(255)
+    {field} updated_at			datetime
+    {field} picture				varchar(255)
+    {field} category_album_id	?int(11)
+    {field} tag_id				?int(11)
+}
+
+category_album <-- album_picture : on category_album_id = id
+tag <-- album_picture : on tag_id = id
+
+table(role) {
+    {field} +id		int(11)
+    {field} libelle	varchar(10)
+}
+
+
+table(membership) {
+    {field} +id						int(11)
+    {field} member_id				int(11)
+    {field} membership_rate_id		int(11)
+    {field} season_year				?int(11)
+    {field} suscription_date		?datetime
+    {field} membership_up_to_date	tinyint(1)
+    {field} membership_state		varchar(55)
+}
+
+member <-- membership : on member_id = id
+membership_rate <-- membership : on membership_rate_id = id
+
+table(rate) {
+    {field} +id			int(11)
+    {field} name		varchar(255)
+    {field} description	varchar(255)
+    {field} rate		decimal(10,3)
+}
+
+
+table(doctrine_migration_versions) {
+    {field} +version			varchar(191)
+    {field} executed_at		?datetime
+    {field} execution_time	?int(11)
+}
+
+
+table(rate_criteria) {
+    {field} +id			int(11)
+    {field} rate_id		int(11)
+    {field} criteria_id	int(11)
+}
+
+rate <-- rate_criteria : on rate_id = id
+criteria <-- rate_criteria : on criteria_id = id
+
+table(tag) {
+    {field} +id		int(11)
+    {field} title	varchar(255)
+    {field} color	varchar(255)
+    {field} slug	varchar(255)
+}
+
+
+table(event) {
+    {field} +id								int(11)
+    {field} name							varchar(255)
+    {field} description						longtext
+    {field} maximum_number_of_participants	?int(11)
+    {field} adult_rate						?double
+    {field} child_rate						?double
+    {field} start_date						?datetime
+    {field} end_date						?datetime
+    {field} registration_deadline			?datetime
+    {field} price							int(11)
+    {field} link_image						?varchar(255)
+    {field} slug							varchar(255)
+}
+
+
+table(criteria) {
+    {field} +id			int(11)
+    {field} name		varchar(255)
+    {field} type		varchar(50)
+    {field} relation	varchar(50)
+    {field} value		varchar(255)
+}
+
+
+table(contact) {
+    {field} +id			int(11)
+    {field} description	longtext
+    {field} title		?varchar(255)
+}
+
+
+table(home_comment) {
+    {field} +id			int(11)
+    {field} title		?varchar(255)
+    {field} description	?longtext
+}
+
+
+table(reset_password) {
+    {field} +id			int(11)
+    {field} user_id		int(11)
+    {field} token		varchar(255)
+    {field} created_at	datetime
+}
+
+user <-- reset_password : on user_id = id
+
+table(category_album) {
+    {field} +id		int(11)
+    {field} name	varchar(255)
+    {field} color	varchar(255)
+    {field} slug	varchar(255)
+}
+
+
+table(member) {
+    {field} +id							int(11)
+    {field} responsible_adult_id		int(11)
+    {field} membership_rate_id			?int(11)
+    {field} first_name					varchar(55)
+    {field} last_name					varchar(55)
+    {field} sex							varchar(10)
+    {field} birthdate					date
+    {field} email						varchar(255)
+    {field} street_adress				varchar(255)
+    {field} postal_code					varchar(55)
+    {field} city						varchar(100)
+    {field} nationality					varchar(100)
+    {field} phone_number				varchar(50)
+    {field} comment						?varchar(255)
+    {field} level						?varchar(55)
+    {field} suscription_date			?date
+    {field} emergency_phone				varchar(55)
+    {field} up_to_date_membership		tinyint(1)
+    {field} status						?varchar(55)
+    {field} membership_state			?varchar(55)
+    {field} photo_name					?varchar(255)
+    {field} medical_certificate_name	?varchar(255)
+    {field} user_id						int(11)
+}
+
+user <-- member : on responsible_adult_id = id
+membership_rate <-- member : on membership_rate_id = id
+user <-- member : on user_id = id
+
+table(slide_picture) {
+    {field} +id				int(11)
+    {field} title			?varchar(255)
+    {field} illustration	varchar(255)
+}
+
+
+table(event_member) {
+    {field} +event_id	int(11)
+    {field} +member_id	int(11)
+}
+
+event <-- event_member : on event_id = id
+member <-- event_member : on member_id = id
+
+table(user) {
+    {field} +id			int(11)
+    {field} email		varchar(180)
+    {field} roles		longtext
+    {field} password	varchar(255)
+    {field} first_name	varchar(55)
+    {field} last_name	varchar(55)
+    {field} is_verified	tinyint(1)
+}
+
+
+@enduml
