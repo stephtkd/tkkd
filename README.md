@@ -9,8 +9,6 @@ Pour lancer le projet il faut le clonner depuis le depot git.
 * Se déplacer dans le projet depuis le terminal et lancer la commande :
     
 
-        composer install
-
         composer install et composer update
         
 * Créer le fichier .env.local à la racine (copie du .env) et corriger la ligne DATABASE_URL. Penser à mettre à jour la version de mysql :
@@ -66,6 +64,7 @@ Ne pas oublier de mettre le .env.local dans le .gitignore
 
 
         An exception has been thrown during the rendering of a template ("Could not find the entrypoints file from Webpack
+        
 Penser à faire le npm install + npm run build
 
 
@@ -74,5 +73,4 @@ cf https://plantuml.com/fr/
 et https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml#use-plantuml-server-as-render
 et https://github.com/Hywan/Database-to-PlantUML pour convertir une BDD en UML
 
-Penser à faire le npm install + npm run build
 
