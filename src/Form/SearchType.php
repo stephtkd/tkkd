@@ -2,7 +2,6 @@
 namespace App\Form;
 
 use App\Classe\Search;
-use App\Entity\CategoryAlbum;
 use App\Entity\Tag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -24,17 +23,10 @@ class SearchType extends AbstractType
                     'class' => 'form-control-sm'
                 ]
             ])
-            ->add('Tags', EntityType::class, [
+            ->add('Tag', EntityType::class, [
                 'label'=> false,
                 'required' => false,
                 'class' => Tag::class,
-                'multiple' => true,
-                'expanded' => true
-            ])
-            ->add('CategoriesAlbum', EntityType::class, [
-                'label'=> false,
-                'required' => false,
-                'class' => CategoryAlbum::class,
                 'multiple' => true,
                 'expanded' => true
             ])

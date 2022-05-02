@@ -47,12 +47,6 @@
                         <a class="text-decoration-none" href="{{ path('app_tag_slug', { 'slug' : Tag.slug}) }}" style="color:{{ Tag.color }}">{{ Tag.title}}</a>
                     {% endfor %}
                 </ol>
-                <h4 class="fst-italic">Catégories des Albums Photos</h4>
-                <ol class="list-unstyled mb-0">
-                    {% for CategoryAlbum in CategoriesAlbum %}
-                        <a class="text-decoration-none" href="{{ path('app_category_album_slug', { 'slug' : CategoryAlbum.slug}) }}" style="color:{{ CategoryAlbum.color }}">{{ CategoryAlbum.name}}</a>
-                    {% endfor %}
-                </ol>
             </div>
         </div>
     </div>
