@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Form\HelloAssoType;
+
+use App\Service\HelloAssoApiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,13 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class HelloAssoController extends AbstractController
 {
     // Récupère les données du formulaire pour les passer au wrapper de l'api
-   /* private $helloAssoApiService;
 
-    public function __construct($helloAssoApiService)
+    /*private $helloAssoApiService;
+
+    public function __construct(helloAssoApiService $helloAssoApiService)
     {
         $this->helloAssoApiService = $helloAssoApiService;
     }*/
     #[Route('order_details', name: 'app_order_details')]
+
     public function index(): Response
     {
         $form = new HelloAssoType();

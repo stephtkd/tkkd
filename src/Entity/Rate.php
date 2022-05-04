@@ -40,16 +40,15 @@ class Rate
     private $events;
 
     /**
-     * @ORM\OneToMany(targetEntity=Criteria::class, mappedBy="criteria")
+     * @ORM\ManyToMany(targetEntity=Criteria::class, inversedBy="rates")
      */
-    private $criterias;
+    private $criteria;
 
 
     public function __construct()
     {
         $this->events = new ArrayCollection();
-        $this->criterias = new ArrayCollection();
-
+        $this->criteria = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,29 +122,23 @@ class Rate
     /**
      * @return Collection<int, Criteria>
      */
-    public function getCriterias(): Collection
+    public function getCriteria(): Collection
     {
-        return $this->criterias;
+        return $this->criteria;
     }
 
-    public function addCriteria(Criteria $criteria): self
+    public function addCriterion(Criteria $criterion): self
     {
-        if (!$this->criterias->contains($criteria)) {
-            $this->criterias[] = $criteria;
-            $criteria->setCriteria($this);
+        if (!$this->criteria->contains($criterion)) {
+            $this->criteria[] = $criterion;
         }
 
         return $this;
     }
 
-    public function removeCriteria(Criteria $criteria): self
+    public function removeCriterion(Criteria $criterion): self
     {
-        if ($this->criterias->removeElement($criteria)) {
-            // set the owning side to null (unless already changed)
-            if ($criteria->getCriteria() === $this) {
-                $criteria->setCriteria(null);
-            }
-        }
+        $this->criteria->removeElement($criterion);
 
         return $this;
     }

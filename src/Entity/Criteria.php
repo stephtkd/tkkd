@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CriteriaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,17 @@ class Criteria
      * @ORM\Column(type="string", length=255)
      */
     private $value;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Rate::class, mappedBy="criteria")
+     */
+    private $rates;
+
+
+    public function __construct()
+    {
+        $this->rates = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,4 +102,32 @@ class Criteria
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Rate>
+     */
+    public function getRates(): Collection
+    {
+        return $this->rates;
+    }
+
+    public function addRate(Rate $rate): self
+    {
+        if (!$this->rates->contains($rate)) {
+            $this->rates[] = $rate;
+            $rate->addCriterion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRate(Rate $rate): self
+    {
+        if ($this->rates->removeElement($rate)) {
+            $rate->removeCriterion($this);
+        }
+
+        return $this;
+    }
+
 }

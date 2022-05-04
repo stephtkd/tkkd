@@ -124,7 +124,8 @@ class MemberType extends AbstractType
                 ]
             ])
             ->add('photoName', FileType::class, [
-                'data_class' => Member::class,
+                'data_class' => null,
+                'mapped' => false,
                 'label' => 'Photo de l\'adhérent',
                 'required' => false,
                 'constraints' => [
@@ -137,7 +138,8 @@ class MemberType extends AbstractType
                 ]
             ])
             ->add('medicalCertificateName',FileType::class, [
-                'data_class' => Member::class,
+                'data_class' => null,
+                'mapped' => false,
                 'label' => 'Certificat médical',
                 'required' => false,
                 'constraints' => [
@@ -158,11 +160,11 @@ class MemberType extends AbstractType
                 'required' => false
             ])
             ->add('bureau', CheckboxType::class, [
-                'label' => 'Personnel du bureau',
+                'label' => 'Membre du bureau',
                 'required' => false
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Valider',
+                'label' => 'Valider l\'inscription',
                 'attr' => [
                     'class' => 'btn-block btn-dark'
                 ]
