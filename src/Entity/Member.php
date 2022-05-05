@@ -130,7 +130,7 @@ class Member
     private ?string $emergencyPhone;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private ?bool $upToDateMembership;
 
