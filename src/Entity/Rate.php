@@ -44,11 +44,17 @@ class Rate
      */
     private $criteria;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, inversedBy="rates")
+     */
+    private $event;
+
 
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->criteria = new ArrayCollection();
+        $this->event = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,6 +147,14 @@ class Rate
         $this->criteria->removeElement($criterion);
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvent(): Collection
+    {
+        return $this->event;
     }
 
 }
