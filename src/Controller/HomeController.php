@@ -24,11 +24,6 @@ class HomeController extends AbstractController
         $events= $this->entityManager->getRepository(Event::class)->findAll(); // affichage des cards evenements configurable dans l'easyAdmin
         $homeComment = $this->entityManager->getRepository(HomeComment::class)->findAll(); // affichage du texte configurable dans l'easyAdmin
 
-
-        if (!$homeComment) {
-            return $this->redirectToRoute('homeComment');
-        }
-
         return $this->render('home/index.html.twig', [
             'events' => $events,
             'homeComment' => $homeComment
