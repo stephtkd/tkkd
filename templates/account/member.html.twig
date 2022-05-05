@@ -20,7 +20,7 @@
                 <div class="col-md-3">
                     <div class="card" style="width: 19rem;">
                         <div class="card-body">
-                           <!-- <img src="{{ member.photoName }}" class="card-img" alt="Photo de l\'adhérent" style="width: 200px; height: auto;"> -->
+                         <img src="/upload/member/{{ member.photoName }}" class="card-img" alt="Photo de l\'adhérent" style="width: 200px; height: auto;">
                             <h5 class="card-title">{{ member.firstname }} {{ member.lastname }}</h5>
                             <p class="card-text">
                                 {{member.email }}<br>
@@ -41,12 +41,5 @@
         {% endfor %}
     </div>
     {% endif %}
-
-
-
-
-
-
-
 
 {% endblock %}

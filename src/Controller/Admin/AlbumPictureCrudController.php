@@ -36,7 +36,6 @@ class AlbumPictureCrudController extends AbstractCrudController
                 ->setTargetFieldName('title'),
             TextEditorField::new('description', 'Description de l\'album')
                 ->setFormType(CKEditorType::class), // appel du CKEditor
-            AssociationField::new('categoryAlbum', 'Catégorie de l\'album'),
             AssociationField::new('Tag', 'Tag de l\'album'),
             ImageField::new('picture', 'image principal de l\'album')
                  ->setBasePath('upload/') //système d'upload des images

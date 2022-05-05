@@ -9,6 +9,10 @@ body {
 .navbar-item, .navbar-item a{
     color: white;
 }
+.cart-icon {
+    height: 25px;
+    padding-left: 20px;
+}
 
 /* Carousel */
 .carousel-inner img {
@@ -29,7 +33,6 @@ body {
     color: black;
     font-weight: bold;
 }
-
 .account-item a:hover {
     color: #d50000;
     text-decoration: none;

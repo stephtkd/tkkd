@@ -51,24 +51,30 @@ class MemberController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-                $file = $member->getPhotoName();
+                $file = $form->get('photoName')->getData();
+                $fileMedical = $form->get('medicalCertificateName')->getData();
                 $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $fileNameMedical = md5(uniqid()) . '.' . $fileMedical->guessExtension();
                 $file->move(
                         $this->getParameter('member_directory'),
                         $fileName);
+                $fileMedical->move(
+                    $this->getParameter('member_directory'),
+                    $fileNameMedical);
                 $member->setPhotoName($fileName);
+                $member->setMedicalCertificateName($fileNameMedical);
+
+
 
                 $member->setUser($this->getUser());
                 $this->entityManager->persist($member);
                 $this->entityManager->flush();
 
                 if ($affiliated->get()) {
-                    return $this->redirectToRoute('app_account');
-                } else {
                     return $this->redirectToRoute('account_member');
+                } else {
+                    return $this->redirectToRoute('app_subscription');
                 }
-
 
         }
 
@@ -78,10 +84,10 @@ class MemberController extends AbstractController
     }
 
 
-    #[Route('/account/members-edit/{id}', name: 'account_member_edit')]
+    #[Route('/account/members-edit/{id}', name: 'account_member_edit')] //affichage du formulaire d'adhesion, de modification du membre
     public function edit(Request $request, $id): Response
     {
-        $member = $this->entityManager->getRepository(Member::class)->findOneById($id);
+       $member = $this->entityManager->getRepository(Member::class)->findOneById($id);
 
         if(!$member || $member->getUser() != $this->getUser()) {
             return $this->redirectToRoute('account_member');
@@ -102,7 +108,7 @@ class MemberController extends AbstractController
         ]);
     }
 
-    #[Route('/account/members-delete/{id}', name: 'account_member_delete')]
+    #[Route('/account/members-delete/{id}', name: 'account_member_delete')] //suppression de membre
     public function delete($id): Response
     {
         $member = $this->entityManager->getRepository(Member::class)->findOneById($id);

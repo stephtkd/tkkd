@@ -6,7 +6,6 @@ use App\Entity\Criteria;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class CriteriaCrudController extends AbstractCrudController
@@ -22,7 +21,9 @@ class CriteriaCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('name', 'Titre'),
-            TextEditorField::new('description'),
+            TextField::new('type', 'Type'),
+            TextField::new('relation', 'Relation'),
+            TextField::new('value', 'Value'),
         ];
     }
 

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -124,27 +125,46 @@ class MemberType extends AbstractType
             ])
             ->add('photoName', FileType::class, [
                 'data_class' => null,
+                'mapped' => false,
                 'label' => 'Photo de l\'adhérent',
                 'required' => false,
                 'constraints' => [
-                    new Image(['maxSize' => '1024k'])
-                ],
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                    ])
+                ]
             ])
             ->add('medicalCertificateName',FileType::class, [
                 'data_class' => null,
+                'mapped' => false,
                 'label' => 'Certificat médical',
-
                 'required' => false,
                 'constraints' => [
-                    new Image(['maxSize' => '1024k'])
-                ],
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                    ])
+                ]
             ])
             ->add('responsibleAdult', TextType::class, [
                  'label' => 'Adulte Responsable ',
                 'required' => false
             ])
+            ->add('instructor', CheckboxType::class, [
+                'label' => 'Instructeur',
+                'required' => false
+            ])
+            ->add('bureau', CheckboxType::class, [
+                'label' => 'Membre du bureau',
+                'required' => false
+            ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Valider',
+                'label' => 'Valider l\'inscription',
                 'attr' => [
                     'class' => 'btn-block btn-dark'
                 ]

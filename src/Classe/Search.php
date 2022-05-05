@@ -1,7 +1,6 @@
 <?php
 namespace App\Classe;
 
-use App\Entity\CategoryAlbum;
 use App\Entity\Tag;
 
 class Search
@@ -12,12 +11,7 @@ class Search
     public $string = '';
 
     /**
-     * @var CategoryAlbum[]
-     */
-    public $CategoriesAlbum = [];
-
-    /**
      * @var Tag[]
      */
-    public $Tags = [];
+    public $Tag = [];
 }

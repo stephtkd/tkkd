@@ -62,4 +62,27 @@ class affiliated
         }
         return $this->session->set('affiliated', $affiliated);
     }
+
+    public function getFull(): array
+    {
+
+        $cartComplete = [];
+
+        if ($this->get()) {
+            foreach ($this->get() as $id => $quantity){
+                $affiliated_object = $this->entityManager->getRepository(Member::class)->findOneById($id);
+
+                if(!$affiliated_object){
+                    $this->delete($id);
+                    continue;
+                }
+
+                $affiliatedComplete[] = [
+                    'affiliated' => $affiliated_object,
+                    'quantity' => $quantity
+                ];
+            }
+        }
+        return $affiliatedComplete;
+    }
 }

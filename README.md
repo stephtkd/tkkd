@@ -9,14 +9,7 @@ Pour lancer le projet il faut le clonner depuis le depot git.
 * Se déplacer dans le projet depuis le terminal et lancer la commande :
     
 
-        composer install
-
-        composer install et composer update
-        
-* Créer le fichier .env.local à la racine (copie du .env) et corriger la ligne DATABASE_URL. Penser à mettre à jour la version de mysql :
-ex : 
-
-        DATABASE_URL="mysql://sc1cenacle_tkkd_symfony:change-me@127.0.0.1:3306/sc1cenacle_tkkd_symfony?serverVersion=10.3.34-MariaDB"        
+        composer install et composer update     
 
 * Créer le fichier .env.local à la racine (copie du .env) et corriger la ligne DATABASE_URL. Penser à mettre à jour la version de mysql :
 ex : 
@@ -36,12 +29,16 @@ et vérifier que la BDD a bien été créée et que les tables contiennent des e
 
 * Enfin, lancer les commandes suivantes (attention : il faut **node v14** ou +) :
 
-* Enfin, lancer les commandes suivantes :
-
 
         npm install
         npm run build
-
+        
+* Pour Webpack Encore, lancer les commandes suivantes :
+        
+        yarn install
+        yarn --version
+        yarn encore dev
+        
 Toujours depuis le terminal lancer la commande suivante pour démarrer le projet :
 
         symfony server:start
@@ -66,6 +63,7 @@ Ne pas oublier de mettre le .env.local dans le .gitignore
 
 
         An exception has been thrown during the rendering of a template ("Could not find the entrypoints file from Webpack
+        
 Penser à faire le npm install + npm run build
 
 
@@ -74,5 +72,4 @@ cf https://plantuml.com/fr/
 et https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml#use-plantuml-server-as-render
 et https://github.com/Hywan/Database-to-PlantUML pour convertir une BDD en UML
 
-Penser à faire le npm install + npm run build
 

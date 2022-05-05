@@ -5,8 +5,9 @@ namespace App\Controller\Admin;
 use App\Entity\Rate;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -25,7 +26,7 @@ class RateCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('name', 'Titre'),
             TextEditorField::new('description', 'Description')->setFormType(CKEditorType::class),
-            BooleanField::new('rate'),
+            MoneyField::new('rate', 'Prix')->setCurrency('EUR'),
         ];
     }
 
@@ -33,8 +34,8 @@ class RateCrudController extends AbstractCrudController
     {
         return $crud
             // Les labels utilisés pour faire référence à l'entité dans les titres, les boutons, etc.
-            ->setEntityLabelInSingular('Nom du Tarif')
-            ->setEntityLabelInPlural('Nom du Tarif')
+            ->setEntityLabelInSingular('Nom de Tarif')
+            ->setEntityLabelInPlural('Nom de Tarif')
             // Le titre visible en haut de la page et le contenu de l'élément <title>
             // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
             ->setPageTitle('index', 'Liste des %entity_label_plural%')

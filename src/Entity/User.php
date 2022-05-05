@@ -58,6 +58,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private ?string $lastName;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Member::class, mappedBy="user")
+     */
+    private $members;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
+     */
+    private $orders;
 
     /**
      * @ORM\Column(type="boolean")
@@ -70,6 +79,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
+        $this->members = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
 
@@ -188,6 +199,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Member[]
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    public function addMember(Member $member): self
+    {
+        if (!$this->members->contains($member)) {
+            $this->members[] = $member;
+            $member->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMember(Member $member): self
+    {
+        if ($this->members->removeElement($member)) {
+            // set the owning side to null (unless already changed)
+            if ($member->getUser() === $this) {
+                $member->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -63,7 +63,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion de la page d\'accueil');
         yield MenuItem::linkToCrud('Accueil', 'fas fa-pen', HomeComment::class);
-        yield MenuItem::linkToCrud('Evénement', 'fas fa-newspaper', Event::class);
+        yield MenuItem::linkToCrud('Evénements', 'fas fa-newspaper', Event::class);
 
 
         yield MenuItem::section('Gestion des photos');
@@ -77,8 +77,8 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion des Adhésions');
         yield MenuItem::linkToCrud('Tarif Adhésion', 'fas fa-cash-register', MembershipRate::class);
-        yield MenuItem::linkToCrud('Critère', 'fas fa-keyboard', Criteria::class);
-        yield MenuItem::linkToCrud('Nom du Tarif', 'fas fa-marker', Rate::class);
+        yield MenuItem::linkToCrud('Critères', 'fas fa-keyboard', Criteria::class);
+        yield MenuItem::linkToCrud('Nom de Tarifs', 'fas fa-marker', Rate::class);
 
 
     }
