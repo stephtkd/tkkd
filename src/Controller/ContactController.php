@@ -22,10 +22,6 @@ class ContactController extends AbstractController
     {
         $contact = $this->entityManager->getRepository(Contact::class)->findAll();
 
-
-        if (!$contact) {
-            return $this->redirectToRoute('contact');
-        }
         return $this->render('contact/index.html.twig', [
             'contact' => $contact
         ]);
