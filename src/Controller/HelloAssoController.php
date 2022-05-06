@@ -11,43 +11,33 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HelloAssoController extends AbstractController
 {
+
     // Récupère les données du formulaire pour les passer au wrapper de l'api
 
-    /*private $helloAssoApiService;
+    private HelloAssoApiService $apiService;
 
-    public function __construct(helloAssoApiService $helloAssoApiService)
-    {
-        $this->helloAssoApiService = $helloAssoApiService;
-    }*/
+    public function __construct(HelloAssoApiService $apiService) {
+        $this->apiService = $apiService;
+    }
+
     #[Route('order_details', name: 'app_order_details')]
 
     public function index(): Response
     {
-        $form = new HelloAssoType();
-        $form->id = rand();
-        $form->method = 1;
+        $form = $this->createForm(HelloAssoType::class);
 
         return $this->render('order_details/index.html.twig', [
-            'controller_name' => 'HelloAssoController',
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * Get all values posted from submitted form, store them in model then call api wrapper
      */
-    public function post()
-    {
+    public function post() {
         $form = new HelloAssoType();
-        $form->id = $_POST['id'];
-        $form->firstname = $_POST['firstname'];
-        $form->lastname = $_POST['lastname'];
-        $form->email = $_POST['email'];
-        $form->amount = $_POST['amount'];
-        $form->method = $_POST['method'];
 
-        // Call API
-        $response = $this->helloAssoApiService->initCart($form);
+        $response = $this->apiService->initCart($form);
 
         if(isset($response->redirectUrl)) {
             // We can store checkout id somewhere

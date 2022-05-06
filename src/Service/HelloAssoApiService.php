@@ -2,126 +2,108 @@
 
 namespace App\Service;
 
-/**
- * This class could appear complicated but once prefill documentation in your hands it will make perfect sens !
- * Authentification et récupèration du lien vers le formulaire de paiement via l'API HelloAsso
- */
+use App\Entity\ApiCredentials;
+use App\Repository\ApiCredentialsRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 class HelloAssoApiService
 {
-    private $helloAsso;
-    private $token;
+    private EntityManagerInterface $manager;
+    private HttpClientInterface $client;
+    private ApiCredentialsRepository $apiCredentialsRepository;
 
-    public function __construct($helloAsso)
+    private string $organizationSlug = 'taekwonkido-phenix';
+
+    public function __construct(EntityManagerInterface $manager, HttpClientInterface $client, ApiCredentialsRepository $apiCredentialsRepository)
     {
-        $this->helloAsso = $helloAsso;
-        $this->initToken($helloAsso->clientId, $helloAsso->clientSecret);
+        $this->manager = $manager;
+        $this->client = $client;
+        $this->repo = $apiCredentialsRepository;
+        $this->initCart([]);
     }
 
-    private function initToken($clientId, $clientSecret)
-    {
-        $request = new \HTTP_Request2();
-        $request->setUrl('https://api.helloasso.com/oauth2/token');
-        $request->setMethod(\HTTP_Request2::METHOD_POST);
-        $request->setHeader(array(
-            'Content-Type' => 'application/x-www-form-urlencoded',
-        ));
-        $request->addPostParameter(array(
-            'grant_type' => 'client_credentials',
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret
-        ));
-
-        try
-        {
-            $response = $request->send();
-            if ($response->getStatus() == 200) {
-                $this->token = json_decode($response->getBody());
-            }
-            else {
-                echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' . $response->getReasonPhrase();
-            }
-        }
-        catch(\HTTP_Request2_Exception $e)
-        {
-            echo 'Error: ' . $e->getMessage();
-        }
-    }
-
-    /**
-     * Call HelloAsso API to initialize checkout
-     * If ok this function return raw response
-     * Else an error code
-     */
     public function initCart($data)
     {
-        $request = new \HTTP_Request2();
-        $request->setUrl('https://api.helloasso.com/v5/organizations/' . $this->helloAsso->organismSlug . '/checkout-intents');
-        $request->setMethod(\HTTP_Request2::METHOD_POST);
-        $request->setHeader(array(
-            'authorization' => 'Bearer ' . $this->token->access_token,
-            'Content-Type' => 'application/json',
-        ));
-        $date = new \Datetime($data->birthdate);
+        $requestHeader = [
+            'headers' =>
+                [
+                    'Bearer' => $this->generateAccessToken(),
+                    'Content-Type' => 'application/json'
+                ]
+        ];
+        $requestBody = [
+            'totalAmount' => 10,
+            'initialAmount' => 10,
+            'itemName' => 'Abonnement -15 ans',
+            "backUrl" => "/",
+            "errorUrl" => "/",
+            "returnUrl" => "/",
+            "containsDonation" => false,
+            "payer" => [
+                "firstName" => "John",
+                "lastName" => "Doe",
+                "email" => "john.doe@test.com",
+                "dateOfBirth" => "1986-07-06T00:00:00+02:00",
+                "address" => "23 rue du palmier",
+                "city" => "Paris",
+                "zipCode" => "75000",
+                "country" => "FRA",
+            ]
+        ];
 
-        $body = array('totalAmount' => round($data->amount * 100),
-            'initialAmount' => round($data->amount * 100),
-            'itemName' => 'Commande sur notre site',
-            'backUrl' => $this->helloAsso->baseUrl,
-            'errorUrl' => $this->helloAsso->returnUrl,
-            'returnUrl' => $this->helloAsso->returnUrl,
-            'containsDonation' => false,
-            'payer' => array(
-                'firstName' => $data->firstname,
-                'lastName' => $data->lastname,
-                'email' => $data->email,
-                'dateOfBirth' => $date->format('Y-m-d'),
-                'address' => $data->address,
-                'city' => $data->city,
-                'zipCode' => $data->zipcode,
-                'country' => $data->country,
-                'companyName' => $data->company,
-            ),
-            'metadata' => array(
-                'reference' => $data->id,
-            )
-        );
+        $url = 'https://api.helloasso.com/v5/organizations/' . $this->organizationSlug . '/checkout-intents';
 
-        if($data->method > 1) {
-            $body = $this->manageMultiplePayment($data->method, $data->amount * 100, $body);
-        }
-
-        $request->setBody(json_encode($body));
-
-        try{
-            $response = $request->send();
-            return json_decode($response->getBody());
-        } catch(\Exception $e){
-            return json_decode('{"error":"' . $e . '"}');
-        }
+        return json_decode($this->callApi($url, $requestHeader, $requestBody));
     }
 
-    /**
-     * Split amount into terms and set terms date to first day of the month
-     */
-    private function manageMultiplePayment($paymentCount, $totalAmount, $body)
-    {
-        $termsAmount = round($totalAmount / $paymentCount, 2, PHP_ROUND_HALF_DOWN);
-        $rest = round($totalAmount - ($termsAmount * $paymentCount), 2);
+    // Use or create the refresh token to generate the access token
+    private function generateAccessToken() {
+        $requestHeader = ['Content-Type' => 'application/x-www-form-urlencoded'];
+        $url = 'https://api.helloasso.com/oauth2/token';
 
-        $body['initialAmount'] = $termsAmount;
+        $apiCredentials = $this->repo->findAll();
 
-        $body['terms'] = array();
-        $today = getdate();
-        $nextPayment = new \DateTime($today['year'] . '-' . $today['month'] . '-01');
+        if (sizeof($apiCredentials) == 0 ) {
+            $requestBody = [
+                'grant_type' => 'client_credentials',
+                'client_id' => '2b5a70e036244abfaa7b9732e58bc21b',
+                'client_secret' => 'Xk39PKKAZSgV+fTEeWUG0HTTVFJbK2lL'
+            ];
 
-        for($i = 1; $i < $paymentCount; $i++) {
-            $nextPayment->add(new \DateInterval('P1M'));
-            array_push($body['terms'], array(
-                'amount' => $i == $paymentCount - 1 ? ($termsAmount + $rest) : $termsAmount,
-                'date' => $nextPayment->format('Y-m-d')
-            ));
+            $content = json_decode($this->callApi($url, $requestHeader, $requestBody));
+
+            $credentials = new ApiCredentials();
+            $credentials->setRefreshToken($content['refresh_token']);
+
+            $this->manager->persist($credentials);
+        } else {
+            $requestBody = [
+                'grant_type' => 'refresh_token',
+                'client_id' => '2b5a70e036244abfaa7b9732e58bc21b',
+                'refresh_token' => $apiCredentials[0]->getRefreshToken()
+            ];
+
+            $content = json_decode($this->callApi($url, $requestHeader, $requestBody));
         }
 
-        return $body;
+        return $content['access_token'];
+    }
+
+    private function callApi($url, $header, $body) {
+        try {
+            $response = $this->client->request(
+                'POST',
+                $url,
+                [
+                    'headers' => $header,
+                    'body' => $body
+                ]
+            );
+        } catch (\Exception $e) {
+            return '{"error":"' . $e . '"}';
+        }
+
+        return $response->getContent();
     }
 }
