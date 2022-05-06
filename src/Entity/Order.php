@@ -32,11 +32,6 @@ class Order
     private $createdAt;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $delivery;
-
-    /**
      * @ORM\OneToMany(targetEntity=OrderDetails::class, mappedBy="myOrder")
      */
     private $orderDetails;
@@ -56,19 +51,20 @@ class Order
      */
     private $state;
 
+    public function getTotal()
+    {
+        $total = null;
+        foreach ($this->getOrderDetails()->getValues() as $product) {
+            $total = $total + ($product->getPrice() * $product->getQuantity());
+        }
+        return $total;
+    }
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
     }
 
-    public function getTotal()
-    {
-        $total = null;
-       foreach ($this->getOrderDetails()->getValues() as $subscription) {
-           $total = $total + ($subscription->getPrice() * $subscription->getQuantity());
-       }
-       return $total;
-    }
 
     public function getId(): ?int
     {
@@ -99,18 +95,6 @@ class Order
         return $this;
     }
 
-
-    public function getDelivery(): ?string
-    {
-        return $this->delivery;
-    }
-
-    public function setDelivery(string $delivery): self
-    {
-        $this->delivery = $delivery;
-
-        return $this;
-    }
 
     /**
      * @return Collection|OrderDetails[]

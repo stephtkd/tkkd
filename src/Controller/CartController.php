@@ -31,7 +31,7 @@ class CartController extends AbstractController
     {
         $cart->add($id);
 
-        return $this->redirectToRoute('cart');
+        return $this->redirectToRoute('app_cart');
     }
 
     #[Route('/cart/remove', name: 'remove_my_cart')]
@@ -40,7 +40,7 @@ class CartController extends AbstractController
     {
         $cart->remove();
 
-        return $this->redirectToRoute('products');
+        return $this->redirectToRoute('app_home');
     }
 
     #[Route('/cart/delete/{id}', name: 'delete_to_cart')]
@@ -49,7 +49,7 @@ class CartController extends AbstractController
     {
         $cart->delete($id);
 
-        return $this->redirectToRoute('cart');
+        return $this->redirectToRoute('app_cart');
     }
 
     #[Route('/cart/decrease/{id}', name: 'decrease_to_cart')]
@@ -58,7 +58,7 @@ class CartController extends AbstractController
     {
         $cart->decrease($id);
 
-        return $this->redirectToRoute('cart');
+        return $this->redirectToRoute('app_cart');
     }
 
 }
