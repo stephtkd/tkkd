@@ -30,30 +30,5 @@ class SubscriptionController extends AbstractController
         ]);
     }
 
-    #[Route('/subscription/add/{id}', name: 'add_subscription')]
 
-    public function add(Cart $cart, $id): Response
-    {
-        $cart->add($id);
-
-        return $this->redirectToRoute('app_subscription');
-    }
-
-    #[Route('/subscription/remove', name: 'remove_my_subscription')]
-
-    public function remove(Cart $cart): Response
-    {
-        $cart->remove();
-
-        return $this->redirectToRoute('memberShipRates');
-    }
-
-    #[Route('/subscription/decrease/{id}', name: 'decrease_subscription')]
-
-    public function decrease(Cart $cart, $id): Response
-    {
-        $cart->decrease($id);
-
-        return $this->redirectToRoute('cart');
-    }
 }

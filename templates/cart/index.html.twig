@@ -1,20 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Panier - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="d-flex justify-content-end">
+        <a href="{{ path('app_home') }}" class="btn btn-dark mt-3">Retour à l'accueil</a>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Mon panier</h1>
+    Retrouver l'ensemble des produits que vous avez ajouter à votre panier
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Projet/Phenix/tkkd/src/Controller/SubscriptionController.php'|file_link(0) }}">src/Controller/CartController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Projet/Phenix/tkkd/templates/cart/index.html.twig'|file_link(0) }}">templates/cart/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <table class="table table-hover mt-3">
+            <thead>
+            <tr>
+                <th scope="col">Produit</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <th>
+                        <img src="" alt="" height="75px"><br>
+                    </th>
+                    <td>
+                        <br>
+                        <small></small>
+                    </td>
+                    <td>
+                        <a href="">
+                            <img src="" alt="Retirer un produit" height="17px">
+                        </a>
+
+                        <a href="">
+                            <img src="" alt="Ajouter un produit" height="17px">
+                        </a>
+                    </td>
+                    <td>€</td>
+                    <td>€</td>
+                    <td>
+                        <a href="">
+                            <img src="" alt="Supprimer mon produit" height="22px"> <br>
+                        </a>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <div class="text-right mb-5">
+            <b>Nombre de produit : </b> <br>
+            <b>Total de mon panier : </b>  €
+            <a href="{" class="btn btn-dark btn-block mt-3">Valider mon panier</a>
+        </div>
+
+        <hr>
+        <p>Votre panier est vide !</p>
+
 {% endblock %}

@@ -74,12 +74,6 @@ class HelloAssoApiService
                 'firstName' => $data->firstname,
                 'lastName' => $data->lastname,
                 'email' => $data->email,
-                'dateOfBirth' => $date->format('Y-m-d'),
-                'address' => $data->address,
-                'city' => $data->city,
-                'zipCode' => $data->zipcode,
-                'country' => $data->country,
-                'companyName' => $data->company,
             ),
             'metadata' => array(
                 'reference' => $data->id,

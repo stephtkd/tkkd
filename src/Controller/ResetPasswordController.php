@@ -87,10 +87,9 @@ class ResetPasswordController extends AbstractController
             $password = $encoder->hashPassword($reset_password->getUser(), $new_pwd);
             $reset_password->getUser()->setPassword($password);
 
-            // flush en bdd
             $this->entityManager->flush();
 
-            // redirection vers pas de connexion
+            // redirection vers la page de connexion
             $this->addFlash('notice', 'Votre mot de passe à bien été mis à jour.');
             return $this->redirectToRoute('app_login');
 
