@@ -11,6 +11,7 @@ use App\Entity\HomeComment;
 use App\Entity\Member;
 use App\Entity\Membership;
 use App\Entity\MembershipRate;
+use App\Entity\Order;
 use App\Entity\PicturesAlbum;
 use App\Entity\Rate;
 use App\Entity\SlidePicture;
