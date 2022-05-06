@@ -64,7 +64,7 @@ class MemberController extends AbstractController
                 $member->setPhotoName($fileName);
                 $member->setMedicalCertificateName($fileNameMedical);
 
-
+                $member->setUpToDateMembership(0);
 
                 $member->setUser($this->getUser());
                 $this->entityManager->persist($member);
