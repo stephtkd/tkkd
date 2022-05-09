@@ -47,7 +47,7 @@ class Order
     private $helloAssoSessionId;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean")
      */
     private $state;
 

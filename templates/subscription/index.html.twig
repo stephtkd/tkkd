@@ -34,14 +34,12 @@
                                         <div class="py-2 text-uppercase">Tarif</div>
                                     </th>
                                     <th scope="col" class="border-0 bg-secondary text-white">
-                                        <div class="py-2 text-uppercase">Quantité</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
                                         <div class="py-2 text-uppercase"></div>
                                     </th>
                                 </tr>
                                 </thead>
                                 {% for memberShipRate in memberShipRates %}
+
                                 <tbody>
                                 <tr>
                                     <th scope="row">
@@ -53,19 +51,10 @@
                                     </th>
                                     <td class="align-middle">{{ memberShipRate.maximumAge }}</td>
                                     <td class="align-middle">{{ (memberShipRate.price/ 100)|number_format(2, ',', '.') }} €</td>
-                                    <td class="align-middle">
-                                        <a href="">
-                                            <img src="{{ asset('build/bouton-circulaire-moins.png') }}" alt="Retirer un produit" height="17px">
-                                        </a>
 
-                                        <a href="">
-                                            <img src="{{ asset('build/plus.png') }}" alt="Ajouter un produit" height="17px">
-                                        </a>
-                                    </td>
                                     <td class="align-middle text-center">
                                         <a href="{{ path('add_to_cart', { 'id' : memberShipRate.id }) }}" class="btn btn-dark btn-block mt-3">Ajouter</a>
                                     </td>
-
                                 </tr>
                                 {% endfor %}
                                 </tbody>
@@ -74,22 +63,6 @@
                         </div>
                     </div>
 
-                            <div class="col-lg-12 p-3 bg-white rounded shadow-sm mb-5">
-                                <div class="bg-secondary rounded-pill px-4 py-3 text-uppercase text-white fw-bold">Résumé</div>
-                                {% set total = null %}
-                                {% for memberShipRate in cart %}
-                                <div class="p-4 pb-0">
-                                    {% set total = total + (product.memberShipRate.price * product.quantity) %}
-                                    {% endfor %}
-                                    <p class="font-italic mb-4"></p>
-                                    <ul class="list-unstyled mb-4">
-                                        <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-                                            <h5 class="fw-bold" data-item="total">{{ (total / 100)|number_format(2, ',', '.') }} €</h5>
-                                        </li>
-                                    </ul>
-                                    <a href="{{ path('order_recap') }}" type="submit" class="btn btn-dark rounded-pill py-2 btn-block col-md-5 mx-auto">Continuer</a>
-                                </div>
-                        </div>
 
 
         </div>
