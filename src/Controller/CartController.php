@@ -40,7 +40,7 @@ class CartController extends AbstractController
     {
         $cart->remove();
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_home'); // suppression des "prestations" dans le panier, on retourne à l'accueil du site
     }
 
     #[Route('/cart/delete/{id}', name: 'delete_to_cart')]

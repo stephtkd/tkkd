@@ -10,7 +10,7 @@
     <h1>Mon panier</h1>
     Retrouver l'ensemble des Abonnements et/ou Evénements que vous avez choisi.
     {% if cart|length %}
-        <table class="table table-hover mt-3">
+        <table class="table table-hover bg-light mt-5">
             <thead>
             <tr>
                 <th scope="col">Produit</th>
@@ -22,34 +22,33 @@
             </thead>
             <tbody>
             {% set total = null %}
-            {% for memberShipRate in cart %}
+            {% for product in cart %}
                 <tr>
-                    <td>{{ memberShipRate.label }}</td>
+                    <td>{{ product.product.label }}</td>
                     <td>
-                        <a href="{{ path('decrease_to_cart', {'id' : product.memberShipRate.id}) }}">
-                            <img src="{{ asset('assets/image/bouton-circulaire-moins.png') }}" alt="Retirer un produit" height="17px">
-                        </a>
+                        <a href="{{ path('decrease_to_cart', {'id' : product.product.id}) }}">
+                            <img src="{{ asset('build/bouton-circulaire-moins.png') }}" alt="Retirer un produit" height="18px"></a>
                         {{ product.quantity }}
-                        <a href="{{ path('add_to_cart', {'id' : product.memberShipRate.id}) }}">
-                            <img src="{{ asset('assets/image/plus.png') }}" alt="Ajouter un produit" height="17px">
-                        </a>
+                        <a href="{{ path('add_to_cart', {'id' : product.product.id}) }}">
+                            <img src="{{ asset('build/plus.png') }}" alt="Ajouter un produit" height="18px"></a>
                     </td>
-                    <td>{{ (product.memberShipRate.price / 100)|number_format(2, ',', '.') }} €</td>
-                    <td>{{ ((product.memberShipRate.price * product.quantity ) / 100)|number_format(2, ',', '.') }} €</td>
+                    <td>{{ (product.product.price / 100)|number_format(2, ',', '.') }} €</td>
+                    <td>{{ ((product.product.price * product.quantity ) / 100)|number_format(2, ',', '.') }} €</td>
                     <td>
-                        <a href="{{ path('delete_to_cart', { 'id' : product.memberShipRate.id}) }}">
-                            <img src="{{ asset('build/poubelle-de-recyclage.png') }}" alt="Supprimer mon produit" height="22px"> <br>
-                        </a>
+                        <a href="{{ path('delete_to_cart', { 'id' : product.product.id}) }}">
+                            <img src="{{ asset('build/poubelle-de-recyclage.png') }}" alt="Supprimer mon produit" height="22px"> <br></a>
                     </td>
                 </tr>
-                {% set total = total + (product.memberShipRate.price * product.quantity) %}
+                {% set total = total + (product.product.price * product.quantity) %}
             {% endfor %}
             </tbody>
         </table>
-        <div class="text-right mb-5">
+        <div class="text-right m-5">
+            <b>Nombre de prestation : </b> {{ cart|length }}<br>
             <b>Total de mon panier : </b> {{ (total / 100)|number_format(2, ',', '.') }} €
-            <a href="{{ path('app_order_details') }}" class="btn btn-dark btn-block mt-3">Continuer</a>
         </div>
+            <a href="{{ path('order_recap') }}" class="btn btn-dark btn-block col-md-3 m-2">Continuer</a>
+
         {% else %}
         <hr>
         <p>Votre panier est vide !</p>

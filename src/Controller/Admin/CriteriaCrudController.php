@@ -23,7 +23,7 @@ class CriteriaCrudController extends AbstractCrudController
             TextField::new('name', 'Titre'),
             TextField::new('type', 'Type'),
             TextField::new('relation', 'Relation'),
-            TextField::new('value', 'Value'),
+            TextField::new('value', 'Valeur'),
         ];
     }
 
