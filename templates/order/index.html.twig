@@ -39,12 +39,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                {% set total = null %}
+                                {% for product in cart %}
                                 <tr>
                                     <th scope="row">
                                         <div class="p-2">
-                                            <img src="" alt="" width="70" class="img-fluid rounded shadow-sm">
                                             <div class="ml-3 d-inline-block align-middle">
-                                                <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle"></a></h5>
+                                                <h5 class="mb-0">{{ product.product.label }}</h5>
                                             </div>
                                         </div>
                                     </th>
