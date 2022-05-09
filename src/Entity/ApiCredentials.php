@@ -19,12 +19,27 @@ class ApiCredentials
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=5000)
      */
-    private $refreshToken;
+    private string $refreshToken;
 
     /**
-     * @return mixed
+     * @ORM\Column(type="datetime")
+     */
+    private \DateTimeInterface $expireDateRefreshToken;
+
+    /**
+     * @ORM\Column(type="string", length=5000)
+     */
+    private string $accessToken;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private \DateTimeInterface $expireDateAccessToken;
+
+    /**
+     * @return string
      */
     public function getRefreshToken()
     {
@@ -37,6 +52,54 @@ class ApiCredentials
     public function setRefreshToken($refreshToken): void
     {
         $this->refreshToken = $refreshToken;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getExpireDateRefreshToken(): \DateTimeInterface
+    {
+        return $this->expireDateRefreshToken;
+    }
+
+    /**
+     * @param \DateTimeInterface $expireDateRefreshToken
+     */
+    public function setExpireDateRefreshToken(\DateTimeInterface $expireDateRefreshToken): void
+    {
+        $this->expireDateRefreshToken = $expireDateRefreshToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessToken(): string
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @param string $accessToken
+     */
+    public function setAccessToken(string $accessToken): void
+    {
+        $this->accessToken = $accessToken;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getExpireDateAccessToken(): \DateTimeInterface
+    {
+        return $this->expireDateAccessToken;
+    }
+
+    /**
+     * @param \DateTimeInterface $expireDateAccessToken
+     */
+    public function setExpireDateAccessToken(\DateTimeInterface $expireDateAccessToken): void
+    {
+        $this->expireDateAccessToken = $expireDateAccessToken;
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +26,12 @@ class HelloAssoType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'required' => true,
-            ]);
+            ])
+            ->add('submit', SubmitType::class, [
+            'label' => 'Vers Paiement',
+            'attr' => [
+                'class' => 'btn-block btn-dark'
+            ]]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
