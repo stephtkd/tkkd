@@ -4,10 +4,13 @@
 
 {% block body %}
 
-    <h1>Adhérent</h1>
-    <a href="{{ path('account_member_add') }}" class="btn btn-dark btn-sm float-right">Ajouter un adhérent</a>
-    Dans cette espace vous allez gérer toutes vos donner adhérent <br>
-    <a href="{{ path('app_account') }}">Retour</a>
+    <h1 class="m-3">Adhérent</h1>
+    <a href="{{ path('account_member_add') }}" class="btn btn-dark btn-sm">Ajouter un adhérent</a>
+    <a href="{{ path('app_subscription') }}" class="btn btn-dark btn-sm">Souscrire à un abonnement</a>
+    <p class="text-left m-3">
+        Dans cette espace vous allez gérer toutes vos donner adhérent <br>
+        <a href="{{ path('app_account') }}">Retour</a>
+    </p>
     <hr>
     {% if app.user.members|length == 0 %}
     <p class="text-left">

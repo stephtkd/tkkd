@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de paiement - Taekwonkido Phenix{% endblock %}
+
+{% block body %}
+
+    <h2 class="pt-5">Confirmation de paiement au club Taekwonkido Phenix</h2>
+    <p>
+        Bonjour <strong>{{ order.user.firstname }} {{ order.user.lastname }}</strong>,<br><br>
+        Nous vous remercions pour votre paiement au Taekwonkido Phenix n°<strong>{{ order.reference }}</strong>.<br>
+        Une confirmation vient de vous être envoyée par email à l'adresse <strong>{{ order.user.email }}</strong>.
+    <hr>
+    Pour suivre votre adhésion, rendez-vous dans <a href="{{ path('app_account') }}">votre compte</a>.
+    </p>
+
+{% endblock %}

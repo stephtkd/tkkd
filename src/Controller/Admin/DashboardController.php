@@ -11,8 +11,10 @@ use App\Entity\HomeComment;
 use App\Entity\Member;
 use App\Entity\Membership;
 use App\Entity\MembershipRate;
+use App\Entity\Order;
 use App\Entity\PicturesAlbum;
 use App\Entity\Rate;
+use App\Entity\Role;
 use App\Entity\SlidePicture;
 use App\Entity\Tag;
 use App\Entity\User;
@@ -60,6 +62,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Gestion des comptes');
         yield MenuItem::linkToCrud('Comptes Utilisateurs', 'fas fa-list', User::class);
         yield MenuItem::linkToCrud('Tableau Adhérents', 'fas fa-table', Member::class);
+
 
         yield MenuItem::section('Gestion de la page d\'accueil');
         yield MenuItem::linkToCrud('Accueil', 'fas fa-pen', HomeComment::class);

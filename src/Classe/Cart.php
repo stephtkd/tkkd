@@ -3,11 +3,12 @@
 
 namespace App\Classe;
 
-use App\Entity\Rate;
+use App\Entity\Event;
+use App\Entity\MembershipRate;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class Cart
+class  Cart
 {
 
     private  $session;
@@ -71,7 +72,7 @@ class Cart
 
         if ($this->get()) {
             foreach ($this->get() as $id => $quantity){
-                $product_object = $this->entityManager->getRepository(Rate::class)->findOneById($id);
+                $product_object = $this->entityManager->getRepository(MembershipRate::class)->findOneById($id);
 
                 if(!$product_object){
                     $this->delete($id);

@@ -26,7 +26,7 @@ class OrderDetails
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $subscription;
+    private $product;
 
     /**
      * @ORM\Column(type="integer")
@@ -45,7 +45,7 @@ class OrderDetails
 
     public function __toString()
     {
-        return $this->getSubscription().' x'.$this->getQuantity();
+        return $this->getProduct().' x'.$this->getQuantity();
     }
 
     public function getId(): ?int
@@ -65,14 +65,14 @@ class OrderDetails
         return $this;
     }
 
-    public function getSubscription(): ?string
+    public function getProduct(): ?string
     {
-        return $this->subscription;
+        return $this->product;
     }
 
-    public function setSubscription(string $subscription): self
+    public function setProduct(string $product): self
     {
-        $this->subscription = $subscription;
+        $this->product = $product;
 
         return $this;
     }
