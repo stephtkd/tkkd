@@ -73,16 +73,14 @@ class  Cart
         if ($this->get()) {
             foreach ($this->get() as $id => $quantity){
                 $product_object = $this->entityManager->getRepository(MembershipRate::class)->findOneById($id);
-                $event_object = $this->entityManager->getRepository(Event::class)->findOneById($id);
 
-                if(!$product_object && $event_object){
+                if(!$product_object){
                     $this->delete($id);
                     continue;
                 }
 
                 $cartComplete[] = [
                     'product' => $product_object,
-                    'event' => $event_object,
                     'quantity' => $quantity
                 ];
             }

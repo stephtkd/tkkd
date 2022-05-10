@@ -27,14 +27,14 @@
                                     <th scope="col" class="border-0 bg-secondary text-white">
                                         <div class="p-2 px-3 text-uppercase">Produit</div>
                                     </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
-                                        <div class="py-2 text-uppercase">Tarif</div>
+                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
+                                        <div class="py-2 text-uppercase">Prix</div>
                                     </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
+                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
                                         <div class="py-2 text-uppercase">Quantité</div>
                                     </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
-                                        <div class="py-2 text-uppercase">Supprimer</div>
+                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
+                                        <div class="py-2 text-uppercase">Total</div>
                                     </th>
                                 </tr>
                                 </thead>
@@ -49,11 +49,18 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <td class="align-middle"><strong></strong></td>
-                                    <td class="align-middle">
+                                    <td class="align-middle text-center">
+                                        {{ (product.product.price / 100)|number_format(2, ',', '.') }} €
                                     </td>
-                                    <td class="align-middle text-center"><a href="javascript:;" class="text-danger" data-action="reset"><i class="fa fa-trash"></i></a></td>
+                                    <td class="align-middle text-center">
+                                        <strong>{{ product.quantity }}</strong>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        {{ ((product.product.price * product.quantity ) / 100)|number_format(2, ',', '.') }} €
+                                    </td>
                                 </tr>
+                                    {% set total = total + (product.product.price * product.quantity) %}
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -88,28 +95,30 @@
                             <div class="p-4 pb-0">
                                 <p class="font-italic mb-4"></p>
                                 <ul class="list-unstyled mb-4">
-                                    <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Sous total</strong><strong data-item="amount"></strong></li>
+                                   <!-- <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Sous total</strong><strong data-item="amount">
+                                            {{ (total / 100)|number_format(2, ',', '.') }} €
+                                        </strong></li> -->
                                     <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-                                        <h5 class="fw-bold" data-item="total"></h5>
+                                        <h5 class="fw-bold" data-item="total">{{ ((total / 100)|number_format(2, ',', '.')) }} €</h5>
                                     </li>
                                 </ul>
                             </div>
                             <div class="p-4 pt-0">
                                 <p>Réglement en :</p>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="method" id="method1" value="1" <?php echo $data->method == 1 ? ' checked' : '' ?>>
+                                    <input class="form-check-input" type="radio" name="method" id="method1" value="1">
                                     <label class="form-check-label" for="method1">
                                         Une fois
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="method" id="method3" value="3" <?php echo $data->method == 3 ? ' checked' : '' ?>>
+                                    <input class="form-check-input" type="radio" name="method" id="method3" value="3">
                                     <label class="form-check-label" for="method3">
                                         Trois fois
                                     </label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-dark rounded-pill py-2 btn-block col-md-5 mx-auto">Payer | € </button>
+                            <button type="submit" class="btn btn-dark rounded-pill py-2 btn-block col-md-12 align-middle">Payer | {{ ((total / 100) |number_format(2, ',', '.')) }} € </button>
                         </div>
                     </div>
                 </form>
