@@ -22,11 +22,12 @@ class HelloAssoController extends AbstractController
     #[Route('order_details', name: 'app_order_details')]
     public function index(Request $request): Response
     {
+
         $form = $this->createForm(HelloAssoType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $response = $this->apiService->generateCheckoutLink($form);
+            $response = $this->apiService->generateCheckoutLink($form->getData());
 
             return $this->redirect($response['redirectUrl']);
         }
