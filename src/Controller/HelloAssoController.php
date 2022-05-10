@@ -6,63 +6,35 @@ use App\Form\HelloAssoType;
 
 use App\Service\HelloAssoApiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HelloAssoController extends AbstractController
 {
-    // Récupère les données du formulaire pour les passer au wrapper de l'api
 
-    /*private $helloAssoApiService;
+    private HelloAssoApiService $apiService;
 
-    public function __construct(helloAssoApiService $helloAssoApiService)
-    {
-        $this->helloAssoApiService = $helloAssoApiService;
-    }*/
-    #[Route('order_details', name: 'app_order_details')]
-
-    public function index(): Response
-    {
-        $form = new HelloAssoType();
-        $form->id = rand();
-        $form->method = 1;
-
-        return $this->render('order_details/index.html.twig', [
-            'controller_name' => 'HelloAssoController',
-            'form' => $form,
-        ]);
+    public function __construct(HelloAssoApiService $apiService) {
+        $this->apiService = $apiService;
     }
 
-    /**
-     * Get all values posted from submitted form, store them in model then call api wrapper
-     */
-    public function post()
+    #[Route('order_details', name: 'app_order_details')]
+    public function index(Request $request): Response
     {
-        $form = new HelloAssoType();
-        $form->id = $_POST['id'];
-        $form->firstname = $_POST['firstname'];
-        $form->lastname = $_POST['lastname'];
-        $form->email = $_POST['email'];
-        $form->amount = $_POST['amount'];
-        $form->method = $_POST['method'];
 
-        // Call API
-        $response = $this->helloAssoApiService->initCart($form);
+        $form = $this->createForm(HelloAssoType::class);
+        $form->handleRequest($request);
 
-        if(isset($response->redirectUrl)) {
-            // We can store checkout id somewhere
-            //$response->checkoutIntentId;
+        if ($form->isSubmitted() && $form->isValid()) {
+            $response = $this->apiService->generateCheckoutLink($form->getData());
 
-            // then redirect to HelloAsso
-            header('Location:' . $response->redirectUrl);
-            exit();
-        } else if (isset($response)) {
-            $form->error = $response->error;
-            return ['form', $form];
-        } else {
-            $form->error = "Une erreur inconnue s'est produite";
-            return ['form', $form];
+            return $this->redirect($response['redirectUrl']);
         }
+
+        return $this->render('order_details/index.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     public function return()
