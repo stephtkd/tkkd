@@ -14,9 +14,9 @@
 
 * Clonner le projet depuis le depot git.
 
+
 * Se déplacer dans le projet depuis le terminal et lancer la commande :
     
-
         composer install et composer update     
 
 * Créer le fichier .env.local à la racine (copie du .env) et corriger la ligne DATABASE_URL. Penser à mettre à jour la version de mysql :
@@ -70,8 +70,9 @@ Vérifier l'url de la base de données dans le .env, si besoin redéfinir cette 
 Ne pas oublier de mettre le .env.local dans le .gitignore
 
 
-        An exception has been thrown during the rendering of a template ("Could not find the entrypoints file from Webpack
+        An exception has been thrown during the rendering of a template ("Could not find the entrypoints file from Webpack")
         
+      
 * Remarque pour la génération de diagramme UML :
 
         cf https://plantuml.com/fr/
