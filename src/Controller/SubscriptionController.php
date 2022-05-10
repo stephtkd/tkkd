@@ -32,7 +32,7 @@ class SubscriptionController extends AbstractController
     }
 
     #[Route('/order_recap', name: 'order_recap')]
-    public function add(Cart $cart, Request $request): Response
+    public function add(Cart $cart): Response
     {
 
 

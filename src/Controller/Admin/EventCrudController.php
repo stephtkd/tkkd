@@ -33,6 +33,8 @@ class EventCrudController extends AbstractCrudController
             NumberField::new('maximum_number_of_participants', 'Nombre maximum participants'),
             DateTimeField::new('start_date', 'Début de l\'événement'),
             DateTimeField::new('end_date', 'Fin de l\'événement'),
+            TextField::new('season', 'Saison'),
+            DateTimeField::new('registration_open_date', 'Date d\'ouverture des inscriptions'),
             DateTimeField::new('registration_deadline', 'Date limite d\'inscription'),
             ImageField::new('link_image', 'Image')
                 ->setBasePath('upload/')

@@ -27,14 +27,14 @@
                                     <th scope="col" class="border-0 bg-secondary text-white">
                                         <div class="p-2 px-3 text-uppercase">Abonnement</div>
                                     </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
+                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
                                         <div class="py-2 text-uppercase">Age</div>
                                     </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
-                                        <div class="py-2 text-uppercase">Tarif</div>
+                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
+                                        <div class="py-2 text-uppercase">Prix</div>
                                     </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
-                                        <div class="py-2 text-uppercase"></div>
+                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
+                                        <div class="py-2 text-uppercase">Panier</div>
                                     </th>
                                 </tr>
                                 </thead>
@@ -49,8 +49,8 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <td class="align-middle">{{ memberShipRate.maximumAge }}</td>
-                                    <td class="align-middle">{{ (memberShipRate.price/ 100)|number_format(2, ',', '.') }} €</td>
+                                    <td class="align-middle text-center">{{ memberShipRate.maximumAge }}</td>
+                                    <td class="align-middle text-center">{{ (memberShipRate.price/ 100)|number_format(2, ',', '.') }} €</td>
 
                                     <td class="align-middle text-center">
                                         <a href="{{ path('add_to_cart', { 'id' : memberShipRate.id }) }}" class="btn btn-dark btn-block mt-3">Ajouter</a>
