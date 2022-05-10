@@ -30,14 +30,14 @@ class HelloAssoApiService
         ];
 
         $requestBody = json_encode([
-            'totalAmount' => 1000,
-            'initialAmount' => 1000,
-            'itemName' => 'Abonnement -15 ans',
+            'totalAmount' => $data["amount"],
+            'initialAmount' => $data["amount"],
+            'itemName' => "Abonnement Taekwonkido",
             "backUrl" => $_ENV["BACK_URL"],
             "errorUrl" => $_ENV["BACK_URL"],
             "returnUrl" => $_ENV["BACK_URL"],
-            "containsDonation" => true,
-            "terms[].amount" => 1000,
+            "containsDonation" => false,
+            "terms[].amount" => $data["amount"],
             "terms[].date" => (new DateTime())->format('Y-m-d'),
             "payer" => [
                 "firstName" => $data["firstName"],
