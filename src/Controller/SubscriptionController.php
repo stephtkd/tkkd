@@ -37,16 +37,21 @@ class SubscriptionController extends AbstractController
     #[Route('/order_recap', name: 'order_recap')]
     public function checkout(Cart $cart, Request $request): Response
     {
+        $errorMessage = "";
         $form = $this->createForm(OrderType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $response = $this->apiService->generateCheckoutLink($form->getData());
 
-            return $this->redirect($response['redirectUrl']);
+            if ($response->getStatusCode() == 200) {
+                return $this->redirect($response->toArray()['redirectUrl']);
+            }
+            $errorMessage = $response->toArray(false)['errors'][0]['message'];
         }
 
         return $this->render('order/index.html.twig', [
+            'errorMessage' => $errorMessage,
             'form' => $form->createView(),
             'cart' => $cart->getFull(),
         ]);

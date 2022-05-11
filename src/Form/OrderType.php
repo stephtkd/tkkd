@@ -2,8 +2,9 @@
 
 namespace App\Form;
 
-use phpDocumentor\Reflection\Types\Float_;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,7 +24,6 @@ class OrderType extends AbstractType
             ->add('lastName', TextType::class, [
                 'label' => 'Nom de Famille',
                 'required' => true
-
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
@@ -32,8 +32,27 @@ class OrderType extends AbstractType
             ->add('amount', HiddenType::class, [
                 'required' => true,
             ])
-            ->add('itemName', HiddenType::class, [
+            ->add('birthdate', BirthdayType::class, [
+                'label' => 'Date de naissance',
                 'required' => true,
+                'input' => 'string'
+            ])
+            ->add('streetAddress', TextType::class, [
+                'label' => 'Adresse',
+                'required' => true,
+            ])
+            ->add('postalCode', TextType::class, [
+                'label' => 'Code Postal',
+                'required' => true,
+            ])
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+                'required' => true,
+            ])
+            ->add('country', CountryType::class, [
+                'label' => 'Pays',
+                'required' => true,
+                'alpha3' => true
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [

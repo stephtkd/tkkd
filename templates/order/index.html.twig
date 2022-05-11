@@ -77,15 +77,15 @@
                         <div class="col-lg-6">
                             <div class="bg-secondary rounded-pill px-4 py-3 text-uppercase text-white fw-bold">Coordonnées</div>
                             <div class="p-4">
-                                <div class="mb-3">
-                                    {{ form_row(form.firstName) }}
-                                </div>
-                                <div class="mb-3">
-                                    {{ form_row(form.lastName) }}
-                                </div>
-                                <div class="mb-3">
-                                    {{ form_row(form.email) }}
-                                </div>
+                                <div class="mb-3">{{ form_row(form.firstName) }}</div>
+                                <div class="mb-3">{{ form_row(form.lastName) }}</div>
+                                <div class="mb-3">{{ form_row(form.email) }}</div>
+                                <div class="mb-3">{{ form_row(form.birthdate) }}</div>
+                                <div class="mb-3">{{ form_row(form.streetAddress) }}</div>
+                                <div class="mb-3">{{ form_row(form.city) }}</div>
+                                <div class="mb-3">{{ form_row(form.postalCode) }}</div>
+                                <div class="mb-3">{{ form_row(form.country) }}</div>
+                                <div class="mb-3">{{ errorMessage }}</div>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -108,5 +108,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

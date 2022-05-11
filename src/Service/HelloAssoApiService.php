@@ -43,17 +43,17 @@ class HelloAssoApiService
                 "firstName" => $data["firstName"],
                 "lastName" => $data["lastName"],
                 "email" => $data["email"],
-                "dateOfBirth" => "1986-07-06T00:00:00+02:00",
-                "address" => "23 rue du palmier",
-                "city" => "Paris",
-                "zipCode" => "75000",
-                "country" => "FRA",
+                "dateOfBirth" => $data["birthdate"],
+                "address" => $data["streetAddress"],
+                "city" => $data["city"],
+                "zipCode" => $data["postalCode"],
+                "country" => $data["country"],
             ]
         ]);
 
         $url = 'https://api.helloasso.com/v5/organizations/' . $_ENV['ORGANIZATION_SLUG'] . '/checkout-intents';
 
-        return $this->callApi($url, $requestHeader, $requestBody)->toArray();
+        return $this->callApi($url, $requestHeader, $requestBody);
     }
 
     // Use or create the refresh token to generate the access token
