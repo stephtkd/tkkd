@@ -1,10 +1,18 @@
 ![kolabee](https://kolabee.com/wp-content/uploads/2020/12/Kolabee-Logotype.png)
 
-* Détail du projet dans WIKI 
 
 # Projet kolabee By SII
 
-Pour lancer le projet il faut le clonner depuis le depot git.
+* Détail du projet dans WIKI -> https://github.com/stephtkd/tkkd/wiki/D%C3%A9tail-du-projet
+
+* Prérequis pour l'environnement du projet (installer sur l'ordinateur) :
+
+        PHP 8
+        Symfony CLI
+        Composer
+        Un IDE
+        
+* Pour lancer le projet il faut le clonner depuis le depot git.
 
 * Se déplacer dans le projet depuis le terminal et lancer la commande :
     
@@ -16,7 +24,7 @@ ex :
 
         DATABASE_URL="mysql://sc1cenacle_tkkd_symfony:change-me@127.0.0.1:3306/sc1cenacle_tkkd_symfony?serverVersion=10.3.34-MariaDB"
     
-* Puis : ouvrir le dossier avec votre IDE ensuit dans le terminal lancer la commande suivante pour créer la BDD
+* Puis : ouvrir le dossier avec votre IDE ensuit dans le terminal lancer la commande suivante pour créer la BDD "taekwonkido"
             
         php bin/console doctrine:database:create
 
@@ -24,6 +32,7 @@ ex :
 
          php bin/console make:migration
          php bin/console doctrine:migrations:migrate
+         
 et vérifier que la BDD a bien été créée et que les tables contiennent des enregistrements.
 
 
@@ -36,7 +45,7 @@ et vérifier que la BDD a bien été créée et que les tables contiennent des e
 * Pour Webpack Encore, lancer les commandes suivantes :
         
         yarn install
-        yarn --version
+        yarn --version (vérifier qu'il est installer)
         yarn encore dev
         
 Toujours depuis le terminal lancer la commande suivante pour démarrer le projet :
@@ -64,10 +73,11 @@ Ne pas oublier de mettre le .env.local dans le .gitignore
 
         An exception has been thrown during the rendering of a template ("Could not find the entrypoints file from Webpack
         
-Penser à faire le npm install + npm run build
+
 
 
 Remarque pour la génération de diagramme UML :
-cf https://plantuml.com/fr/
-et https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml#use-plantuml-server-as-render
-et https://github.com/Hywan/Database-to-PlantUML pour convertir une BDD en UML
+
+        cf https://plantuml.com/fr/
+        et https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml#use-plantuml-server-as-render
+        et https://github.com/Hywan/Database-to-PlantUML pour convertir une BDD en UML

@@ -5,13 +5,19 @@
 {% block body %}
 
     <div class="d-flex justify-content-center m-3">
+        <h1 class="text-dark">Créer votre compte Taekwonkido Phenix </h1>
+    </div>
+        {% if notification %}
+            <div class="alert alert-info text-center">{{ notification }}</div>
+            <hr>
+        {% endif %}
 
         {% for flashError in app.flashes('verify_email_error') %}
             <div class="alert alert-danger" role="alert">{{ flashError }}</div>
         {% endfor %}
 
-        <h1 class="text-dark">Créer votre compte Taekwonkido Phenix </h1>
-    </div>
+
+
 
     <div class="d-flex justify-content-center m-5">
         {{ form(registrationForm) }}
