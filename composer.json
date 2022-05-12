@@ -21,6 +21,7 @@
         "gregwar/captcha-bundle": "^2.2",
         "helios-ag/fm-elfinder-bundle": "^12.1",
         "knplabs/knp-paginator-bundle": "^5.8",
+        "ninsuo/symfony-collection": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/apache-pack": "^1.0",

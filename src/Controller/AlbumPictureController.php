@@ -40,7 +40,7 @@ class AlbumPictureController extends AbstractController
 
                 // On copie le fichier dans le dossier uploads
                 $PicutresAlbum->move(
-                    $this->getParameter('images_directory'),
+                    $this->getParameter('album_directory'),
                     $fichier
                 );
 

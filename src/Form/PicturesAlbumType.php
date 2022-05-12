@@ -14,16 +14,11 @@ class PicturesAlbumType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('images', FileType::class,[
-                'label' => false,
-                // 'multiple' => true,
-                'attr' => [
-                    'multiple' => 'multiple'
-                ], 'required' => false, 'data_class' => null, 'multiple' => true,
-                'mapped' => false,
-                //'required' => false
+            ->add('images',FileType::class,[
+                'multiple' => true,
+                'mapped' => false
             ])
-            ->add('AlbumPicture')
+
         ;
     }
 

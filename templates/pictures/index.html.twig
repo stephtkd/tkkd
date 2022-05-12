@@ -69,11 +69,7 @@
     {% endfor %}
     </div>
 
-    <!-- Pagination -->
-    <div class="d-flex justify-content-center mt-5">
-        {% do AlbumPictures.setPageRange(5) %}
-        {{ knp_pagination_render(AlbumPictures, 'Bundles/TwigBundle/Pagination/pagination.html.twig') }}
-    </div>
+
 
 
 {% endblock %}

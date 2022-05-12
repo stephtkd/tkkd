@@ -200,6 +200,9 @@
     "nikic/php-parser": {
         "version": "v4.13.2"
     },
+    "ninsuo/symfony-collection": {
+        "version": "2.1.33"
+    },
     "php-cs-fixer/diff": {
         "version": "v2.0.2"
     },

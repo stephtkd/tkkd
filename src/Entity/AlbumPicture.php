@@ -46,7 +46,6 @@ class AlbumPicture
      */
     private $picturesAlbums;
 
-
     /**
      * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="albumPictures")
      */

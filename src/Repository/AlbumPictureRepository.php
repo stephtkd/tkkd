@@ -65,12 +65,6 @@ class AlbumPictureRepository extends ServiceEntityRepository
                 ->setParameter('Tag', $search->Tags);
         }
 
-        if (!empty($search->string)) {
-            $query = $query
-                ->andWhere('a.title LIKE :string')
-                ->setParameter('string', "%{$search->string}%");
-        }
-
         return $query->getQuery()->getResult();
     }
 

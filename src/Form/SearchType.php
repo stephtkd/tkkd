@@ -15,14 +15,6 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options) // formulaire pour faire la recherche des albums photos
     {
         $builder
-            ->add('string', TextType::class, [
-                'label'=> false,
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'Votre recherche',
-                    'class' => 'form-control-sm'
-                ]
-            ])
             ->add('Tag', EntityType::class, [
                 'label'=> false,
                 'required' => false,
