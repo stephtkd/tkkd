@@ -21,3 +21,9 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 /data/
+
+###> images ###
+/public/upload/AlbumPicture/
+/public/upload/images/
+/public/upload/member/
+###> images ###
