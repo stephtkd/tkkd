@@ -3,18 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\AlbumPicture;
-use App\Entity\CategoryAlbum;
 use App\Entity\Contact;
-use App\Entity\Criteria;
 use App\Entity\Event;
+use App\Entity\EventRate;
 use App\Entity\HomeComment;
 use App\Entity\Member;
-use App\Entity\Membership;
-use App\Entity\MembershipRate;
-use App\Entity\Order;
-use App\Entity\PicturesAlbum;
-use App\Entity\Rate;
-use App\Entity\Role;
 use App\Entity\SlidePicture;
 use App\Entity\Tag;
 use App\Entity\User;
@@ -66,7 +59,6 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion de la page d\'accueil');
         yield MenuItem::linkToCrud('Accueil', 'fas fa-pen', HomeComment::class);
-        yield MenuItem::linkToCrud('Evénements', 'fas fa-newspaper', Event::class);
 
 
         yield MenuItem::section('Gestion des photos');
@@ -78,11 +70,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Gestion de la page Contact');
         yield MenuItem::linkToCrud('Contact', 'fas fa-pen', Contact::class);
 
-        yield MenuItem::section('Gestion des Adhésions');
-        yield MenuItem::linkToCrud('Tarif Adhésion', 'fas fa-cash-register', MembershipRate::class);
-        yield MenuItem::linkToCrud('Critères', 'fas fa-keyboard', Criteria::class);
-        yield MenuItem::linkToCrud('Nom de Tarifs', 'fas fa-marker', Rate::class);
-
-
+        yield MenuItem::section('Gestion des Evènements');
+        yield MenuItem::linkToCrud('Evénements', 'fas fa-newspaper', Event::class);
+        yield MenuItem::linkToCrud('Tarif Evenements', 'fas fa-cash-register', EventRate::class);
     }
 }

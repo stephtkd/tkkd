@@ -81,15 +81,15 @@ class Event
     private $linkImage;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Rate::class, mappedBy="event")
+     * @ORM\OneToMany(targetEntity=EventRate::class, mappedBy="event", orphanRemoval=true)
      */
-    private $rates;
-
+    private $eventRates;
 
     public function __construct()
     {
         $this->participants = new ArrayCollection();
         $this->rates = new ArrayCollection();
+        $this->eventRates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -243,27 +243,30 @@ class Event
     }
 
     /**
-     * @return Collection<int, Rate>
+     * @return Collection<int, EventRate>
      */
-    public function getRates(): Collection
+    public function getEventRates(): Collection
     {
-        return $this->rates;
+        return $this->eventRates;
     }
 
-    public function addRate(Rate $rate): self
+    public function addEventRate(EventRate $eventRate): self
     {
-        if (!$this->rates->contains($rate)) {
-            $this->rates[] = $rate;
-            $rate->addEvent($this);
+        if (!$this->eventRates->contains($eventRate)) {
+            $this->eventRates[] = $eventRate;
+            $eventRate->setEvent($this);
         }
 
         return $this;
     }
 
-    public function removeRate(Rate $rate): self
+    public function removeEventRate(EventRate $eventRate): self
     {
-        if ($this->rates->removeElement($rate)) {
-            $rate->removeEvent($this);
+        if ($this->eventRates->removeElement($eventRate)) {
+            // set the owning side to null (unless already changed)
+            if ($eventRate->getEvent() === $this) {
+                $eventRate->setEvent(null);
+            }
         }
 
         return $this;

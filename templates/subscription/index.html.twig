@@ -4,69 +4,46 @@
 
 {% block body %}
 
-    <div class="container">
-        <h1>Abonnement</h1>
-        <p>
-            Choisissez votre abonnement
-        </p>
+<div class="container">
+    <h1>Abonnement</h1>
+    <p>
+        Choisissez votre abonnement
+    </p>
 
-        <!--    if  (isset($data->error)) { ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                -->
+    <!--    if  (isset($data->error)) { ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            -->
 
-        <div class="pb-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 p-3 bg-white rounded shadow-sm mb-5">
+    <div class="pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 p-3 bg-white rounded shadow-sm mb-5">
 
-                        <!-- Shopping cart table -->
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
-                                        <div class="p-2 px-3 text-uppercase">Abonnement</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
-                                        <div class="py-2 text-uppercase">Age</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
-                                        <div class="py-2 text-uppercase">Prix</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
-                                        <div class="py-2 text-uppercase">Panier</div>
-                                    </th>
-                                </tr>
-                                </thead>
-                                {% for memberShipRate in memberShipRates %}
-
-                                <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        <div class="p-1">
-                                            <div class="ml-1 d-inline-block align-middle">
-                                                <h5 class="mb-0">{{ memberShipRate.label }}</h5>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td class="align-middle text-center">{{ memberShipRate.maximumAge }}</td>
-                                    <td class="align-middle text-center">{{ (memberShipRate.price/ 100)|number_format(2, ',', '.') }} €</td>
-
-                                    <td class="align-middle text-center">
-                                        <a href="{{ path('add_to_cart', { 'id' : memberShipRate.id }) }}" class="btn btn-dark btn-block mt-3">Ajouter</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                            <!-- End -->
-                        </div>
+                    <!-- Shopping cart table -->
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="border-0 bg-secondary text-white">
+                                    <div class="p-2 px-3 text-uppercase">Abonnement</div>
+                                </th>
+                                <th scope="col" class="border-0 bg-secondary text-white text-center">
+                                    <div class="py-2 text-uppercase">Age</div>
+                                </th>
+                                <th scope="col" class="border-0 bg-secondary text-white text-center">
+                                    <div class="py-2 text-uppercase">Prix</div>
+                                </th>
+                                <th scope="col" class="border-0 bg-secondary text-white text-center">
+                                    <div class="py-2 text-uppercase">Panier</div>
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <!-- End -->
                     </div>
-
-
-
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-
+</div>
 {% endblock %}

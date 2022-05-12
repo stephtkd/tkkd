@@ -141,11 +141,6 @@ class Member
     private ?string $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity=MembershipRate::class, inversedBy="members")
-     */
-    private ?MembershipRate $membershipRate;
-
-    /**
      * @Assert\Choice({"Paiement en attente", "Validation en attente", "Validée", "Terminée"})
      * @ORM\Column(type="string", length=55, nullable=true)
      */
@@ -410,18 +405,6 @@ class Member
     public function setStatus(?string $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getMembershipRate(): ?MembershipRate
-    {
-        return $this->membershipRate;
-    }
-
-    public function setMembershipRate(?MembershipRate $membershipRate): self
-    {
-        $this->membershipRate = $membershipRate;
 
         return $this;
     }

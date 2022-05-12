@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Classe\Cart;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +18,7 @@ class OrderSuccessController extends AbstractController
     }
 
     #[Route('/order/success/{helloAssoSessionId}', name: 'app_order_success')]
-    public function index(Cart $cart,$helloAssoSessionId): Response
+    public function index($helloAssoSessionId): Response
     {
         $order = $this->entityManager->getRepository(Order::class)->findOneByHelloSessionId($helloAssoSessionId);
 
@@ -28,7 +27,6 @@ class OrderSuccessController extends AbstractController
         }
 
         if ($order->getIsPaid () == 0) {
-            $cart->remove();
 
             $order->setIsPaid(1);
             // statue du paiement

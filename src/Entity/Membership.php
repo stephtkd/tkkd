@@ -45,12 +45,6 @@ class Membership
      */
     private $membershipState;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=MembershipRate::class, inversedBy="memberships")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $membershipRate;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -112,18 +106,6 @@ class Membership
     public function setMembershipState(string $membershipState): self
     {
         $this->membershipState = $membershipState;
-
-        return $this;
-    }
-
-    public function getMembershipRate(): ?MembershipRate
-    {
-        return $this->membershipRate;
-    }
-
-    public function setMembershipRate(?MembershipRate $membershipRate): self
-    {
-        $this->membershipRate = $membershipRate;
 
         return $this;
     }
