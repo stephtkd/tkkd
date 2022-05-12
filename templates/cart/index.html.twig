@@ -27,10 +27,10 @@
                     <td>{{ product.product.label }}</td>
                     <td>
                         <a href="{{ path('decrease_to_cart', {'id' : product.product.id}) }}">
-                            <img src="{{ asset('build/bouton-circulaire-moins.png') }}" alt="Retirer un produit" height="18px"></a>
+                            <img src="{{ asset('upload/images/bouton-circulaire-moins.png') }}" alt="Retirer un produit" height="18px"></a>
                         {{ product.quantity }}
                         <a href="{{ path('add_to_cart', {'id' : product.product.id}) }}">
-                            <img src="{{ asset('build/plus.png') }}" alt="Ajouter un produit" height="18px"></a>
+                            <img src="{{ asset('upload/images/plus.png') }}" alt="Ajouter un produit" height="18px"></a>
                     </td>
                     <td>{{ (product.product.price / 100)|number_format(2, ',', '.') }} €</td>
                     <td>{{ ((product.product.price * product.quantity ) / 100)|number_format(2, ',', '.') }} €</td>
