@@ -6,6 +6,7 @@
 parameters:
     images_directory: '%kernel.project_dir%/public/upload'
     member_directory: '%kernel.project_dir%/public/upload/member'
+    album_directory: '%kernel.project_dir%/public/upload/AlbumPicture'
 services:
     # default configuration for services in *this* file
     _defaults:

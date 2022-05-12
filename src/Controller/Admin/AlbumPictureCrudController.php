@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\AlbumPicture;
+use App\Entity\PicturesAlbum;
 use App\Form\AlbumPictureType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -15,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
@@ -38,17 +40,17 @@ class AlbumPictureCrudController extends AbstractCrudController
                 ->setFormType(CKEditorType::class), // appel du CKEditor
             AssociationField::new('Tag', 'Tag de l\'album'),
             ImageField::new('picture', 'image principal de l\'album')
-                 ->setBasePath('upload/') //système d'upload des images
-                 ->setUploadDir('public/upload')
+                ->setBasePath('upload/AlbumPicture') //système d'upload des images
+                ->setUploadDir('public/upload/AlbumPicture')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
-                ->setRequired(false),
+                ->setRequired(false)
+                ,
+
              // Intégrer un système de multi upload d'image avec AlbumPictureType
-           /* ImageField::new('PictureAlbum', 'Photos de l\'album')
-                ->setBasePath('upload/') //système d'upload des images
-                ->setUploadDir('public/upload')
-                ->setFormType(AlbumPictureType::class)
-                ->setUploadedFileNamePattern('[randomhash].[extension]')
-                ->setRequired(false),*/
+           /* CollectionField::new('images', 'Photos de l\'album')
+               ->setEntryType(PicturesAlbum::class)
+                ->setFormTypeOption('multiple', true)
+               ->onlyOnForms(),*/
         ];
     }
 

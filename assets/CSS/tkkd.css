@@ -1,12 +1,10 @@
 body {
     position: relative;
-    width: 100vw;
-    height: auto;
     background: #fff3e0;
 }
 
 /* Header navbar */
-.navbar-item, .navbar-item a{
+.navbar-item, .navbar-item a {
     color: white;
 }
 .cart-icon {

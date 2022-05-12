@@ -37,13 +37,13 @@ class PicturesController extends AbstractController
     ): Response
     {
         // systeme de pagination
-        $albumPictures = $albumPictureRepository->findBy([], ['id' => 'DESC']);
+       // $albumPictures = $albumPictureRepository->findBy([], ['id' => 'DESC']);
 
-        $albumPictures = $paginator->paginate(
+       /* $albumPictures = $paginator->paginate(
             $albumPictures, // Requête contenant les données à paginer (ici les albums photos)
             $request->query->getInt('page', 1), //page number
             4 //limit per page
-        );
+        );*/
 
         $search = new Search(); //système de recherche pour les album photo
         $form = $this->createForm(SearchType::class, $search);
@@ -51,12 +51,11 @@ class PicturesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $AlbumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findWithSearch($search);
-            // les tags aussi
+            $albumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findWithSearch($search);
         }
         else{
-            $AlbumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findAll();
-            // les tags aussi
+            $albumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findAll();
+
         }
 
 

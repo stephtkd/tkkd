@@ -5,10 +5,11 @@
 {% block body %}
 
  <!-- Video of Taekwonkido Phenix -->
-    <video class="w-100" style="background-size: cover; background-position: center;" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-        <source src="{{ asset('/upload/VideoPhenix.m4v') }}" type="video/mp4">
-    </video>
-
+    <div class="col-md-12">
+        <video class="w-100 embed-responsive embed-responsive-16by9" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" >
+            <source class="embed-responsive-item" src="{{ asset('/upload/VideoPhenix.m4v') }}"  type="video/mp4">
+        </video>
+    </div>
 
 <!-- Description of Taekwonkido Phenix -->
 
