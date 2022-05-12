@@ -29,7 +29,7 @@ class HelloAssoApiService
             'Authorization' => 'Bearer '.$this->generateAccessToken()
         ];
 
-        $requestBody = json_encode([
+        $requestBody = [
             'totalAmount' => $data["amount"],
             'initialAmount' => $data["amount"],
             'itemName' => "Abonnement Taekwonkido",
@@ -37,8 +37,6 @@ class HelloAssoApiService
             "errorUrl" => $_ENV["BACK_URL"],
             "returnUrl" => $_ENV["BACK_URL"],
             "containsDonation" => false,
-            "terms[].amount" => $data["amount"],
-            "terms[].date" => (new DateTime())->format('Y-m-d'),
             "payer" => [
                 "firstName" => $data["firstName"],
                 "lastName" => $data["lastName"],
@@ -49,11 +47,15 @@ class HelloAssoApiService
                 "zipCode" => $data["postalCode"],
                 "country" => $data["country"],
             ]
-        ]);
+        ];
+
+        if ($data["multiplePayment"]) {
+            $requestBody = $this->manageMultipleTimePayment($requestBody, $data["amount"]);
+        }
 
         $url = 'https://api.helloasso.com/v5/organizations/' . $_ENV['ORGANIZATION_SLUG'] . '/checkout-intents';
 
-        return $this->callApi($url, $requestHeader, $requestBody);
+        return $this->callApi($url, $requestHeader, json_encode($requestBody));
     }
 
     // Use or create the refresh token to generate the access token
@@ -115,5 +117,25 @@ class HelloAssoApiService
         }
 
         return $response;
+    }
+
+    private function manageMultipleTimePayment($requestBody, $totalAmount) {
+        $thirdTotal = round($totalAmount / 3, 0);
+        $initialAmount = $thirdTotal + ($totalAmount - ($thirdTotal * 3));
+        $paymentDay = (new DateTime())->format("d");
+        $paymentDate = new DateTime();
+        if ($paymentDay > 27) {
+            $paymentDate = (new DateTime())->modify('first day of next month');
+        }
+
+        $requestBody['initialAmount']  =  $initialAmount;
+        $requestBody['terms']  = [
+            ["amount" => $thirdTotal,
+                "date" => $paymentDate->modify('+1 month')->format("Y-m-d")],
+            ["amount" => $thirdTotal,
+                "date" => $paymentDate->modify('+2 month')->format("Y-m-d")],
+        ];
+
+        return $requestBody;
     }
 }

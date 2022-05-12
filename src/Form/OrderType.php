@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -52,7 +53,12 @@ class OrderType extends AbstractType
             ->add('country', CountryType::class, [
                 'label' => 'Pays',
                 'required' => true,
+                'preferred_choices' => ['FRA'],
                 'alpha3' => true
+            ])
+            ->add('multiplePayment', CheckboxType::class, [
+                'label' => 'Payer en 3 fois ?',
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
