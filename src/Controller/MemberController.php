@@ -54,16 +54,13 @@ class MemberController extends AbstractController
                 $member->setMedicalCertificateName($fileNameMedical);
 
                 $member->setUpToDateMembership(0);
+                $member->setResponsibleAdult($this->getUser());
 
-                $member->setUser($this->getUser());
                 $this->entityManager->persist($member);
                 $this->entityManager->flush();
 
-                if ($affiliated->get()) {
-                    return $this->redirectToRoute('account_member');
-                } else {
-                    return $this->redirectToRoute('app_subscription');
-                }
+                return $this->redirectToRoute('account_member');
+
 
         }
 

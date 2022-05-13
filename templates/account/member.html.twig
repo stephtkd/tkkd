@@ -6,9 +6,9 @@
 
     <h1 class="m-3">Adhérent</h1>
     <a href="{{ path('account_member_add') }}" class="btn btn-dark btn-sm">Ajouter un adhérent</a>
-    <a href="{{ path('app_subscription') }}" class="btn btn-dark btn-sm">Souscrire à un abonnement</a>
+    <a href="{{ path('app_subscription', { 'id' : 1 }) }}" class="btn btn-dark btn-sm">Souscrire à un abonnement</a>
     <p class="text-left m-3">
-        Dans cette espace vous allez gérer toutes vos donner adhérent <br>
+        Dans cette espace vous allez gérer toutes vos données adhérent <br>
         <a href="{{ path('app_account') }}">Retour</a>
     </p>
     <hr>

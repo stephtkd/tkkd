@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\EventRate;
+use App\Entity\EventOption;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -11,11 +11,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
-class EventRateCrudController extends AbstractCrudController
+class EventOptionCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return EventRate::class;
+        return EventOption::class;
     }
 
 
@@ -34,8 +34,8 @@ class EventRateCrudController extends AbstractCrudController
     {
         return $crud
             // Les labels utilisés pour faire référence à l'entité dans les titres, les boutons, etc.
-            ->setEntityLabelInSingular('Tarif')
-            ->setEntityLabelInPlural('Tarifs des évènements')
+            ->setEntityLabelInSingular('Option')
+            ->setEntityLabelInPlural('Tarifs des options')
             // Le titre visible en haut de la page et le contenu de l'élément <title>
             // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
             ->setPageTitle('index', 'Liste des %entity_label_plural%')

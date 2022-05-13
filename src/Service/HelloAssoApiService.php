@@ -30,8 +30,8 @@ class HelloAssoApiService
         ];
 
         $requestBody = [
-            'totalAmount' => $data["amount"],
-            'initialAmount' => $data["amount"],
+            'totalAmount' => 2000,
+            'initialAmount' => 2000,
             'itemName' => "Abonnement Taekwonkido",
             "backUrl" => $_ENV["BACK_URL"],
             "errorUrl" => $_ENV["BACK_URL"],

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=EventRateRepository::class)
  */
-class EventRate
+class EventOption
 {
     /**
      * @ORM\Id
@@ -33,7 +33,7 @@ class EventRate
     private float $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="eventRates")
+     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="eventOptions")
      * @ORM\JoinColumn(nullable=false)
      */
     private Event $event;

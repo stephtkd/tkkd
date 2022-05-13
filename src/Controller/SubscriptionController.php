@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\OrderType;
+use App\Repository\EventRepository;
 use App\Service\HelloAssoApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,17 +15,22 @@ class SubscriptionController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
     private HelloAssoApiService $apiService;
+    private EventRepository $eventRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, HelloAssoApiService $apiService)
+    public function __construct(EntityManagerInterface $entityManager, HelloAssoApiService $apiService, EventRepository $eventRepository)
     {
         $this->entityManager = $entityManager;
         $this->apiService = $apiService;
+        $this->eventRepository = $eventRepository;
     }
 
-    #[Route('/subscription', name: 'app_subscription')]  // order
-    public function index(): Response
+    #[Route('/subscription/{id}', name: 'app_subscription')]  // order
+    public function index($id): Response
     {
+        $event = $this->eventRepository->findOneBy(['id' => $id]);
+
         return $this->render('subscription/index.html.twig', [
+            'event' => $event
         ]);
     }
 
@@ -47,6 +53,7 @@ class SubscriptionController extends AbstractController
         return $this->render('order/index.html.twig', [
             'errorMessage' => $errorMessage,
             'form' => $form->createView(),
+            'products' => []
         ]);
     }
 }

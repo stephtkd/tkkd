@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\AlbumPicture;
 use App\Entity\Contact;
 use App\Entity\Event;
+use App\Entity\EventOption;
 use App\Entity\EventRate;
 use App\Entity\HomeComment;
 use App\Entity\Member;
@@ -72,6 +73,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion des Evènements');
         yield MenuItem::linkToCrud('Evénements', 'fas fa-newspaper', Event::class);
-        yield MenuItem::linkToCrud('Tarif Evenements', 'fas fa-cash-register', EventRate::class);
+        yield MenuItem::linkToCrud('Tarifs Evenements', 'fas fa-cash-register', EventRate::class);
+        yield MenuItem::linkToCrud('Options Evenements', 'fas fa-cash-register', EventOption::class);
     }
 }
