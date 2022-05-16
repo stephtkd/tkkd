@@ -2,17 +2,20 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Criteria;
+use App\Entity\EventOption;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
-class CriteriaCrudController extends AbstractCrudController
+class EventOptionCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Criteria::class;
+        return EventOption::class;
     }
 
 
@@ -20,10 +23,10 @@ class CriteriaCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
+            AssociationField::new('event', 'Evènement')->renderAsNativeWidget(),
             TextField::new('name', 'Titre'),
-            TextField::new('type', 'Type'),
-            TextField::new('relation', 'Relation'),
-            TextField::new('value', 'Valeur'),
+            TextField::new('description', 'Description'),
+            MoneyField::new('amount', 'Prix')->setCurrency('EUR'),
         ];
     }
 
@@ -31,11 +34,11 @@ class CriteriaCrudController extends AbstractCrudController
     {
         return $crud
             // Les labels utilisés pour faire référence à l'entité dans les titres, les boutons, etc.
-            ->setEntityLabelInSingular('Critère')
-            ->setEntityLabelInPlural('Critère')
+            ->setEntityLabelInSingular('Option')
+            ->setEntityLabelInPlural('Tarifs des options')
             // Le titre visible en haut de la page et le contenu de l'élément <title>
             // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Liste les %entity_label_plural%')
+            ->setPageTitle('index', 'Liste des %entity_label_plural%')
             ->setPageTitle('new', 'Créer  un %entity_label_singular%')
             ->setPageTitle('edit', 'Modifier le %entity_label_singular% <small>(#%entity_id%)</small>')
             // Définit le tri initial appliqué à la liste

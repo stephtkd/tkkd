@@ -81,15 +81,29 @@ class Event
     private $linkImage;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Rate::class, mappedBy="event")
+     * @ORM\OneToMany(targetEntity=EventRate::class, mappedBy="event", orphanRemoval=true)
      */
-    private $rates;
+    private Collection $eventRates;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EventOption::class, mappedBy="event", orphanRemoval=true)
+     */
+    private Collection $eventOptions;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $allowVisitors;
 
     public function __construct()
     {
         $this->participants = new ArrayCollection();
-        $this->rates = new ArrayCollection();
+        $this->eventRates = new ArrayCollection();
+        $this->eventOptions = new ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -243,27 +257,76 @@ class Event
     }
 
     /**
-     * @return Collection<int, Rate>
+     * @return Collection<int, EventRate>
      */
-    public function getRates(): Collection
+    public function getEventRates(): Collection
     {
-        return $this->rates;
+        return $this->eventRates;
     }
 
-    public function addRate(Rate $rate): self
+    public function addEventRate(EventRate $eventRate): self
     {
-        if (!$this->rates->contains($rate)) {
-            $this->rates[] = $rate;
-            $rate->addEvent($this);
+        if (!$this->eventRates->contains($eventRate)) {
+            $this->eventRates[] = $eventRate;
+            $eventRate->setEvent($this);
         }
 
         return $this;
     }
 
-    public function removeRate(Rate $rate): self
+    public function removeEventRate(EventRate $eventRate): self
     {
-        if ($this->rates->removeElement($rate)) {
-            $rate->removeEvent($this);
+        if ($this->eventRates->removeElement($eventRate)) {
+            // set the owning side to null (unless already changed)
+            if ($eventRate->getEvent() === $this) {
+                $eventRate->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function AllowVisitors(): bool
+    {
+        return $this->allowVisitors;
+    }
+
+    /**
+     * @param bool $allowVisitors
+     */
+    public function setAllowVisitors(bool $allowVisitors): void
+    {
+        $this->allowVisitors = $allowVisitors;
+    }
+
+    /**
+     * @return Collection<int, EventOption>
+     */
+    public function getEventOptions(): Collection
+    {
+        return $this->eventOptions;
+    }
+
+    public function addEventOption(EventOption $eventOption): self
+    {
+        if (!$this->eventOptions->contains($eventOption)) {
+            $this->eventOptions[] = $eventOption;
+            $eventOption->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventOption(EventOption $eventOption): self
+    {
+        if ($this->eventOptions->removeElement($eventOption)) {
+            // set the owning side to null (unless already changed)
+            if ($eventOption->getEvent() === $this) {
+                $eventOption->setEvent(null);
+            }
         }
 
         return $this;

@@ -67,32 +67,21 @@ table(doctrine_migration_versions) {
     {field} execution_time	?int(11)
 }
 
-table(rate) {
-    {field} +id			int(11)
-    {field} name		varchar(255)
-    {field} description	varchar(255)
-    {field} rate		decimal(10,3)
-}
-
-table(rate_event) {
+table(event_rate) {
     {field} +id			int(11)
     {field} event_id	int(11)
-    {field} rate_id	    int(11)
+    {field} name	    varchar(255)
+    {field} description	    ?varchar(3000)
+    {field} amount	    float
 }
 
-rate_event "0..*" <-- "1"  event : on id = event_id
-rate_event "1..*" --> "1..*" rate : on rate_id = id
-
-
-
-table(rate_criteria) {
+table(option_rate) {
     {field} +id			int(11)
-    {field} rate_id		int(11)
-    {field} criteria_id	int(11)
+    {field} event_id	int(11)
+    {field} name	    varchar(255)
+    {field} description	    ?varchar(3000)
+    {field} amount	    float
 }
-
-rate "1..*" <-- "0..*" rate_criteria : on rate_id = id
-criteria "1..*" <-- "1..*" rate_criteria : on criteria_id = id
 
 table(tag) {
     {field} +id		int(11)
@@ -117,6 +106,7 @@ table(event) {
     {field} --price--							int(11)
     {field} link_image						?varchar(255)
     {field} slug							varchar(255)
+    {field} allow_visitor					tinyint(1)
 }
 
 table(event_member) {

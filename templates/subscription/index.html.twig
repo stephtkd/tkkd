@@ -1,72 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Offre Abonnement - Taekwonkido Phenix{% endblock %}
+{% block title %}Tarifs - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
 
     <div class="container">
-        <h1>Abonnement</h1>
-        <p>
-            Choisissez votre abonnement
-        </p>
-
-        <!--    if  (isset($data->error)) { ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                -->
-
+        <h1>{{ event.name }} </h1>
         <div class="pb-5">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-12 p-3 bg-white rounded shadow-sm mb-5">
-
-                        <!-- Shopping cart table -->
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
-                                        <div class="p-2 px-3 text-uppercase">Abonnement</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
-                                        <div class="py-2 text-uppercase">Age</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
-                                        <div class="py-2 text-uppercase">Prix</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
-                                        <div class="py-2 text-uppercase">Panier</div>
-                                    </th>
-                                </tr>
-                                </thead>
-                                {% for memberShipRate in memberShipRates %}
-
-                                <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        <div class="p-1">
-                                            <div class="ml-1 d-inline-block align-middle">
-                                                <h5 class="mb-0">{{ memberShipRate.label }}</h5>
-                                            </div>
+                    {% for member in app.user.members %}
+                        <div class="row py-5 p-4 bg-white rounded shadow-sm">
+                            <div class="col-lg-6">
+                                <img src="/upload/member/{{ member.photoName }}" class="card-img" alt="Photo de l\'adhérent" style="width: 200px; height: auto;">
+                                <h5 class="card-title">{{ member.firstname }} {{ member.lastname }}</h5>
+                            </div>
+                            <div class="col-lg-6">
+                                <h5 class="card-title">Les tarifs :</h5>
+                                <div class="mb-3">
+                                    <label for="rates"></label>
+                                    <select name="rates" id="rates">
+                                        {% for rate in event.eventRates %}
+                                            <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} €</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% if event.eventOptions is not empty %}
+                                    <h5 class="card-title">Les options :</h5>
+                                    {% for option in event.eventOptions %}
+                                        <div class="mb-3">
+                                            <input type="checkbox" id="{{ option.id }}" name="{{ option.name }}" >
+                                            <label for="{{ option.id }}">{{ option.name }} {{ option.amount/100 }} €</label>
                                         </div>
-                                    </th>
-                                    <td class="align-middle text-center">{{ memberShipRate.maximumAge }}</td>
-                                    <td class="align-middle text-center">{{ (memberShipRate.price/ 100)|number_format(2, ',', '.') }} €</td>
-
-                                    <td class="align-middle text-center">
-                                        <a href="{{ path('add_to_cart', { 'id' : memberShipRate.id }) }}" class="btn btn-dark btn-block mt-3">Ajouter</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                            <!-- End -->
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-
-
-
+                    {% endfor %}
+                <a href="{{ path('order_recap') }}" class="btn btn-dark btn-sm">Payer</a>
+            </div>
         </div>
     </div>
-    </div>
-
 {% endblock %}

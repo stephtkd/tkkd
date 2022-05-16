@@ -6,6 +6,7 @@ use App\Entity\Event;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -36,6 +37,7 @@ class EventCrudController extends AbstractCrudController
             TextField::new('season', 'Saison'),
             DateTimeField::new('registration_open_date', 'Date d\'ouverture des inscriptions'),
             DateTimeField::new('registration_deadline', 'Date limite d\'inscription'),
+            BooleanField::new('allowVisitors', 'Autoriser des externes')->setValue(true),
             ImageField::new('link_image', 'Image')
                 ->setBasePath('upload/')
                 ->setUploadDir('public/upload')
