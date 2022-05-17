@@ -166,7 +166,6 @@ class Member
     {
         $this->events = new ArrayCollection();
         $this->memberships = new ArrayCollection();
-
     }
 
     public function getId(): ?int

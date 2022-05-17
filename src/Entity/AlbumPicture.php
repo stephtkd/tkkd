@@ -22,7 +22,7 @@ class AlbumPicture
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $picture;
 
@@ -55,8 +55,6 @@ class AlbumPicture
     {
         $this->picturesAlbums = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {

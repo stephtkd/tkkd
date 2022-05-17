@@ -61,15 +61,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\OneToMany(targetEntity=Member::class, mappedBy="responsibleAdult")
      */
-    private ArrayCollection $members;
+    private Collection $members;
+
 
     /**
      * @ORM\Column(type="boolean")
      */
     private bool $isVerified = false;
 
-    private ArrayCollection $adherents;
+    public function __toString()
+    {
+        return $this->isVerified();
+    }
 
+    private ArrayCollection $adherents;
 
     public function __construct()
     {
@@ -77,8 +82,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->members = new ArrayCollection();
         $this->orders = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {

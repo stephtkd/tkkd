@@ -23,7 +23,7 @@ class AlbumPictureType extends AbstractType
             // Il n'est pas lié à la base de données (mapped à false)
             ->add('images', FileType::class, [
                 'multiple' => true,
-                'mapped' => false,
+                //'mapped' => false,
                 ])
         ;
     }

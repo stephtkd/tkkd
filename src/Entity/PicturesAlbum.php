@@ -21,7 +21,7 @@ class PicturesAlbum
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $images;
 
@@ -32,16 +32,20 @@ class PicturesAlbum
     private $imagesFile;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      * @var \DateTime
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=AlbumPicture::class, inversedBy="picturesAlbums")
-     * * @ORM\JoinColumn(nullable=false)
      */
     private $AlbumPicture;
+
+    public function __construct()
+    {
+        $this->updatedAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +94,18 @@ class PicturesAlbum
     public function setAlbumPicture(?AlbumPicture $AlbumPictures): self
     {
         $this->AlbumPicture = $AlbumPictures;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): ?self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
