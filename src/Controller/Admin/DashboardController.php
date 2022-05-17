@@ -82,7 +82,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Tarif Adhésion', 'fas fa-cash-register', MembershipRate::class);
         yield MenuItem::linkToCrud('Critères', 'fas fa-keyboard', Criteria::class);
         yield MenuItem::linkToCrud('Nom de Tarifs', 'fas fa-marker', Rate::class);
-
-
     }
+
 }

@@ -55,7 +55,6 @@ class AlbumPictureRepository extends ServiceEntityRepository
     {
         $query = $this
             ->createQueryBuilder('a')
-            ->orderBy('a.Tag', 'DESC')
             ->select('T', 'a')
             ->join('a.Tag', 'T');
 

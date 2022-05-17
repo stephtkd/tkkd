@@ -31,7 +31,7 @@ class AlbumPictureController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // On récupère les images transmises
-            $PicutresAlbums = $form->get('PicturesAlbum')->getData();
+            $PicutresAlbums = $form->get('PicturesAlbums')->getData();
 
             // On boucle sur les images
             foreach($PicutresAlbums as $PicutresAlbum){
@@ -46,7 +46,7 @@ class AlbumPictureController extends AbstractController
 
                 // On crée l'image dans la base de données
                 $PicutresAlbum = new PicturesAlbum();
-                $PicutresAlbum->setName($fichier);
+                $PicutresAlbum->setImages($fichier);
                 $albumPicture->addPicturesAlbum($PicutresAlbum);
             }
 

@@ -5,13 +5,11 @@ namespace App\Controller;
 
 use App\Classe\Search;
 use App\Entity\AlbumPicture;
-use App\Entity\CategoryAlbum;
 use App\Entity\PicturesAlbum;
 use App\Entity\SlidePicture;
 use App\Entity\Tag;
 use App\Form\SearchType;
 use App\Repository\AlbumPictureRepository;
-use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,16 +34,19 @@ class PicturesController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
-        // systeme de pagination
-       // $albumPictures = $albumPictureRepository->findBy([], ['id' => 'DESC']);
+        $SlidePictures = $this->entityManager->getRepository(SlidePicture::class)->findAll(); // affichage du slide photos configurable dans l'easyAdmin
+        $Tags= $this->entityManager->getRepository(Tag::class)->findAll(); // affichage des tags des albums photos configurable dans l'easyAdmin
 
-       /* $albumPictures = $paginator->paginate(
+        // systeme de pagination
+       /* $albumPictures = $albumPictureRepository->findBy([], ['id' => 'DESC']);
+
+        $albumPictures = $paginator->paginate(
             $albumPictures, // Requête contenant les données à paginer (ici les albums photos)
             $request->query->getInt('page', 1), //page number
             4 //limit per page
         );*/
 
-        $search = new Search(); //système de recherche pour les album photo
+        $search = new Search(); //système de recherche pour les albums photo
         $form = $this->createForm(SearchType::class, $search);
 
         $form->handleRequest($request);
@@ -54,15 +55,8 @@ class PicturesController extends AbstractController
             $albumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findWithSearch($search);
         }
         else{
-            $albumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findAll();
-
+            $albumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findBy([], ['id' => 'DESC']);
         }
-
-
-
-        $SlidePictures = $this->entityManager->getRepository(SlidePicture::class)->findAll(); // affichage du slide photos configurable dans l'easyAdmin
-        $Tags= $this->entityManager->getRepository(Tag::class)->findAll(); // affichage des tags des albums photos configurable dans l'easyAdmin
-
 
         return $this->render('pictures/index.html.twig', [
             'SlidePictures' => $SlidePictures,

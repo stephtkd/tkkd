@@ -56,7 +56,7 @@
     {% for AlbumPicture in AlbumPictures %}
         <div class="col">
             <div class="card">
-                <img src="/upload/{{ AlbumPicture.picture }}" class="card-img-top" alt="image des album photo" style="height: auto; width: 100%;"/>
+                <img src="/upload/AlbumPicture/{{ AlbumPicture.picture }}" class="card-img-top" alt="image des album photo" style="height: auto; width: 100%;"/>
                 <div class="card-body">
                     <h5 class="card-title">{{ AlbumPicture.title|raw }}</h5>
                     <p class="card-text">

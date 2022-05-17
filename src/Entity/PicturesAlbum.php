@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\PicturesAlbumRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=PicturesAlbumRepository::class)
+ * @Vich\Uploadable
  */
 class PicturesAlbum
 {
@@ -18,14 +21,21 @@ class PicturesAlbum
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $images;
+
+    /**
+     * @Vich\UploadableField(mapping="album_directory", fileNameProperty="images")
+     * @var File
+     */
+    private $imagesFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
+     */
+    private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=AlbumPicture::class, inversedBy="picturesAlbums")
@@ -38,18 +48,6 @@ class PicturesAlbum
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     public function getImages(): ?string
     {
         return $this->images;
@@ -60,6 +58,28 @@ class PicturesAlbum
         $this->images = $images;
 
         return $this;
+    }
+
+    /**
+     * @param mixed $imagesFile
+     * @throws \Exception
+     */
+
+    public function setImagesFile($imagesFile)
+    {
+        $this->imagesFile = $imagesFile;
+        if ($imagesFile) {
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+
+    public function getImagesFile()
+    {
+        return $this->imagesFile;
     }
 
     public function getAlbumPicture(): ?AlbumPicture
