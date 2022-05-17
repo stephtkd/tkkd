@@ -19,12 +19,7 @@ class AlbumPictureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // Intégrer un système de multi upload d'image avec AlbumPictureType dans l'EasyAdmin (AlbumPictureCrudController)
-            // Il n'est pas lié à la base de données (mapped à false)
-            ->add('images', FileType::class, [
-                'multiple' => true,
-                //'mapped' => false,
-                ])
+            ->add('imagesFile', VichFileType::class)
         ;
     }
 
@@ -32,7 +27,6 @@ class AlbumPictureType extends AbstractType
     {
         $resolver->setDefaults([
            'data_class' => PicturesAlbum::class,
-
         ]);
     }
 }

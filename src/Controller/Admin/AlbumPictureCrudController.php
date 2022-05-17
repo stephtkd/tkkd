@@ -41,7 +41,7 @@ class AlbumPictureCrudController extends AbstractCrudController
              // Intégrer un système de multi upload d'image avec AlbumPictureType
             CollectionField::new('picturesAlbums', 'Photos de l\'album')
                 ->setEntryType(AlbumPictureType::class)
-                ->onlyOnForms(),
+                ->onlyOnForms()
         ];
 
     }
