@@ -91,7 +91,7 @@ class MemberType extends AbstractType
                     '4e keup'=> '4e keup',
                     '3e keup'=> '3e keup',
                     '2e keup'=> '2e keup',
-                    '1e keup' => '1e keup',
+                    '1er keup' => '1er keup',
                     'BanDan'=> 'BanDan',
                     '1er Dan/Poom'=> '1er Dan/Poom',
                     '2e Dan/Poom' => '2e Dan/Poom',
@@ -112,7 +112,6 @@ class MemberType extends AbstractType
                  ]
             ])
             ->add('photoName', FileType::class, [
-                'data_class' => null,
                 'mapped' => false,
                 'label' => 'Photo de l\'adhérent',
                 'required' => false,

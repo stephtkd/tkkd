@@ -118,17 +118,6 @@ class Member
     private ?string $emergencyPhone;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private ?bool $upToDateMembership;
-
-    /**
-     * @Assert\Choice({"Elève","Président","Trésorier","Secrétaire","Professeur","Assistant"})
-     * @ORM\Column(type="string", length=55, nullable=true)
-     */
-    private ?string $status;
-
-    /**
      * @Assert\Choice({"Paiement en attente", "Validation en attente", "Validée", "Terminée"})
      * @ORM\Column(type="string", length=55, nullable=true)
      */
@@ -338,30 +327,6 @@ class Member
     public function setEmergencyPhone(string $emergencyPhone): self
     {
         $this->emergencyPhone = $emergencyPhone;
-
-        return $this;
-    }
-
-    public function getUpToDateMembership(): ?bool
-    {
-        return $this->upToDateMembership;
-    }
-
-    public function setUpToDateMembership(bool $upToDateMembership): self
-    {
-        $this->upToDateMembership = $upToDateMembership;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?string $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }

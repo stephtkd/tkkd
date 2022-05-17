@@ -179,11 +179,7 @@ table(member) {
     {field} medical_certificate_name	?varchar(255)
     {field} comment						?varchar(255)
     {field} level						?varchar(55)
-    {field} instructor					tinyint(1) default '0'
-    {field} bureau  					tinyint(1) default '0'
     {field} --suscription_date--			?date
-    {field} up_to_date_membership		tinyint(1)
-    {field} status						?varchar(55)
     {field} membership_state			?varchar(55)
     {field} --user_id--						int(11)
 }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Classe\affiliated;
 use App\Entity\Member;
 use App\Form\MemberType;
+use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class MemberController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
+    private EventRepository $eventRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, EventRepository $eventRepository)
     {
         $this->entityManager = $entityManager;
+        $this->eventRepository = $eventRepository;
     }
 
     /**
@@ -27,7 +30,11 @@ class MemberController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('account/member.html.twig');
+        $adhesion = $this->eventRepository->findValidAdhesions();
+
+        return $this->render('account/member.html.twig', [
+            'adhesion' => $adhesion
+        ]);
 
     }
 
@@ -42,26 +49,21 @@ class MemberController extends AbstractController
 
                 $file = $form->get('photoName')->getData();
                 $fileMedical = $form->get('medicalCertificateName')->getData();
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-                $fileNameMedical = md5(uniqid()) . '.' . $fileMedical->guessExtension();
-                $file->move(
-                        $this->getParameter('member_directory'),
-                        $fileName);
-                $fileMedical->move(
-                    $this->getParameter('member_directory'),
-                    $fileNameMedical);
-                $member->setPhotoName($fileName);
-                $member->setMedicalCertificateName($fileNameMedical);
 
-                $member->setUpToDateMembership(0);
+                $member = $this->setFilesToMember($member, $file, $fileMedical);
+
+                $member->setMembershipState('Paiement en attente');
                 $member->setResponsibleAdult($this->getUser());
 
                 $this->entityManager->persist($member);
                 $this->entityManager->flush();
 
-                return $this->redirectToRoute('account_member');
+                $adhesion = $this->eventRepository->findValidAdhesions();
 
-
+                if (is_null($adhesion)) {
+                    return $this->redirectToRoute('account_member');
+                }
+                return $this->redirectToRoute('app_subscription', ['id' => $adhesion->getId()]);
         }
 
         return $this->render('account/memberForm.html.twig', [
@@ -75,8 +77,15 @@ class MemberController extends AbstractController
     {
        $member = $this->entityManager->getRepository(Member::class)->findOneById($id);
 
-        if(!$member || $member->getUser() != $this->getUser()) {
+        if(!$member || $member->getResponsibleAdult() != $this->getUser()) {
             return $this->redirectToRoute('account_member');
+        }
+
+        if (!is_null($member->getPhotoName())) {
+            $member->setPhotoName('./upload/member/'.$member->getPhotoName());
+        }
+        if (!is_null($member->getMedicalCertificateName())) {
+            $member->setMedicalCertificateName('./upload/member/' . $member->getMedicalCertificateName());
         }
 
         $form = $this->createForm(MemberType::class, $member);
@@ -84,7 +93,12 @@ class MemberController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('photoName')->getData();
+            $fileMedical = $form->get('medicalCertificateName')->getData();
 
+            $member = $this->setFilesToMember($member, $file, $fileMedical);
+
+            $this->entityManager->persist($member);
             $this->entityManager->flush();
             return $this->redirectToRoute('account_member');
         }
@@ -99,8 +113,7 @@ class MemberController extends AbstractController
     {
         $member = $this->entityManager->getRepository(Member::class)->findOneById($id);
 
-        if($member && $member->getUser() == $this->getUser()) {
-
+        if($member && $member->getResponsibleAdult() == $this->getUser()) {
             $this->entityManager->remove($member);
             $this->entityManager->flush();
         }
@@ -108,5 +121,27 @@ class MemberController extends AbstractController
 
     }
 
+    private function setFilesToMember($member, $file, $fileMedical) {
+        if (!is_null($file)) {
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $this->getParameter('member_directory'),
+                $fileName);
+            $member->setPhotoName($fileName);
+        } else if (!is_null($member->getPhotoName())) {
+            $member->setPhotoName(str_replace("./upload/member/", "",$member->getPhotoName()));
+        }
+        if (!is_null($fileMedical)) {
+            $fileNameMedical = md5(uniqid()) . '.' . $fileMedical->guessExtension();
+            $fileMedical->move(
+                $this->getParameter('member_directory'),
+                $fileNameMedical);
+            $member->setMedicalCertificateName($fileNameMedical);
+        } else if (!is_null($member->getMedicalCertificateName())) {
+            $member->setMedicalCertificateName(str_replace("./upload/member/", "", $member->getMedicalCertificateName()));
+        }
+
+        return $member;
+    }
 
 }
