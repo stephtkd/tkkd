@@ -96,8 +96,7 @@ class Member
     private ?string $nationality;
 
     /**
-     * @Assert\NotBlank (message="Veuillez renseigner le numéro de téléphone de l'adhérent")
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private ?string $phoneNumber;
 
@@ -114,18 +113,7 @@ class Member
     private ?string $level;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    private ?bool $instructor;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    private ?bool $bureau;
-
-    /**
-     * @Assert\NotBlank (message="Veuillez renseigner le numéro de la personne à contacter en cas d'urgence")
-     * @ORM\Column(type="string", length=55)
+     * @ORM\Column(type="string", length=55, nullable=true)
      */
     private ?string $emergencyPhone;
 
@@ -139,11 +127,6 @@ class Member
      * @ORM\Column(type="string", length=55, nullable=true)
      */
     private ?string $status;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=MembershipRate::class, inversedBy="members")
-     */
-    private ?MembershipRate $membershipRate;
 
     /**
      * @Assert\Choice({"Paiement en attente", "Validation en attente", "Validée", "Terminée"})
@@ -177,18 +160,12 @@ class Member
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="members")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $responsibleAdult;
+    private User $responsibleAdult;
 
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->memberships = new ArrayCollection();
-        $this->user = new ArrayCollection();
 
     }
 
@@ -341,38 +318,14 @@ class Member
         return $this;
     }
 
-    public function getInstructor(): ?bool
+    public function getResponsibleAdult(): User
     {
-        return $this->instructor;
+        return $this->responsibleAdult;
     }
 
-    public function setInstructor(bool $instructor): self
+    public function setResponsibleAdult(User $responsibleAdult): self
     {
-        $this->instructor = $instructor;
-
-        return $this;
-    }
-
-    public function getBureau(): ?bool
-    {
-        return $this->bureau;
-    }
-
-    public function setBureau(bool $bureau): self
-    {
-        $this->bureau = $bureau;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
+        $this->responsibleAdult = $responsibleAdult;
 
         return $this;
     }
@@ -410,18 +363,6 @@ class Member
     public function setStatus(?string $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getMembershipRate(): ?MembershipRate
-    {
-        return $this->membershipRate;
-    }
-
-    public function setMembershipRate(?MembershipRate $membershipRate): self
-    {
-        $this->membershipRate = $membershipRate;
 
         return $this;
     }
@@ -519,16 +460,5 @@ class Member
         return $this;
     }
 
-    public function getResponsibleAdult(): ?string
-    {
-        return $this->responsibleAdult;
-    }
-
-    public function setResponsibleAdult(?string $responsibleAdult): self
-    {
-        $this->responsibleAdult = $responsibleAdult;
-
-        return $this;
-    }
 
 }

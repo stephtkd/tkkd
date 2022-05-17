@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Classe\Cart;
 use App\Entity\Event;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,14 +18,13 @@ class EventController extends AbstractController
     }
 
     #[Route('/event/{slug}', name: 'app_event')] // page "presentationde l'evenement" => show de l'evenement de l'accueil
-    public function show($slug, Cart $cart): Response
+    public function show($slug): Response
     {
         {
             $event = $this->entityManager->getRepository(Event::class)->findOneBySlug($slug);
 
             return $this->render('event/index.html.twig', [
                 'event' => $event,
-                'cart' => $cart->getFull()
             ]);
 
         }

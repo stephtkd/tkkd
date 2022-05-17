@@ -2,22 +2,11 @@
 
 namespace App\Controller;
 
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Classe\affiliated;
 use App\Entity\Member;
-use App\Entity\Membership;
 use App\Form\MemberType;
-use App\Repository\MemberRepository;
-use App\Repository\MembershipRateRepository;
-use App\Repository\UserRepository;
-use App\Utils\DateTimeHandler;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectManager;
-use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -65,16 +54,13 @@ class MemberController extends AbstractController
                 $member->setMedicalCertificateName($fileNameMedical);
 
                 $member->setUpToDateMembership(0);
+                $member->setResponsibleAdult($this->getUser());
 
-                $member->setUser($this->getUser());
                 $this->entityManager->persist($member);
                 $this->entityManager->flush();
 
-                if ($affiliated->get()) {
-                    return $this->redirectToRoute('account_member');
-                } else {
-                    return $this->redirectToRoute('app_subscription');
-                }
+                return $this->redirectToRoute('account_member');
+
 
         }
 

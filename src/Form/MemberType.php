@@ -67,7 +67,7 @@ class MemberType extends AbstractType
             ])
             ->add('phoneNumber', TelType::class, [
                 'label' => 'Téléphone',
-                'required' => true,
+                'required' => false,
             ])
             ->add('comment', TextareaType::class, [
                 'label' => 'Commentaire',
@@ -106,22 +106,10 @@ class MemberType extends AbstractType
             ])
             ->add('emergencyPhone', TelType::class, [
                 'label' => "Téléphone d'urgence",
-                'required' => true,
+                'required' => false,
                  'attr'  => [
                     'placeholder' => 'Numéro de la personne à contacter en cas d\'urgence'
                  ]
-            ])
-            ->add('status', ChoiceType::class,[
-                'label' => 'Status',
-                'required' => true,
-                'choices'  => [
-                    'Elève' => 'Elève',
-                    'Président'=> 'Président',
-                    'Trésorier'=> 'Trésorier',
-                    'Secrétaire'=> 'Secrétaire',
-                    'Professeur'=> 'Professeur',
-                    'Assistant'=> 'Assistant'
-                ]
             ])
             ->add('photoName', FileType::class, [
                 'data_class' => null,
@@ -150,18 +138,6 @@ class MemberType extends AbstractType
                         ],
                     ])
                 ]
-            ])
-            ->add('responsibleAdult', TextType::class, [
-                 'label' => 'Adulte Responsable ',
-                'required' => false
-            ])
-            ->add('instructor', CheckboxType::class, [
-                'label' => 'Instructeur',
-                'required' => false
-            ])
-            ->add('bureau', CheckboxType::class, [
-                'label' => 'Membre du bureau',
-                'required' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider l\'inscription',

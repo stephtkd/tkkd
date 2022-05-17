@@ -40,7 +40,7 @@
                                 </thead>
                                 <tbody>
                                 {% set total = null %}
-                                {% for product in cart %}
+                                {% for product in products %}
                                 <tr>
                                     <th scope="row">
                                         <div class="p-2">
@@ -68,26 +68,24 @@
                     </div>
                 </div>
 
-                <form method="POST">
-                    <input name="id" type="hidden" value="<?php echo $data->id ?>" />
+                {{ form_start(form) }}
+                    {{ form_widget(form.amount, {'value' : total}) }}
+                <input name="id" type="hidden" value="<?php echo $data->id ?>" />
                     <input name="amount" type="hidden" value="" />
 
                     <div class="row py-5 p-4 bg-white rounded shadow-sm">
                         <div class="col-lg-6">
                             <div class="bg-secondary rounded-pill px-4 py-3 text-uppercase text-white fw-bold">Coordonnées</div>
                             <div class="p-4">
-                                <div class="mb-3">
-                                    <label for="firstname" class="form-label">Prénom</label>
-                                    <input type="text" class="form-control" id="firstname" name="firstname" value="" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="lastname" class="form-label">Nom</label>
-                                    <input type="text" class="form-control" id="lastname" name="lastname" value="" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="" required>
-                                </div>
+                                <div class="mb-3">{{ form_row(form.firstName) }}</div>
+                                <div class="mb-3">{{ form_row(form.lastName) }}</div>
+                                <div class="mb-3">{{ form_row(form.email) }}</div>
+                                <div class="mb-3">{{ form_row(form.birthdate) }}</div>
+                                <div class="mb-3">{{ form_row(form.streetAddress) }}</div>
+                                <div class="mb-3">{{ form_row(form.city) }}</div>
+                                <div class="mb-3">{{ form_row(form.postalCode) }}</div>
+                                <div class="mb-3">{{ form_row(form.country) }}</div>
+                                <div class="mb-3">{{ errorMessage }}</div>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -102,29 +100,13 @@
                                         <h5 class="fw-bold" data-item="total">{{ ((total / 100)|number_format(2, ',', '.')) }} €</h5>
                                     </li>
                                 </ul>
+                                {{ form_row(form.multiplePayment) }}
                             </div>
-                            <div class="p-4 pt-0">
-                                <p>Réglement en :</p>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="method" id="method1" value="1">
-                                    <label class="form-check-label" for="method1">
-                                        Une fois
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="method" id="method3" value="3">
-                                    <label class="form-check-label" for="method3">
-                                        Trois fois
-                                    </label>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-dark rounded-pill py-2 btn-block col-md-12 align-middle">Payer | {{ ((total / 100) |number_format(2, ',', '.')) }} € </button>
+                            {{ form_row(form.submit, {'label' : 'Vers Paiement'}) }}
                         </div>
                     </div>
-                </form>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
-    </div>
-
 {% endblock %}

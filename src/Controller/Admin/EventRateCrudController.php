@@ -2,21 +2,20 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Rate;
+use App\Entity\EventRate;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
-class RateCrudController extends AbstractCrudController
+class EventRateCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Rate::class;
+        return EventRate::class;
     }
 
 
@@ -24,9 +23,10 @@ class RateCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
+            AssociationField::new('event', 'Evènement')->renderAsNativeWidget(),
             TextField::new('name', 'Titre'),
-            TextEditorField::new('description', 'Description')->setFormType(CKEditorType::class),
-            MoneyField::new('rate', 'Prix')->setCurrency('EUR'),
+            TextField::new('description', 'Description'),
+            MoneyField::new('amount', 'Prix')->setCurrency('EUR'),
         ];
     }
 
@@ -34,8 +34,8 @@ class RateCrudController extends AbstractCrudController
     {
         return $crud
             // Les labels utilisés pour faire référence à l'entité dans les titres, les boutons, etc.
-            ->setEntityLabelInSingular('Nom de Tarif')
-            ->setEntityLabelInPlural('Nom de Tarif')
+            ->setEntityLabelInSingular('Tarif')
+            ->setEntityLabelInPlural('Tarifs des évènements')
             // Le titre visible en haut de la page et le contenu de l'élément <title>
             // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
             ->setPageTitle('index', 'Liste des %entity_label_plural%')
