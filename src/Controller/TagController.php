@@ -23,18 +23,33 @@ class TagController extends AbstractController
     }
 
     #[Route('/pictures/tag/{slug}', name: 'app_tag_slug')] // page
-    public function show($slug): Response
+    public function show(
+        $slug,
+        Request $request,
+        TagRepository $tagRepository,
+        PaginatorInterface $paginator
+    ): Response
     {
 
+       // $Tag = $this->entityManager->getRepository(Tag::class)->findOneBySlug($slug);
+        $albumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findBy([], ['id' => 'DESC']);
+
+        // systeme de pagination
         $Tag = $this->entityManager->getRepository(Tag::class)->findOneBySlug($slug);
 
+        $Tag = $paginator->paginate(
+            $Tag, // Requête contenant les données à paginer (ici les albums photos)
+            $request->query->getInt('page', 1), //page number
+            4 //limit per page
+        );
 
-        if (!$Tag) {
+        /*if (!$Tag) {
             return $this->redirectToRoute('Tags');
-        }
+        }*/
 
         return $this->render('tag/index.html.twig', [
-            'Tag' => $Tag
+            'Tags' => $Tag,
+            'AlbumPictures' => $albumPictures,
 
         ]);
     }

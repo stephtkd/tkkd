@@ -51,7 +51,7 @@ class AlbumPictureRepository extends ServiceEntityRepository
      * Requête pour récupérer les albums en fonction de la recherche de l'utilisateur (a = albumPicture, T = tags)
      * @return AlbumPicture[]
      */
-    public function findWithSearch(Search $search)
+  /*  public function findWithSearch(Search $search)
     {
         $query = $this
             ->createQueryBuilder('a')
@@ -65,7 +65,7 @@ class AlbumPictureRepository extends ServiceEntityRepository
         }
 
         return $query->getQuery()->getResult();
-    }
+    }*/
 
     // /**
     //  * @return AlbumPicture[] Returns an array of AlbumPicture objects

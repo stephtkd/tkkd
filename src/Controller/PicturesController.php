@@ -38,31 +38,20 @@ class PicturesController extends AbstractController
         $Tags= $this->entityManager->getRepository(Tag::class)->findAll(); // affichage des tags des albums photos configurable dans l'easyAdmin
 
         // systeme de pagination
-       /* $albumPictures = $albumPictureRepository->findBy([], ['id' => 'DESC']);
+        $albumPictures = $albumPictureRepository->findBy([], ['id' => 'DESC']);
 
         $albumPictures = $paginator->paginate(
             $albumPictures, // Requête contenant les données à paginer (ici les albums photos)
             $request->query->getInt('page', 1), //page number
             4 //limit per page
-        );*/
+        );
 
-        $search = new Search(); //système de recherche pour les albums photo
-        $form = $this->createForm(SearchType::class, $search);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $albumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findWithSearch($search);
-        }
-        else{
-            $albumPictures = $this->entityManager->getRepository(AlbumPicture::class)->findBy([], ['id' => 'DESC']);
-        }
 
         return $this->render('pictures/index.html.twig', [
             'SlidePictures' => $SlidePictures,
             'Tags' => $Tags,
             'AlbumPictures' => $albumPictures,
-            'form' => $form->createView()
+
         ]);
     }
 

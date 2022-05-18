@@ -3,26 +3,28 @@
 {% block title %}Album Photo - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
-    <div class="mb-4">
-        <h1>Présentation de Album photo</h1>
-        <a href="{{ path('app_pictures') }}">Retour au menu Photo</a>
-    </div>
-
-    <h2>{{ AlbumPicture.title|raw }}</h2>
-
-    <!-- Gallery -->
-    <div class="row">
-        {% for PicturesAlbum in PicturesAlbums %}
-        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-            <img
-                    src="/upload/AlbumPicture/{{ AlbumPicture.id }}"
-                    class="w-100 mb-2 mb-md-4 shadow-1-strong rounded"
-                    alt="Photos de l'album"
-            />
+    <div class="m-5">
+        <div class="mb-5">
+            <h1>Présentation de Album photo</h1>
+            <a href="{{ path('app_pictures') }}">Retour au menu Photo</a>
         </div>
-        {% endfor %}
+
+    <h2 class="mb-4">{{ AlbumPicture.title|raw }}</h2>
+
+        <!-- Gallery -->
+        <div class="portfolio-item row">
+            {% for PicturesAlbum in AlbumPicture.PicturesAlbums %}
+                <div class="col-md-4">
+                        <img
+                                src="/upload/AlbumPicture/{{ PicturesAlbum.images }}"
+                                class="mb-2 mb-md-4 shadow-1-strong rounded"
+                                width="500"
+                                alt="Photos de l'album"
+                        />
+
+                </div>
+            {% endfor %}
+        </div>
     </div>
-
-
 
 {% endblock %}
