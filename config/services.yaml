@@ -7,7 +7,7 @@ parameters:
     images_directory: '%kernel.project_dir%/public/upload'
     member_directory: '%kernel.project_dir%/public/upload/member'
     album_directory: '%kernel.project_dir%/public/upload/AlbumPicture'
-    app.path.album_directory: /uploads/AlbumPicture
+    app.path.album_directory: /upload/AlbumPicture
 
 
 services:

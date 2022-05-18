@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class AlbumPictureCrudController extends AbstractCrudController
 {

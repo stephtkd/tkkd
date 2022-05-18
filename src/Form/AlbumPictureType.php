@@ -2,9 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\AlbumPicture;
 use App\Entity\PicturesAlbum;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -19,7 +17,7 @@ class AlbumPictureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('imagesFile', VichFileType::class)
+            ->add('imagesFile', VichImageType::class)
         ;
     }
 

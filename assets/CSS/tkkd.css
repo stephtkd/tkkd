@@ -36,8 +36,11 @@ body {
 .account-item a:hover {
     color: #d50000;
     text-decoration: none;
-
 }
+
+/* Accordion Form Subscription */
+
+
 
 @media screen and (max-width: 991px) and (min-width: 767px) {
     .account-item {
