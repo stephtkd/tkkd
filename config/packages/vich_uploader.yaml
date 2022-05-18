@@ -5,3 +5,4 @@ vich_uploader:
         album_directory:
             uri_prefix: '%app.path.album_directory%'
             upload_destination: '%kernel.project_dir%/public%app.path.album_directory%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
