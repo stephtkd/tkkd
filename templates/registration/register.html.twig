@@ -4,24 +4,88 @@
 
 {% block body %}
 
-    <div class="d-flex justify-content-center m-3">
-        <h1 class="text-dark">Créer votre compte Taekwonkido Phenix </h1>
+    <div class="text-center">
+        <!-- Background color -->
+        <div class="p-5 bg-image" style="
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to right, rgba(255, 98, 21, 0.5), rgba(250, 213, 1, 0.5));
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to right, rgba(255, 98, 21, 0.5), rgba(250, 213, 1, 0.5));
+        height: 200px;
+        "></div>
+        <!-- Background color -->
+                <!-- Or -->
+        <!-- Background image
+        <div class="p-5 bg-image" style="
+        background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg');
+        height: 300px;
+        "></div>
+         Background image -->
+
+        <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+        margin-top: -100px;
+        margin-bottom: 100px;
+        background: hsla(0, 0%, 100%, 0.8);
+        backdrop-filter: blur(30px);
+        ">
+            {% if notification %}
+                <div class="alert alert-info text-center">{{ notification }}</div>
+                <hr>
+            {% endif %}
+
+            {% for flashError in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+            {% endfor %}
+            <div class="card-body py-5 px-md-5">
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="fw-bold mb-5">Créer votre compte Taekwonkido Phenix</h2>
+                        <div>
+                            {{ form_start(form) }}
+                            <!-- 2 column grid layout with text for the first and last names -->
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        {{ form_row(form.lastName) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        {{ form_row(form.firstname) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-outline mb-4">
+                                {{ form_row(form.email) }}
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-outline mb-4">
+                                {{ form_row(form.password) }}
+                            </div>
+
+                            <!-- Captcha -->
+                            <div class="form-outline mb-4">
+                                {{ form_row(form.captcha) }}
+                            </div>
+
+                            <!-- Submit button -->
+                            <div class="form-outline mb-4">
+                                {{ form_row(form.submit) }}
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-        {% if notification %}
-            <div class="alert alert-info text-center">{{ notification }}</div>
-            <hr>
-        {% endif %}
-
-        {% for flashError in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-        {% endfor %}
 
 
 
-
-    <div class="d-flex justify-content-center m-5">
-        {{ form(registrationForm) }}
-    </div>
 
 
 {% endblock %}

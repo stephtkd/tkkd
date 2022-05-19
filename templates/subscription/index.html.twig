@@ -6,15 +6,69 @@
 
     <div class="container">
         <h1>{{ event.name }} </h1>
-        <div class="pb-5">
+        <div class="pb-5 ">
             <div class="container">
-                    {% for member in app.user.members %}
+                  {% for member in app.user.members %}
                         <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                            <div class="col-lg-6">
-                                <img src="/upload/member/{{ member.photoName }}" class="card-img" alt="Photo de l\'adhérent" style="width: 200px; height: auto;">
+                            <div class="col-md-6 p-3">
+                            <img src="/upload/member/{{ member.photoName }}" class="card-img" alt="Photo de l\'adhérent" style="width: 200px; height: auto;">
                                 <h5 class="card-title">{{ member.firstname }} {{ member.lastname }}</h5>
+
+                                <!-- accordion form -->
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                  <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                        Personnes à inscrire
+                                      </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                      <div class="accordion-body">
+                                         <!-- formulaire ou select des members -->
+                                                <select class="form-select" aria-label="Default select example">
+                                                    <option selected></option>
+                                                    <option>{{ member.firstname }} {{ member.lastname }}</option>
+                                                </select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                        #2
+                                      </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                                        <div class="accordion-body">
+                                        <!-- formulaire ou select des members -->
+                                                <select class="form-select" aria-label="Default select example">
+                                                    <option selected></option>
+                                                    <option>{{ member.firstname }} {{ member.lastname }}</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                        #3
+                                      </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                      <div class="accordion-body">
+                                        <!-- formulaire ou select des members -->
+                                           <div class="mb-3">
+                                               <label class="sr-only" for="inlineFormInputName">Nom Prénom</label>
+                                               <input type="text" class="form-control" id="inlineFormInputName">
+                                           </div>
+                                    </div>
+                                  </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6">
+                            </div>
+                                <!-- end accordion form -->
+
+                            <div class="col-md-6 p-3">
                                 <h5 class="card-title">Les tarifs :</h5>
                                 <div class="mb-3">
                                     <label for="rates"></label>
@@ -35,9 +89,17 @@
                                 {% endif %}
                             </div>
                         </div>
+
                     {% endfor %}
                 <a href="{{ path('order_recap') }}" class="btn btn-dark btn-sm">Payer</a>
             </div>
         </div>
     </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('build/bootstrap.min.js') }}"></script>
 {% endblock %}

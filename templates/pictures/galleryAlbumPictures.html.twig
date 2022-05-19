@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Albums Photo - Taekwonkido Phenix{% endblock %}
+
+{% block body %}
+    <div class="m-5">
+        <div class="mb-5">
+            <h1>Présentation des photos de l'Album <em>{{ AlbumPicture.title|raw }}</em></h1>
+            <a href="{{ path('app_pictures') }}">Retour au menu des Albums Photo</a>
+        </div>
+
+        <!-- Gallery -->
+        <div class="row">
+            {% for PicturesAlbum in AlbumPicture.PicturesAlbums %}
+                <div class="col-md-4">
+                        <img
+                                src="/upload/AlbumPicture/{{ PicturesAlbum.images }}"
+                                class="mb-2 mb-md-4 shadow-1-strong rounded"
+                                width="500"
+                                alt="Photos de l'album"
+                        />
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

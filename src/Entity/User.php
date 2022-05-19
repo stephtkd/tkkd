@@ -68,7 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private bool $isVerified = false;
 
-    private Collection $adherents;
+    private ArrayCollection $adherents;
 
 
     public function __construct()
@@ -77,6 +77,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->members = new ArrayCollection();
         $this->orders = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {

@@ -3,23 +3,18 @@
 namespace App\Controller\Admin;
 
 use App\Entity\AlbumPicture;
-use App\Entity\PicturesAlbum;
 use App\Form\AlbumPictureType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class AlbumPictureCrudController extends AbstractCrudController
 {
@@ -31,7 +26,7 @@ class AlbumPictureCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-         return[
+        return[
             IdField::new('id')->hideOnForm(), // enleve l'affichage du id
             TextField::new('title', 'Titre de l\'album photo'),
             SlugField::new('slug', 'Création de l\'URL')
@@ -43,15 +38,13 @@ class AlbumPictureCrudController extends AbstractCrudController
                 ->setBasePath('upload/AlbumPicture') //système d'upload des images
                 ->setUploadDir('public/upload/AlbumPicture')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
-                ->setRequired(false)
-                ,
-
+                ->setRequired(false),
              // Intégrer un système de multi upload d'image avec AlbumPictureType
-           /* CollectionField::new('images', 'Photos de l\'album')
-               ->setEntryType(PicturesAlbum::class)
-                ->setFormTypeOption('multiple', true)
-               ->onlyOnForms(),*/
+            CollectionField::new('picturesAlbums', 'Photos de l\'album')
+                ->setEntryType(AlbumPictureType::class)
+                ->onlyOnForms()
         ];
+
     }
 
 

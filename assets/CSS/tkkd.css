@@ -6,6 +6,7 @@ body {
 /* Header navbar */
 .navbar-item, .navbar-item a {
     color: white;
+    text-decoration: none;
 }
 .cart-icon {
     height: 25px;
@@ -24,6 +25,7 @@ body {
 .account-item {
     background-color: #ffcc80;
     padding: 70px;
+    text-decoration: none;
 }
 .account-item a {
     text-transform: uppercase;
@@ -34,6 +36,21 @@ body {
 .account-item a:hover {
     color: #d50000;
     text-decoration: none;
+}
+
+/* Accordion Form Subscription */
+
+
+
+@media screen and (max-width: 991px) and (min-width: 767px) {
+    .account-item {
+        margin-bottom: 10px;
+    }
+}
+@media screen and (max-width: 766px) {
+    .account-item {
+        margin: 5px;
+    }
 
 }
 

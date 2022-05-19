@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Photos - Taekwonkido Phenix{% endblock %}
+{% block title %}Albums Photo - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
 
@@ -36,15 +36,13 @@
     <!-- Filtre/recherche par tags et catégories des Albums photos -->
 
     <div class="row m-5">
-        <div class="col-md-3">
-            {{ form(form) }}
-        </div>
+
         <div class="col-md-9">
             <div class="col-md-5 ">
                 <h4 class="fst-italic">Albums Photos</h4>
                 <ol class="list-unstyled mb-0">
                     {% for Tag in Tags %}
-                        <a class="text-decoration-none" href="{{ path('app_tag_slug', { 'slug' : Tag.slug}) }}" style="color:{{ Tag.color }}">{{ Tag.title}}</a>
+                        <a class="text-decoration-none" href="{{ path('app_tag_slug', { 'slug' : Tag.slug}) }}" style="color:{{ Tag.color }}">{{ Tag.title|raw }}</a>
                     {% endfor %}
                 </ol>
             </div>
@@ -56,7 +54,7 @@
     {% for AlbumPicture in AlbumPictures %}
         <div class="col">
             <div class="card">
-                <img src="/upload/{{ AlbumPicture.picture }}" class="card-img-top" alt="image des album photo" style="height: auto; width: 100%;"/>
+                <img src="/upload/AlbumPicture/{{ AlbumPicture.picture }}" class="card-img-top" alt="image des album photo" style="height: auto; width: 100%;"/>
                 <div class="card-body">
                     <h5 class="card-title">{{ AlbumPicture.title|raw }}</h5>
                     <p class="card-text">
@@ -69,7 +67,11 @@
     {% endfor %}
     </div>
 
-
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-5">
+        {% do AlbumPictures.setPageRange(20) %}
+        {{ knp_pagination_render(AlbumPictures, 'Bundles/TwigBundle/Pagination/pagination.html.twig') }}
+    </div>
 
 
 {% endblock %}

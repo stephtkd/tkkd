@@ -46,17 +46,25 @@ class RegistrationController extends AbstractController
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush(); // éxecute la persistance, data (l'objet figé) = enregistre bdd
-                
+
+                // Envoie de mail pour confirmer l'inscription au site
+                //$mail = new Mail();
+                //$content = "Bonjour".$user->getFirstname()."<br/>Bienvenue sur le site de Taekwonkido Phenix.<br/><br/>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+                //$mail->send($user->getEmail(), $user->getFirstname(), 'Bienvenue sur Taekwonkido Phenix', $content);
 
                 $notification = "Votre inscription s'est correctement déroulée. Vous pouvez dès à présent vous connecter à votre compte.";
             }
             else {
                 $notification = "L'email que vous avez renseigné existe déjà.";
             }
+
+            if ($notification) {
+                return $this->redirectToRoute('app_account');
+            }
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'form' => $form->createView(),
             'notification' => $notification
         ]);
     }

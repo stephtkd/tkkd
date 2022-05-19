@@ -9,6 +9,7 @@ use App\Entity\EventOption;
 use App\Entity\EventRate;
 use App\Entity\HomeComment;
 use App\Entity\Member;
+use App\Entity\PicturesAlbum;
 use App\Entity\SlidePicture;
 use App\Entity\Tag;
 use App\Entity\User;
@@ -66,7 +67,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Slide', 'fas fa-desktop', SlidePicture::class);
         yield MenuItem::linkToCrud('Tag Album Photo', 'fas fa-tags', Tag::class);
         yield MenuItem::linkToCrud('Album Photo', 'fas fa-images', AlbumPicture::class);
-       // yield MenuItem::linkToCrud('Photo',  'fas fa-images',PicturesAlbum::class);
+
 
         yield MenuItem::section('Gestion de la page Contact');
         yield MenuItem::linkToCrud('Contact', 'fas fa-pen', Contact::class);
