@@ -53,10 +53,8 @@ class MemberCrudController extends AbstractCrudController
             NumberField::new('postalCode', 'Code Postal')->hideOnIndex(),
             TextField::new('city', 'Ville'),
             TextField::new('nationality', 'Nationnalité')->hideOnIndex(),
-            TextField::new('responsibleAdult', 'Adulte Responsable'),
+            //TextField::new('responsibleAdult', 'Adulte Responsable'),
             TelephoneField::new('emergencyPhone', 'Téléphone d\'urgence'),
-            BooleanField::new('instructor', 'Instructeur')->hideOnIndex(),
-            BooleanField::new('bureau', 'Personnel du bureau')->hideOnIndex(),
             ChoiceField::new('status', 'Status')
                 ->setChoices([
                     'Elève' => 'Elève',

@@ -5,14 +5,14 @@
 {% block body %}
     <div class="m-5">
         <div class="mb-5">
-            <h1>Présentation de Album photo</h1>
-            <a href="{{ path('app_pictures') }}">Retour au menu Photo</a>
+            <h1>Présentation des Album photo </h1>
+            <a href="{{ path('app_pictures') }}">Retour au menu des Albums Photo</a>
         </div>
 
     <h2 class="mb-4">{{ AlbumPicture.title|raw }}</h2>
 
         <!-- Gallery -->
-        <div class="portfolio-item row">
+        <div class="row">
             {% for PicturesAlbum in AlbumPicture.PicturesAlbums %}
                 <div class="col-md-4">
                         <img

@@ -68,7 +68,7 @@ class PicturesController extends AbstractController
 
             $PicturesAlbums= $this->entityManager->getRepository(PicturesAlbum::class)->findAll();
 
-            return $this->render('pictures/AlbumPicture.html.twig', [
+            return $this->render('pictures/galleryAlbumPictures.html.twig', [
                 'AlbumPicture' => $AlbumPicture,
                 'PicturesAlbums' => $PicturesAlbums,
             ]);
