@@ -5,18 +5,19 @@
 {% block body %}
     <div class="m-5">
         <div class="mb-5">
-            <h1>Présentation des photos de l'Album <em>{{ AlbumPicture.title|raw }}</em></h1>
-            <a href="{{ path('app_pictures') }}">Retour au menu des Albums Photo</a>
+            <h1 class="fw-light text-center text-lg-start mt-4 mb-2">{{ AlbumPicture.title|raw }}</h1>
+            <a href="{{ path('app_pictures') }}">Retour au menu des Albums Photos</a>
         </div>
 
+        <hr class="mb-5">
+
         <!-- Gallery -->
-        <div class="row">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
             {% for PicturesAlbum in AlbumPicture.PicturesAlbums %}
-                <div class="col-md-4">
+                <div class="col-lg-3 col-md-4 col-6">
                         <img
                                 src="/upload/AlbumPicture/{{ PicturesAlbum.images }}"
-                                class="mb-2 mb-md-4 shadow-1-strong rounded"
-                                width="500"
+                                class="img-fluid img-thumbnail mb-3 shadow-1-strong rounded"
                                 alt="Photos de l'album"
                         />
                 </div>

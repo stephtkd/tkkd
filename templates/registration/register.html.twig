@@ -36,10 +36,9 @@
             {% for flashError in app.flashes('verify_email_error') %}
                 <div class="alert alert-danger" role="alert">{{ flashError }}</div>
             {% endfor %}
-            <div class="card-body py-5 px-md-5">
-
+            <div class="card-body py-5 px-md-7">
                 <div class="row d-flex justify-content-center">
-                    <div class="col-lg-8">
+                    <div class="col-lg-5">
                         <h2 class="fw-bold mb-5">Créer votre compte Taekwonkido Phenix</h2>
                         <div>
                             {{ form_start(form) }}

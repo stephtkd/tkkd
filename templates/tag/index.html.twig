@@ -4,16 +4,16 @@
 
 {% block body %}
     <div class="m-5">
-        <h1 style="color:{{ Tags.color }}">Présentation des Albums photo <em>{{ Tags.title|raw }}</em></h1>
-        <a href="{{ path('app_pictures') }}">Retour au menu des Albums Photo</a>
+        <h1 style="color:{{ Tags.color }}"><em>{{ Tags.title|raw }}</em></h1>
+        <a href="{{ path('app_pictures') }}">Retour au menu des Albums Photos</a>
     </div>
 
         <!-- Card for pictures  -->
         <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
     {% for AlbumPicture in Tags.AlbumPictures %}
-            <div class="col">
+            <div class="col" style="width: 22rem;">
                 <div class="card">
-                    <img src="/upload/AlbumPicture/{{ AlbumPicture.picture }}" class="card-img-top" alt="image des album photo" style="height: auto; width: 100%;"/>
+                    <img src="/upload/AlbumPicture/{{ AlbumPicture.picture }}" class="card-img-top" alt="image des album photo"/>
                     <div class="card-body">
                         <h5 class="card-title">{{ AlbumPicture.title|raw }}</h5>
                         <p class="card-text">
