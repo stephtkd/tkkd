@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Photos - Taekwonkido Phenix{% endblock %}
+{% block title %}Albums Photo - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
 
@@ -69,7 +69,7 @@
 
     <!-- Pagination -->
     <div class="d-flex justify-content-center mt-5">
-        {% do AlbumPictures.setPageRange(5) %}
+        {% do AlbumPictures.setPageRange(10) %}
         {{ knp_pagination_render(AlbumPictures, 'Bundles/TwigBundle/Pagination/pagination.html.twig') }}
     </div>
 

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\AlbumPicture;
 use App\Entity\Tag;
 use App\Repository\AlbumPictureRepository;
-use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

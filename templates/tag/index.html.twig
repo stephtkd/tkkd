@@ -1,15 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Album Photo - Taekwonkido Phenix{% endblock %}
+{% block title %}Albums Photo - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
     <div class="m-5">
         <h1>Présentation de Album photo</h1>
         <a href="{{ path('app_pictures') }}">Retour au menu des Albums Photo</a>
     </div>
-    {% for AlbumPicture in Tags.AlbumPictures %}
+
         <!-- Card for pictures  -->
-        <div class="row row-cols-1 row-cols-md-4 g-4 m-5 ">
+        <div class="row row-cols-1 row-cols-md-4 g-4 m-5">
+    {% for AlbumPicture in Tags.AlbumPictures %}
             <div class="col">
                 <div class="card">
                     <img src="/upload/AlbumPicture/{{ AlbumPicture.picture }}" class="card-img-top" alt="image des album photo" style="height: auto; width: 100%;"/>
@@ -22,11 +23,8 @@
                     </div>
                 </div>
             </div>
+    {% endfor %}
         </div>
-
-        {% endfor %}
-
-
 
 
 {% endblock %}

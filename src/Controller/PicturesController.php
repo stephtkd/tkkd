@@ -2,13 +2,10 @@
 
 namespace App\Controller;
 
-
-use App\Classe\Search;
 use App\Entity\AlbumPicture;
 use App\Entity\PicturesAlbum;
 use App\Entity\SlidePicture;
 use App\Entity\Tag;
-use App\Form\SearchType;
 use App\Repository\AlbumPictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -60,7 +57,6 @@ class PicturesController extends AbstractController
     {
         {
             $AlbumPicture = $this->entityManager->getRepository(AlbumPicture::class)->findOneBySlug($slug);
-
 
             if (!$AlbumPicture) {
                 return $this->redirectToRoute('AlbumPictures');
