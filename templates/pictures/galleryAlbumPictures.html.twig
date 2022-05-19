@@ -5,11 +5,9 @@
 {% block body %}
     <div class="m-5">
         <div class="mb-5">
-            <h1>Présentation des Album photo </h1>
+            <h1>Présentation des photos de l'Album <em>{{ AlbumPicture.title|raw }}</em></h1>
             <a href="{{ path('app_pictures') }}">Retour au menu des Albums Photo</a>
         </div>
-
-    <h2 class="mb-4">{{ AlbumPicture.title|raw }}</h2>
 
         <!-- Gallery -->
         <div class="row">
@@ -21,11 +19,9 @@
                                 width="500"
                                 alt="Photos de l'album"
                         />
-
                 </div>
             {% endfor %}
         </div>
     </div>
-
 
 {% endblock %}

@@ -4,11 +4,8 @@ namespace App\Controller;
 
 use App\Entity\AlbumPicture;
 use App\Entity\Tag;
-use App\Repository\AlbumPictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,7 +18,7 @@ class TagController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/pictures/tag/{slug}', name: 'app_tag_slug')] // page
+    #[Route('/pictures/tag/{slug}', name: 'app_tag_slug')]
     public function show($slug): Response
     {
         $Tag = $this->entityManager->getRepository(Tag::class)->findOneBySlug($slug);
@@ -32,7 +29,7 @@ class TagController extends AbstractController
         }
 
         return $this->render('tag/index.html.twig', [
-            'Tags' => $Tag,
+           'Tags' => $Tag,
             'AlbumPictures' => $albumPictures,
         ]);
     }

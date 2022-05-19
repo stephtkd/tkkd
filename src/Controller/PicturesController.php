@@ -6,7 +6,6 @@ use App\Entity\AlbumPicture;
 use App\Entity\PicturesAlbum;
 use App\Entity\SlidePicture;
 use App\Entity\Tag;
-use App\Repository\AlbumPictureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,22 +24,17 @@ class PicturesController extends AbstractController
 
     #[Route('/pictures', name: 'app_pictures')] // page photos
 
-    public function index(
-        Request $request,
-        AlbumPictureRepository $albumPictureRepository,
-        PaginatorInterface $paginator
-    ): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $SlidePictures = $this->entityManager->getRepository(SlidePicture::class)->findAll(); // affichage du slide photos configurable dans l'easyAdmin
         $Tags= $this->entityManager->getRepository(Tag::class)->findAll(); // affichage des tags des albums photos configurable dans l'easyAdmin
 
+        $albumPicture = $this->entityManager->getRepository(AlbumPicture::class)->findBy([], ['id' => 'DESC']);
         // systeme de pagination
-        $albumPictures = $albumPictureRepository->findBy([], ['id' => 'DESC']);
-
         $albumPictures = $paginator->paginate(
-            $albumPictures, // Requête contenant les données à paginer (ici les albums photos)
-            $request->query->getInt('page', 1), //page number
-            4 //limit per page
+            $albumPicture, // Requête contenant les données à paginer (ici les albums photos)
+            $request->query->getInt('page', 1), //Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            8 //Nombre de résultats par page
         );
 
 
@@ -57,16 +51,16 @@ class PicturesController extends AbstractController
     {
         {
             $AlbumPicture = $this->entityManager->getRepository(AlbumPicture::class)->findOneBySlug($slug);
+            $PicturesAlbums= $this->entityManager->getRepository(PicturesAlbum::class)->findAll();
 
             if (!$AlbumPicture) {
                 return $this->redirectToRoute('AlbumPictures');
             }
 
-            $PicturesAlbums= $this->entityManager->getRepository(PicturesAlbum::class)->findAll();
-
             return $this->render('pictures/galleryAlbumPictures.html.twig', [
                 'AlbumPicture' => $AlbumPicture,
                 'PicturesAlbums' => $PicturesAlbums,
+
             ]);
 
         }

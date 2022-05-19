@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="m-5">
-        <h1>Présentation de Album photo</h1>
+        <h1 style="color:{{ Tags.color }}">Présentation des Albums photo <em>{{ Tags.title|raw }}</em></h1>
         <a href="{{ path('app_pictures') }}">Retour au menu des Albums Photo</a>
     </div>
 
