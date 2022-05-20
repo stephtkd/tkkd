@@ -57,10 +57,6 @@ class RegistrationController extends AbstractController
             else {
                 $notification = "L'email que vous avez renseigné existe déjà.";
             }
-
-            if ($notification) {
-                return $this->redirectToRoute('app_account');
-            }
         }
 
         return $this->render('registration/register.html.twig', [
@@ -88,6 +84,6 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Votre adresse e-mail a été vérifiée.');//Your email address has been verified
 
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('app_account');
     }
 }

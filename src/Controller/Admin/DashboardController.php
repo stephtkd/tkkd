@@ -9,7 +9,6 @@ use App\Entity\EventOption;
 use App\Entity\EventRate;
 use App\Entity\HomeComment;
 use App\Entity\Member;
-use App\Entity\PicturesAlbum;
 use App\Entity\SlidePicture;
 use App\Entity\Tag;
 use App\Entity\User;

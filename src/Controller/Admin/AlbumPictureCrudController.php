@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\AlbumPicture;
 use App\Form\AlbumPictureType;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -14,7 +16,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class AlbumPictureCrudController extends AbstractCrudController
 {
@@ -41,8 +42,8 @@ class AlbumPictureCrudController extends AbstractCrudController
                 ->setRequired(false),
              // Intégrer un système de multi upload d'image avec AlbumPictureType
             CollectionField::new('picturesAlbums', 'Photos de l\'album')
-                ->setEntryType(AlbumPictureType::class)
-                ->onlyOnForms()
+                ->setEntryType(AlbumPictureType::class),
+
         ];
 
     }
@@ -65,6 +66,13 @@ class AlbumPictureCrudController extends AbstractCrudController
             //la vue de CKEditor
             ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig')
         ;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->disable(Action::NEW);
     }
 
 }
