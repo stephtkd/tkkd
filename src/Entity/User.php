@@ -70,12 +70,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private ArrayCollection $adherents;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $eventSubscriptions;
+
 
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
         $this->members = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->eventSubscriptions = new ArrayCollection();
     }
 
 
@@ -243,6 +249,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getIsVerified(): ?bool
     {
         return $this->isVerified;
+    }
+
+    /**
+     * @return Collection<int, EventSubscription>
+     */
+    public function getEventSubscriptions(): Collection
+    {
+        return $this->eventSubscriptions;
+    }
+
+    public function addEventSubscription(EventSubscription $eventSubscription): self
+    {
+        if (!$this->eventSubscriptions->contains($eventSubscription)) {
+            $this->eventSubscriptions[] = $eventSubscription;
+            $eventSubscription->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventSubscription(EventSubscription $eventSubscription): self
+    {
+        if ($this->eventSubscriptions->removeElement($eventSubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($eventSubscription->getUser() === $this) {
+                $eventSubscription->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

@@ -95,11 +95,17 @@ class Event
      */
     private bool $allowVisitors;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="event", orphanRemoval=true)
+     */
+    private $eventSubscriptions;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
         $this->eventRates = new ArrayCollection();
         $this->eventOptions = new ArrayCollection();
+        $this->eventSubscriptions = new ArrayCollection();
     }
 
     public function __toString() {
@@ -326,6 +332,36 @@ class Event
             // set the owning side to null (unless already changed)
             if ($eventOption->getEvent() === $this) {
                 $eventOption->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EventSubscription>
+     */
+    public function getEventSubscriptions(): Collection
+    {
+        return $this->eventSubscriptions;
+    }
+
+    public function addEventSubscription(EventSubscription $eventSubscription): self
+    {
+        if (!$this->eventSubscriptions->contains($eventSubscription)) {
+            $this->eventSubscriptions[] = $eventSubscription;
+            $eventSubscription->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventSubscription(EventSubscription $eventSubscription): self
+    {
+        if ($this->eventSubscriptions->removeElement($eventSubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($eventSubscription->getEvent() === $this) {
+                $eventSubscription->setEvent(null);
             }
         }
 

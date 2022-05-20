@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\MemberRepository;
-use App\Repository\MembershipRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +16,10 @@ class MembershipController extends AbstractController
      * @Route("/members/{id}/validate-affiliated-documents-and-paiement", requirements={"id": "\d+"}, name="validate-affiliated", methods={"POST"})
      * @ParamConverter("member", class="App:Member", options={"id": "id"})
      *
+     * @param MemberRepository $memberRepository
      * @param $member
+     *
+     * @return JsonResponse
      */
     public function validateMembershipDocumentsAndPaiement(MemberRepository $memberRepository, $member): JsonResponse
     {
@@ -28,7 +30,6 @@ class MembershipController extends AbstractController
 
         if ('Validation en attente' == $membershipState) {
             $member->setMembershipState('Validée');
-            $member->setUpToDateMembership(true);
             $entityManager->persist($member);
             $entityManager->flush();
 
@@ -46,9 +47,12 @@ class MembershipController extends AbstractController
      * @Route("/members/{id}/validate-affiliated-paiement", requirements={"id": "\d+"}, name="validate-affiliated-paiement", methods={"POST"})
      * @ParamConverter("member", class="App:Member", options={"id": "id"})
      *
+     * @param MemberRepository $memberRepository
      * @param $member
+     *
+     * @return JsonResponse
      */
-    public function validateMembershipPaiement(MemberRepository $memberRepository, MembershipRepository $membershipRepository, $member): JsonResponse
+    public function validateMembershipPaiement(MemberRepository $memberRepository, $member): JsonResponse
     {
         $member = $memberRepository->find($member);
         $membershipState = $member->getMembershipState();
