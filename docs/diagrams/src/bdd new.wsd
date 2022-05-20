@@ -48,16 +48,6 @@ table(role) {
     {field} libelle	varchar(10)
 }
 
-table(membership) {
-    {field} +id						int(11)
-    {field} member_id				int(11)
-    {field} membership_rate_id		int(11)
-    {field} season_year				?int(11)
-    {field} subscription_date		?datetime
-    {field} membership_up_to_date	tinyint(1)
-    {field} membership_state		varchar(55)
-}
-
 'member <-- membership : on member_id = id
 'membership_rate <-- membership : on membership_rate_id = id
 
@@ -109,15 +99,29 @@ table(event) {
     {field} allow_visitor					tinyint(1)
 }
 
-table(event_member) {
+table(event_subscription) {
     {field} +id     	            int(11)
     {field} event_id	            int(11)
     {field} member_id	            int(11)
-    {field} subscription_date		datetime
+    {field} payment_id	            int(11)
+    {field} event_rate_id	        int(11)
+    {field} user_id	                int(11)
 }
 
-event "1" <-- "0..*" event_member : on event_id = id
-member "1..*" <-- "1..*" event_member : on member_id = id
+event "1" <-- "0..*" event_subscription : on event_id = id
+member "1" <-- "0..*" event_subscription : on event_id = id
+payment "1" <-- "0..*" event_subscription : on event_id = id
+user "1" <-- "0..*" event_subscription : on event_id = id
+event_rate "1" <-- "0..*" event_subscription : on event_id = id
+
+
+table(event_subscription_event_option) {
+    {field} +id     	                int(11)
+    {field} event_subscription_id	    int(11)
+    {field} event_option_id	            int(11)
+}
+
+event_option "1..*" <-- "1..*" event_subscription : on member_id = id
 
 
 table(criteria) {
