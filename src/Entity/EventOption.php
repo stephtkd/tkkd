@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EventRateRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +39,16 @@ class EventOption
      * @ORM\JoinColumn(nullable=false)
      */
     private Event $event;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=EventSubscription::class, mappedBy="eventOptions")
+     */
+    private $eventSubscriptions;
+
+    public function __construct()
+    {
+        $this->eventSubscriptions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -87,6 +99,33 @@ class EventOption
     public function setEvent(Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EventSubscription>
+     */
+    public function getEventSubscriptions(): Collection
+    {
+        return $this->eventSubscriptions;
+    }
+
+    public function addEventSubscription(EventSubscription $eventSubscription): self
+    {
+        if (!$this->eventSubscriptions->contains($eventSubscription)) {
+            $this->eventSubscriptions[] = $eventSubscription;
+            $eventSubscription->addEventOption($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventSubscription(EventSubscription $eventSubscription): self
+    {
+        if ($this->eventSubscriptions->removeElement($eventSubscription)) {
+            $eventSubscription->removeEventOption($this);
+        }
 
         return $this;
     }

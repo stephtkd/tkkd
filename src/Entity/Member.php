@@ -141,20 +141,20 @@ class Member
     private $events;
 
     /**
-     * @ORM\OneToMany(targetEntity=Membership::class, mappedBy="member", orphanRemoval=true)
-     */
-    private $memberships;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="members")
      * @ORM\JoinColumn(nullable=false)
      */
     private User $responsibleAdult;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="member", orphanRemoval=true)
+     */
+    private $eventSubscriptions;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
-        $this->memberships = new ArrayCollection();
+        $this->eventSubscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -395,29 +395,29 @@ class Member
     }
 
     /**
-     * @return Collection|Membership[]
+     * @return Collection<int, EventSubscription>
      */
-    public function getMemberships(): Collection
+    public function getEventSubscriptions(): Collection
     {
-        return $this->memberships;
+        return $this->eventSubscriptions;
     }
 
-    public function addMembership(Membership $membership): self
+    public function addEventSubscription(EventSubscription $eventSubscription): self
     {
-        if (!$this->memberships->contains($membership)) {
-            $this->memberships[] = $membership;
-            $membership->setMember($this);
+        if (!$this->eventSubscriptions->contains($eventSubscription)) {
+            $this->eventSubscriptions[] = $eventSubscription;
+            $eventSubscription->setMember($this);
         }
 
         return $this;
     }
 
-    public function removeMembership(Membership $membership): self
+    public function removeEventSubscription(EventSubscription $eventSubscription): self
     {
-        if ($this->memberships->removeElement($membership)) {
+        if ($this->eventSubscriptions->removeElement($eventSubscription)) {
             // set the owning side to null (unless already changed)
-            if ($membership->getMember() === $this) {
-                $membership->setMember(null);
+            if ($eventSubscription->getMember() === $this) {
+                $eventSubscription->setMember(null);
             }
         }
 
