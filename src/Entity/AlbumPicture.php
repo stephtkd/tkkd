@@ -6,7 +6,7 @@ use App\Repository\AlbumPictureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 /**
@@ -118,11 +118,18 @@ class AlbumPicture
         return $this->picturesAlbums;
     }
 
-    public function addPicturesAlbum(PicturesAlbum $picturesAlbum): self
+
+    public function addPicturesAlbum(UploadedFile $file): self
     {
-        if (!$this->picturesAlbums->contains($picturesAlbum)) {
-            $this->picturesAlbums[] = $picturesAlbum;
-            $picturesAlbum->setAlbumPicture($this);
+        $picture = (new PicturesAlbum())
+            ->setAlbumPicture($this)
+            ->setImages($file->getClientOriginalName());
+
+        $picture->upload($file);
+
+        if (!$this->picturesAlbums->contains($picture)) {
+            $this->picturesAlbums[] = $picture;
+            $picture->setAlbumPicture($this);
         }
 
         return $this;
