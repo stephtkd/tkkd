@@ -101,8 +101,7 @@
                 { //max input box allowed
                     x++; //text box increment
                     $(wrapper).append('<div>' +
-                        '<label class="sr-only mt-3" for="inlineFormInputName">Nom Prénom</label>' +
-                        '<input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/>' +
+                        '{{ form(form) }}\n' +
                         '<h5 class="card-title mt-2">Les tarifs pour les visiteurs :</h5>\n' +
                         '                           <div class="mb-3">\n' +
                         '                                    <label for="rates"></label>\n' +

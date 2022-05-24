@@ -7,6 +7,7 @@ use App\Entity\Event;
 use App\Entity\EventSubscription;
 use App\Entity\Member;
 use App\Entity\Payment;
+use App\Form\NoMemberType;
 use App\Form\OrderType;
 use App\Form\SubscriptionType;
 use App\Repository\EventRepository;
@@ -34,8 +35,18 @@ class SubscriptionController extends AbstractController
     {
         $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
 
+        $NoMember = new Member();
+        $form = $this->createForm(NoMemberType::class, $NoMember);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->entityManager->persist($NoMember);
+            $this->entityManager->flush();
+        }
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
+            'form' => $form->createView(),
         ]);
     }
 
