@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PicturesAlbumRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -108,5 +109,21 @@ class PicturesAlbum
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function upload(UploadedFile $file)
+    {
+        if(null === $file){
+            return;
+        }
+
+        $file->move(
+            './upload/album',
+            $file->getClientOriginalName()
+        );
+
+        $this->setImages($file->getClientOriginalName());
+
+        $this->setImagesFile(null);
     }
 }
