@@ -42,7 +42,7 @@
                                         <div class="accordion-body">
                                         <!-- formulaire ou select des members -->
                                             <div class="input_fields_wrap">
-                                                <button class="add_field_button mb-3">Ajouter des Personnes</button>
+                                                <button class="add_field_button mb-3">Ajouter des Visiteurs</button>
                                             </div>
                                         </div>
                                     </div>
@@ -53,7 +53,7 @@
                                 <!-- end accordion form -->
 
                             <div class="col-md-6 p-3">
-                                <h5 class=" card-title">Les tarifs :</h5>
+                                <h5 class=" card-title">Tarifs Membres :</h5>
                                 <div class="mb-3">
                                     <label for="rates"></label>
                                     <select name="rates" id="rates">
@@ -66,7 +66,7 @@
                                     <h5 class="card-title">Les options :</h5>
                                     {% for option in event.eventOptions %}
                                         <div class="mb-3">
-                                            <input type="checkbox" id="{{ option.id }}" name="{{ option.name }}" >
+                                            <input type="checkbox" id="{{ option.id }}" name="{{ option.name }}">
                                             <label for="{{ option.id }}">{{ option.name }} {{ option.amount/100 }} €</label>
                                         </div>
                                     {% endfor %}
@@ -102,7 +102,7 @@
                     x++; //text box increment
                     $(wrapper).append('<div>' +
                         '{{ form(form) }}\n' +
-                        '<h5 class="card-title mt-2">Les tarifs pour les visiteurs :</h5>\n' +
+                        '<h5 class="card-title mt-2">Tarifs pour les visiteurs :</h5>\n' +
                         '                           <div class="mb-3">\n' +
                         '                                    <label for="rates"></label>\n' +
                         '                                    <select name="rates" id="rates">\n' +
