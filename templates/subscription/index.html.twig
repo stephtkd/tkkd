@@ -10,6 +10,7 @@
             <div class="container">
                 <div class="row py-5 p-4 bg-white rounded shadow-sm">
                     <div class="col-md-6 p-3">
+
                         <!-- accordion form -->
                                 <div class="accordion" id="accordionPanelsStayOpenExample">
                                   <div class="accordion-item">
@@ -30,10 +31,11 @@
                                       </div>
                                     </div>
                                   </div>
+
                                   <div class="accordion-item">
                                     <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        Personne non membre à inscrire
+                                        Les visiteurs à inscrire
                                       </button>
                                     </h2>
                                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
@@ -41,10 +43,6 @@
                                         <!-- formulaire ou select des members -->
                                             <div class="input_fields_wrap">
                                                 <button class="add_field_button mb-3">Ajouter des Personnes</button>
-                                                <div>
-                                                    <label class="sr-only" for="inlineFormInputName">Nom Prénom</label>
-                                                    <input type="text" name="mytext[]" class="form-control mb-2" id="inlineFormInputName">
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -55,12 +53,12 @@
                                 <!-- end accordion form -->
 
                             <div class="col-md-6 p-3">
-                                <h5 class="card-title">Les tarifs :</h5>
+                                <h5 class=" card-title">Les tarifs :</h5>
                                 <div class="mb-3">
                                     <label for="rates"></label>
                                     <select name="rates" id="rates">
                                         {% for rate in event.eventRates %}
-                                            <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} €</option>
+                                            <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} € </option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -102,7 +100,29 @@
                 if(x < max_fields)
                 { //max input box allowed
                     x++; //text box increment
-                    $(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); //add input box
+                    $(wrapper).append('<div>' +
+                        '<label class="sr-only mt-3" for="inlineFormInputName">Nom Prénom</label>' +
+                        '<input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/>' +
+                        '<h5 class="card-title mt-2">Les tarifs pour les visiteurs :</h5>\n' +
+                        '                           <div class="mb-3">\n' +
+                        '                                    <label for="rates"></label>\n' +
+                        '                                    <select name="rates" id="rates">\n' +
+                        '                                        {% for rate in event.eventRates %}\n' +
+                        '                                            <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} € </option>\n' +
+                        '                                        {% endfor %}\n' +
+                        '                                    </select>\n' +
+                        '                                </div>\n' +
+                        '                                {% if event.eventOptions is not empty %}\n' +
+                        '                                    <h5 class="card-title">Les options :</h5>\n' +
+                        '                                    {% for option in event.eventOptions %}\n' +
+                        '                                        <div class="mb-3">\n' +
+                        '                                            <input type="checkbox" id="{{ option.id }}" name="{{ option.name }}" >\n' +
+                        '                                            <label for="{{ option.id }}">{{ option.name }} {{ option.amount/100 }} €</label>\n' +
+                        '                                        </div>\n' +
+                        '                                    {% endfor %}\n' +
+                        '                                {% endif %}\n' +
+                        '<a href="#" class="remove_field">Supprimer</a>' +
+                        '</div>'); //add input box
                 }
             });
 
@@ -111,6 +131,7 @@
                 $(this).parent('div').remove();
                 x--;
             })
+
         });
     </script>
 {% endblock %}
