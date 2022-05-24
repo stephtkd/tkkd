@@ -3,11 +3,18 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Member;
+use App\Repository\EventRepository;
+use App\Repository\MemberRepository;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
@@ -22,6 +29,15 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class MemberCrudController extends AbstractCrudController
 {
+    private EventRepository $eventRepository;
+    private MemberRepository $memberRepository;
+
+    public function __construct(EventRepository $eventRepository, MemberRepository $memberRepository)
+    {
+        $this->eventRepository = $eventRepository;
+        $this->memberRepository = $memberRepository;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Member::class;
@@ -53,17 +69,9 @@ class MemberCrudController extends AbstractCrudController
             NumberField::new('postalCode', 'Code Postal')->hideOnIndex(),
             TextField::new('city', 'Ville'),
             TextField::new('nationality', 'Nationnalité')->hideOnIndex(),
-            //TextField::new('responsibleAdult', 'Adulte Responsable'),
+            AssociationField::new('responsibleAdult', 'Adulte Responsable')
+                ->renderAsNativeWidget(),
             TelephoneField::new('emergencyPhone', 'Téléphone d\'urgence'),
-            ChoiceField::new('status', 'Status')
-                ->setChoices([
-                    'Elève' => 'Elève',
-                    'Président'=> 'Président',
-                    'Trésorier'=> 'Trésorier',
-                    'Secrétaire'=> 'Secrétaire',
-                    'Professeur'=> 'Professeur',
-                    'Assistant'=> 'Assistant'
-                ]),
             ChoiceField::new('level', 'Grade')
                 ->setChoices([
                     'aucun'=> 'aucun',
@@ -80,7 +88,7 @@ class MemberCrudController extends AbstractCrudController
                     '4e keup'=> '4e keup',
                     '3e keup'=> '3e keup',
                     '2e keup'=> '2e keup',
-                    '1e keup' => '1e keup',
+                    '1er keup' => '1er keup',
                     'BanDan'=> 'BanDan',
                     '1er Dan/Poom'=> '1er Dan/Poom',
                     '2e Dan/Poom' => '2e Dan/Poom',
@@ -99,6 +107,7 @@ class MemberCrudController extends AbstractCrudController
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false)
                 ->hideOnIndex(),
+            TextField::new('Adhesion', 'Adhésion')
         ];
     }
 
@@ -128,5 +137,22 @@ class MemberCrudController extends AbstractCrudController
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->disable(Action::NEW);
+    }
+
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+
+        $actualAdhesion = $this->eventRepository->findActualAdhesion();
+        $futureAdhesion = $this->eventRepository->findNextAdhesion();
+
+        return $this->memberRepository->createQueryBuilder('m')
+            ->leftJoin('m.eventSubscriptions', 'es')
+            ->andWhere('es.event = :actual OR es.event = :future')
+            ->andWhere('es.status = :status')
+            ->setParameter('actual', $actualAdhesion)
+            ->setParameter('future', $futureAdhesion)
+            ->setParameter('status', 'Payé')
+            ->orderBy('m.id', 'ASC');
     }
 }

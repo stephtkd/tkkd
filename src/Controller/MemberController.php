@@ -30,7 +30,7 @@ class MemberController extends AbstractController
      */
     public function index(): Response
     {
-        $adhesion = $this->eventRepository->findValidAdhesions();
+        $adhesion = $this->eventRepository->findActualAdhesion();
 
         return $this->render('account/member.html.twig', [
             'adhesion' => $adhesion
@@ -58,7 +58,7 @@ class MemberController extends AbstractController
                 $this->entityManager->persist($member);
                 $this->entityManager->flush();
 
-                $adhesion = $this->eventRepository->findValidAdhesions();
+                $adhesion = $this->eventRepository->findActualAdhesion();
 
                 if (is_null($adhesion)) {
                     return $this->redirectToRoute('account_member');
