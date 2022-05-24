@@ -3,46 +3,47 @@
 {% block title %}Suivre vos évènements - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
-    <h1>Suivre vos évènements</h1>
-    C'est dans cette espace que vous allez gérer le suivi de vos inscriptions d'évènements au club Taekwonkido Phenix. <br>
-    <a href="{{ path('app_account') }}">Retour</a>
-    <hr>
+    <div class="m-5">
+        <h1>Suivre vos évènements</h1>
+        C'est dans cette espace que vous allez gérer le suivi de vos inscriptions d'évènements au club Taekwonkido Phenix. <br>
+        <a href="{{ path('app_account') }}">Retour</a>
+        <hr>
 
-    <table class="table table-hover bg-light">
-        <thead>
-        <tr>
-            <th scope="col">Evènement</th>
-            <th scope="col">avec les options</th>
-            <th scope="col">Statut du paiement</th>
-            <th scope="col">Moyen de paiement</th>
-            <th scope="col">Passé le</th>
-            <th scope="col">Statut de l'inscription</th>
-            <th scope="col">Membre</th>
-            <th scope="col">Prix</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for subscription in subscriptions %}
-            {% set total = 0 %}
+        <table class="table table-hover bg-light">
+            <thead>
             <tr>
-                <th scope="row">{{ subscription.event.name }}</th>
-                <td>
-                    {% for eventOption in subscription.eventOptions %}
-                        <p>
-                            {{ eventOption.name }}
-                        </p>
-                        {% set total = total + eventOption.amount %}
-                    {% endfor %}
-                </td>
-                <td> {{ subscription.payment.status }}</td>
-                <td> {{ subscription.payment.mean }}</td>
-                <td> {{ subscription.payment.date|date("d/m/Y") }}</td>
-                <td> {{ subscription.status }}</td>
-                <td> {{ subscription.member.firstName }} {{ subscription.member.lastName }}</td>
-                <td>  {{ (total + subscription.payment.amount) / 100 }} €</td>
+                <th scope="col">Evènement</th>
+                <th scope="col">avec les options</th>
+                <th scope="col">Statut du paiement</th>
+                <th scope="col">Moyen de paiement</th>
+                <th scope="col">Passé le</th>
+                <th scope="col">Statut de l'inscription</th>
+                <th scope="col">Membre</th>
+                <th scope="col">Prix</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+            {% for subscription in subscriptions %}
+                {% set total = 0 %}
+                <tr>
+                    <th scope="row">{{ subscription.event.name }}</th>
+                    <td>
+                        {% for eventOption in subscription.eventOptions %}
+                            <p>
+                                {{ eventOption.name }}
+                            </p>
+                            {% set total = total + eventOption.amount %}
+                        {% endfor %}
+                    </td>
+                    <td> {{ subscription.payment.status }}</td>
+                    <td> {{ subscription.payment.mean }}</td>
+                    <td> {{ subscription.payment.date|date("d/m/Y") }}</td>
+                    <td> {{ subscription.status }}</td>
+                    <td> {{ subscription.member.firstName }} {{ subscription.member.lastName }}</td>
+                    <td>  {{ (total + subscription.payment.amount) / 100 }} €</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

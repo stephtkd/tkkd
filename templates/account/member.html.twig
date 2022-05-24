@@ -3,7 +3,7 @@
 {% block title %}Adhérent - Taekwonkido Phenix {% endblock %}
 
 {% block body %}
-
+<div class="m-5">
     <h1 class="m-3">Vos adhérents</h1>
     <a href="{{ path('account_member_add') }}" class="btn btn-dark btn-sm">Ajouter un adhérent</a>
     {% if adhesion is not null %}
@@ -45,5 +45,5 @@
         {% endfor %}
     </div>
     {% endif %}
-
+</div>
 {% endblock %}

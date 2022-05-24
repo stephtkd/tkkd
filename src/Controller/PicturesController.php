@@ -34,7 +34,7 @@ class PicturesController extends AbstractController
         $albumPictures = $paginator->paginate(
             $albumPicture, // Requête contenant les données à paginer (ici les albums photos)
             $request->query->getInt('page', 1), //Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            8 //Nombre de résultats par page
+            10 //Nombre de résultats par page
         );
 
 

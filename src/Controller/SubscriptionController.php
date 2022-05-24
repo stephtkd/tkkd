@@ -8,8 +8,10 @@ use App\Entity\EventSubscription;
 use App\Entity\Member;
 use App\Entity\Payment;
 use App\Form\OrderType;
+use App\Form\SubscriptionType;
 use App\Repository\EventRepository;
 use App\Service\HelloAssoApiService;
+use ContainerMQNbkTr\getFollowedMembershipControllerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,12 +30,12 @@ class SubscriptionController extends AbstractController
     }
 
     #[Route('/subscription/{id}', name: 'app_subscription')]  // order
-    public function index($id): Response
+    public function index($id, Request $request): Response
     {
         $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
 
         return $this->render('subscription/index.html.twig', [
-            'event' => $event
+            'event' => $event,
         ]);
     }
 
