@@ -34,15 +34,18 @@ class AlbumPictureCrudController extends AbstractCrudController
                 ->setTargetFieldName('title'),
             TextEditorField::new('description', 'Description de l\'album')
                 ->setFormType(CKEditorType::class), // appel du CKEditor
-            AssociationField::new('Tag', 'Tag de l\'album'),
-            ImageField::new('picture', 'image principal de l\'album')
+            AssociationField::new('Tag', 'Sélection du Tag de l\'album'),
+            ImageField::new('picture', 'L\' image principal de l\'album')
                 ->setBasePath('upload/AlbumPicture') //système d'upload des images
                 ->setUploadDir('public/upload/AlbumPicture')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
              // Intégrer un système de multi upload d'image avec AlbumPictureType
             CollectionField::new('picturesAlbums', 'Photos de l\'album')
-                ->setEntryType(AlbumPictureType::class),
+                ->setEntryType(AlbumPictureType::class)
+                ->setFormTypeOption('attr.multiple', 'multiple')
+                ->setFormTypeOption('label', " ")
+                ->setVirtual(true),
 
         ];
 

@@ -14,7 +14,9 @@ class AlbumPictureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('imagesFile', VichImageType::class)
+            ->add('imagesFile', VichImageType::class, [
+                'label' => 'Photo'
+            ])
         ;
     }
 

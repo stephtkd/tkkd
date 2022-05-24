@@ -40,7 +40,7 @@
                                         <div class="accordion-body">
                                         <!-- formulaire ou select des members -->
                                             <div class="input_fields_wrap">
-                                                <button class="add_field_button">Ajouter des Personnes</button>
+                                                <button class="add_field_button mb-3">Ajouter des Personnes</button>
                                                 <div>
                                                     <label class="sr-only" for="inlineFormInputName">Nom Prénom</label>
                                                     <input type="text" name="mytext[]" class="form-control mb-2" id="inlineFormInputName">
@@ -102,7 +102,7 @@
                 if(x < max_fields)
                 { //max input box allowed
                     x++; //text box increment
-                    $(wrapper).append('<div><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); //add input box
+                    $(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); //add input box
                 }
             });
 
