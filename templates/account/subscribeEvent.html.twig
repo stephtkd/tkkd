@@ -40,7 +40,7 @@
                     <td> {{ subscription.payment.date|date("d/m/Y") }}</td>
                     <td> {{ subscription.status }}</td>
                     <td> {{ subscription.member.firstName }} {{ subscription.member.lastName }}</td>
-                    <td>  {{ (total + subscription.payment.amount) / 100 }} €</td>
+                    <td> {{ subscription.payment.amount / 100 }} €</td>
                 </tr>
             {% endfor %}
             </tbody>

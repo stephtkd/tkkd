@@ -42,12 +42,17 @@ class EventOption
 
     /**
      * @ORM\ManyToMany(targetEntity=EventSubscription::class, mappedBy="eventOptions")
+     * @ORM\JoinTable(name="event_subscription_event_option")
      */
-    private $eventSubscriptions;
+    private Collection $eventSubscriptions;
 
     public function __construct()
     {
         $this->eventSubscriptions = new ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->getName();
     }
 
     public function getId(): ?int
