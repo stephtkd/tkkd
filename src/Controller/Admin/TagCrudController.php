@@ -36,8 +36,8 @@ class TagCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Tags')
             // Le titre visible en haut de la page et le contenu de l'élément <title>
             // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Liste des %entity_label_plural%')
-            ->setPageTitle('new', 'Créer %entity_label_singular%')
+            ->setPageTitle('index', 'Liste des Tags')
+            ->setPageTitle('new', 'Créer un Tag')
             ->setPageTitle('edit', 'Modifier %entity_label_singular% <small>(#%entity_id%)</small>')
             // Définit le tri initial appliqué à la liste
             // (l'utilisateur peut ensuite modifier ce tri en cliquant sur les colonnes de la table)

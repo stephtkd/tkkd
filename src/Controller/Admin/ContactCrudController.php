@@ -37,8 +37,8 @@ class ContactCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Contenu de la Page Contact')
             // Le titre visible en haut de la page et le contenu de l'élément <title>
             // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Liste du %entity_label_plural%')
-            ->setPageTitle('new', 'Créer %entity_label_singular%')
+            ->setPageTitle('index', 'Liste du Contenu de la Page Contact')
+            ->setPageTitle('new', 'Créer le Contenu de la Page Contact')
             ->setPageTitle('edit', 'Modifier %entity_label_singular% <small>(#%entity_id%)</small>')
             ->setDefaultSort(['id' => 'DESC'])
             ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig')

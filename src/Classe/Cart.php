@@ -3,7 +3,6 @@
 
 namespace App\Classe;
 
-use App\Entity\EventRate;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
