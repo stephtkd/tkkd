@@ -26,6 +26,7 @@
                                     <label for="rates"></label>
                                     <select name="rates" id="rates">
                                         {% for rate in event.eventRates %}
+                                            <option selected></option>
                                             <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} € </option>
                                     </select>
                                     {% endfor %}
@@ -98,6 +99,7 @@
                         '<label for="rates"></label>\n' +
                         '<select name="rates" id="rates">\n' +
                         '{% for rate in event.eventRates %}\n' +
+                        '<option selected></option>\n' +
                         '<option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} € </option>\n' +
                         '{% endfor %}\n' +
                         '</select>\n' +
