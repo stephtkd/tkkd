@@ -9,65 +9,59 @@
         <div class="pb-5 ">
             <div class="container">
                 <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                    <div class="col-md-6 p-3">
-                        <!-- accordion form -->
-                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                  <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                        Membre à inscrire
-                                      </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                      <div class="accordion-body">
-                                         <!-- formulaire ou select des members -->
-                                          {% for member in app.user.members %}
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="{{ member.id }}">{{ member.firstname }} {{ member.lastname }}</option>
-                                                </select>
-                                          {% endfor %}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        Les visiteurs à inscrire
-                                      </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                                        <div class="accordion-body">
-                                        <!-- formulaire ou select des members -->
-                                            <div class="input_fields_wrap">
-                                                <button class="add_field_button mb-3">Ajouter des Visiteurs</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                                <!-- end accordion form -->
-                            <div class="col-md-6 p-3">
-                                <h5 class=" card-title">Tarifs Membres :</h5>
+                    {% for member in app.user.members %}
+                <div class="row justify-content-around">
+
+                    <div class="col-md-5 p-3">
+                        <!-- formulaire ou select des members -->
+
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected></option>
+                                <option value="{{ member.id }}">{{ member.firstname }} {{ member.lastname }}</option>
+                            </select>
+                    </div>
+                    <div class="col-md-6 text-center p-3">
+                                <h5 class=" card-title">Tarifs Membre :</h5>
                                 <div class="mb-3">
                                     <label for="rates"></label>
                                     <select name="rates" id="rates">
                                         {% for rate in event.eventRates %}
                                             <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} € </option>
-                                        {% endfor %}
                                     </select>
+                                    {% endfor %}
                                 </div>
-                                {% if event.eventOptions is not empty %}
                                     <h5 class="card-title">Les options :</h5>
-                                    {% for option in event.eventOptions %}
+                                {% if event.eventOptions is not empty %}
                                         <div class="mb-3">
+                                            {% for option in event.eventOptions %}
                                             <input type="checkbox" id="{{ option.id }}" name="{{ option.name }}">
                                             <label for="{{ option.id }}">{{ option.name }} {{ option.amount/100 }} €</label>
+                                            {% endfor %}
+                                            {% endif %}
                                         </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
+                    </div>
+                </div>
+                    {% endfor %}
+                        <!-- accordion form -->
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                  <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                          Les visiteurs à inscrire
+                                      </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                      <div class="accordion-body">
+                                          <!-- formulaire ou select des members -->
+                                          <div class="input_fields_wrap">
+                                              <button class="add_field_button mb-3">Ajouter des Visiteurs</button>
+                                          </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+                                <!-- end accordion form -->
                         </div>
 
                 <a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
@@ -96,9 +90,10 @@
                 if(x < max_fields)
                 { //max input box allowed
                     x++; //text box increment
-                    $(wrapper).append('<div>' +
-                        '{{ form(form) }}\n' +
-                        '<h5 class="card-title mt-2">Tarifs pour les visiteurs :</h5>\n' +
+                    $(wrapper).append('<div class="row">' +
+                        '<div class="col-md-6">{{ form(form) }}</div>\n' +
+                        '<div class="col-md-5 m-3 text-center">\n' +
+                        '<h5 class="card-title">Tarifs pour les visiteurs :</h5>\n' +
                         '<div class="mb-3">\n' +
                         '<label for="rates"></label>\n' +
                         '<select name="rates" id="rates">\n' +
@@ -116,7 +111,8 @@
                         '</div>\n' +
                         '{% endfor %}\n' +
                         '{% endif %}\n' +
-                        '<a href="#" class="remove_field">Supprimer</a>' +
+                        '</div>\n' +
+                        '<a href="#" class="remove_field mb-3">Supprimer</a>' +
                         '</div>'); //add input box
                 }
             });
