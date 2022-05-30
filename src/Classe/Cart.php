@@ -27,6 +27,19 @@ class  Cart
         $this->session->set('cart', $cart);
     }
 
+   /*public function add($id)
+    {
+        $cart = $this->session->get('cart', []);
+
+        if (!empty($cart[$id])) {
+            $cart[$id]++;
+        }
+        else{
+            $cart[$id] = 1;
+        }
+        $this->session->set('cart', $cart);
+    }*/
+
     public function get()
     {
         return $this->session->get('cart');

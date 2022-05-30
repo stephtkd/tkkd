@@ -11,13 +11,13 @@
                 <div class="row py-5 p-4 bg-white rounded shadow-sm">
                     {% for member in app.user.members %}
                 <div class="row justify-content-around">
-
                     <div class="col-md-5 p-3">
                         <!-- formulaire ou select des members -->
-
                             <select class="form-select" aria-label="Default select example">
+                                <a href="{{ path('app_subscription', { 'id' : member.id }) }}">
                                 <option selected></option>
                                 <option value="{{ member.id }}">{{ member.firstname }} {{ member.lastname }}</option>
+                                </a>
                             </select>
                     </div>
                     <div class="col-md-6 text-center p-3">
@@ -26,6 +26,8 @@
                                     <label for="rates"></label>
                                     <select name="rates" id="rates">
                                         {% for rate in event.eventRates %}
+                                    /* vérifié app_subscription selon les parametres */
+                                            <a href="{{ path('app_subscription', { 'id' : event.id }) }}">
                                             <option selected></option>
                                             <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} € </option>
                                     </select>
@@ -37,6 +39,7 @@
                                             {% for option in event.eventOptions %}
                                             <input type="checkbox" id="{{ option.id }}" name="{{ option.name }}">
                                             <label for="{{ option.id }}">{{ option.name }} {{ option.amount/100 }} €</label>
+                                                </a>
                                             {% endfor %}
                                             {% endif %}
                                         </div>
@@ -99,6 +102,7 @@
                         '<label for="rates"></label>\n' +
                         '<select name="rates" id="rates">\n' +
                         '{% for rate in event.eventRates %}\n' +
+                        '<a href="{{ path('app_subscription', { 'id' : event.id }) }}">\n' +
                         '<option selected></option>\n' +
                         '<option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} € </option>\n' +
                         '{% endfor %}\n' +
@@ -111,6 +115,7 @@
                         '<input type="checkbox" id="{{ option.id }}" name="{{ option.name }}" >\n' +
                         '<label for="{{ option.id }}">{{ option.name }} {{ option.amount/100 }} €</label>\n' +
                         '</div>\n' +
+                        '</a>\n' +
                         '{% endfor %}\n' +
                         '{% endif %}\n' +
                         '</div>\n' +
