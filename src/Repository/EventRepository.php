@@ -35,9 +35,12 @@ class EventRepository extends ServiceEntityRepository
 
     public function findNextAdhesion()
     {
+        $nextYear = (new \DateTime())->modify('+1 year');
+
         return $this->createQueryBuilder('e')
-            ->andWhere('e.season = :season')
-            ->setParameter('season', 'next_season')
+            ->andWhere('e.season IS NOT NULL')
+            ->andWhere('e.startDate < :nextYear AND e.endDate > :nextYear')
+            ->setParameter('nextYear', $nextYear)
             ->getQuery()
             ->getOneOrNullResult()
             ;

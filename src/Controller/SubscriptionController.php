@@ -89,7 +89,7 @@ class SubscriptionController extends AbstractController
         $subscription = new EventSubscription();
         $payment = new Payment();
 
-        $subscription->setStatus('Paiement en cours');
+        $subscription->setStatus('ok');
         $subscription->setEvent($event);
         $subscription->setEventRate($event->getEventRates()[0]);
         $subscription->setMember($member);
@@ -97,7 +97,7 @@ class SubscriptionController extends AbstractController
         $subscription->addEventOption($event->getEventOptions()[1]);
         $subscription->setUser($this->getUser());
 
-        $payment->setStatus('En attente');
+        $payment->setStatus('ok');
         $payment->setAmount(1500);
         $payment->setDate(new \DateTime());
         $payment->setMean('Espèce');

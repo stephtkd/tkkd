@@ -124,20 +124,6 @@ class MemberType extends AbstractType
                     ])
                 ]
             ])
-            ->add('medicalCertificateName',FileType::class, [
-                'data_class' => null,
-                'mapped' => false,
-                'label' => 'Certificat médical',
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/*',
-                        ],
-                    ])
-                ]
-            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider l\'inscription',
                 'attr' => [
