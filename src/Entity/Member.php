@@ -149,12 +149,16 @@ class Member
     /**
      * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="member", orphanRemoval=true)
      */
-    private $eventSubscriptions;
+    private Collection $eventSubscriptions;
 
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->eventSubscriptions = new ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->firstName.' '.$this->lastName;
     }
 
     public function getId(): ?int
@@ -424,5 +428,13 @@ class Member
         return $this;
     }
 
+    public function getAdhesion(){
+        foreach ($this->eventSubscriptions as $eventSubscription) {
+            if (!is_null($eventSubscription->getEvent()->getSeason())) {
+                return $eventSubscription->getEvent()->getName();
+            }
+        }
 
+        return "";
+    }
 }

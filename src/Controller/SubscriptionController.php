@@ -109,7 +109,45 @@ class SubscriptionController extends AbstractController
         $payment->setAmount(1500);
         $payment->setDate(new \DateTime());
         $payment->setMean('Espèce');
-        $payment->setDetails([]);
+        $details = [
+            'user' => [
+                'id' => $subscription->getUser()->getId(),
+                'firstName' => $subscription->getUser()->getFirstName(),
+                'lastName' => $subscription->getUser()->getLastName(),
+                'email' => $subscription->getUser()->getEmail(),
+            ],
+            'member' => [
+                'id' => $member->getId(),
+                'firstName' => $member->getFirstName(),
+                'lastName' => $member->getLastName(),
+                'email' => $member->getEmail(),
+                'street' => $member->getStreetAdress(),
+                'postalCode' => $member->getPostalCode(),
+                'city' => $member->getCity(),
+                'country' => $member->getNationality(),
+            ],
+            'event' => [
+                'id' => $event->getId(),
+                'slug' => $event->getSlug(),
+                'startDate' => $event->getStartDate(),
+                'endDate' => $event->getEndDate(),
+                'rate' => [
+                    'id' => $subscription->getEventRate()->getId(),
+                    'name' => $subscription->getEventRate()->getName(),
+                    'amount' => $subscription->getEventRate()->getAmount(),
+                ],
+                'options' => []
+            ]
+        ];
+        foreach ($subscription->getEventOptions() as $option) {
+            $opt = [
+                'id' => $option->getId(),
+                'name' => $option->getName(),
+                'amount' => $option->getAmount(),
+            ];
+            array_push($details['event']['options'], $opt);
+        }
+        $payment->setDetails($details);
         $subscription->setPayment($payment);
 
         $cart->add($subscription);

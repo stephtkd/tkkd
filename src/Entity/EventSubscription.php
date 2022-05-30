@@ -45,6 +45,7 @@ class EventSubscription
 
     /**
      * @ORM\ManyToMany(targetEntity=EventOption::class, inversedBy="eventSubscriptions")
+     * @ORM\JoinTable(name="event_subscription_event_option")
      */
     private Collection $eventOptions;
 

@@ -6,6 +6,7 @@ use App\Repository\PaymentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Json;
 
 /**
  * @ORM\Entity(repositoryClass=PaymentRepository::class)
@@ -47,7 +48,7 @@ class Payment
     /**
      * @ORM\Column(type="json")
      */
-    private array $details = [];
+    private $details;
 
     /**
      * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="payment")
@@ -124,12 +125,12 @@ class Payment
         return $this;
     }
 
-    public function getDetails(): ?array
+    public function getDetails()
     {
         return $this->details;
     }
 
-    public function setDetails(array $details): self
+    public function setDetails($details): self
     {
         $this->details = $details;
 
@@ -164,5 +165,9 @@ class Payment
         }
 
         return $this;
+    }
+
+    public function getDetail() {
+        return json_encode($this->details);
     }
 }

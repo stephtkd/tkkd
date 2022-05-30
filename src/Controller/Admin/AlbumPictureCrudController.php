@@ -3,11 +3,14 @@
 namespace App\Controller\Admin;
 
 use App\Controller\Admin\Fields\MultipleImageField;
+use App\Controller\Admin\Fields\MultiTagsField;
 use App\Entity\AlbumPicture;
 use App\Entity\PicturesAlbum;
+use App\Form\TagMultipleType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -26,6 +29,7 @@ class AlbumPictureCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+
         return[
             IdField::new('id')->hideOnForm(), // enleve l'affichage du id
             TextField::new('title', 'Titre de l\'album photo'),
@@ -33,6 +37,7 @@ class AlbumPictureCrudController extends AbstractCrudController
                 ->setTargetFieldName('title'),
             TextEditorField::new('description', 'Description de l\'album')
                 ->setFormType(CKEditorType::class), // appel du CKEditor
+            // Intégrer un système de multi selection des Tags, peut être avec TomSelect ou Select2
             AssociationField::new('Tag', 'Tag de l\'album'),
             ImageField::new('picture', 'image principal de l\'album')
                 ->setBasePath('upload/album') //système d'upload des images
