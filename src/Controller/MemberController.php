@@ -67,6 +67,7 @@ class MemberController extends AbstractController
 
         return $this->render('account/memberForm.html.twig', [
             'form' => $form->createView(),
+            'user' => $this->getUser()
         ]);
     }
 
@@ -99,7 +100,8 @@ class MemberController extends AbstractController
         }
 
         return $this->render('account/memberForm.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'user' => $member
         ]);
     }
 

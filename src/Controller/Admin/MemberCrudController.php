@@ -49,7 +49,7 @@ class MemberCrudController extends AbstractCrudController
                     'Femme'=> 'Femme'
                 ]),
             DateField::new('birthdate', 'Date de naissance'),
-            TextField::new('streetAdress', 'Adresse'),
+            TextField::new('streetAddress', 'Adresse'),
             NumberField::new('postalCode', 'Code Postal'),
             TextField::new('city', 'Ville'),
             TextField::new('nationality', 'Nationnalité'),

@@ -8,6 +8,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UserCrudController extends AbstractCrudController
@@ -25,6 +27,11 @@ class UserCrudController extends AbstractCrudController
             EmailField::new('email', 'Email'),
             TextField::new('firstname', 'Prénom'),
             TextField::new('lastname', 'Nom'),
+            TextField::new('streetAddress', 'Adresse'),
+            NumberField::new('postalCode', 'Code Postal'),
+            TextField::new('city', 'Ville'),
+            TelephoneField::new('phoneNumber', 'Téléphone'),
+
         ];
     }
 

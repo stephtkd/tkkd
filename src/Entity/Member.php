@@ -75,7 +75,7 @@ class Member
      * @Assert\NotBlank (message="Veuillez renseigner l'adresse de l'adhérent")
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $streetAdress;
+    private ?string $streetAddress;
 
     /**
      * @Assert\NotBlank (message="Veuillez renseigner le code postal de l'adhérent")
@@ -220,14 +220,14 @@ class Member
         return $this;
     }
 
-    public function getStreetAdress(): ?string
+    public function getStreetAddress(): ?string
     {
-        return $this->streetAdress;
+        return $this->streetAddress;
     }
 
-    public function setStreetAdress(string $streetAdress): self
+    public function setStreetAddress(string $streetAddress): self
     {
-        $this->streetAdress = $streetAdress;
+        $this->streetAddress = $streetAddress;
 
         return $this;
     }

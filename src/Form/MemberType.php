@@ -49,7 +49,7 @@ class MemberType extends AbstractType
                 'label' => 'Email',
                 'required' => true,
             ])
-            ->add('streetAdress', TextType::class, [
+            ->add('streetAddress', TextType::class, [
                 'label' => 'Adresse',
                 'required' => true,
             ])
