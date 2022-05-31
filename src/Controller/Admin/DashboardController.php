@@ -53,6 +53,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable //les menus du dashboard pour geres le site
     {
+        // Logo Menu fontawesome.com
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home'); // les icones fontawesome.com/icons
 
         yield MenuItem::section('Gestion des comptes');
