@@ -130,12 +130,6 @@ class Member
     private $photoName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\File(mimeTypes={"image/gif", "image/jpeg", "image/png", "image/pdf"})
-     */
-    private $medicalCertificateName;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="participants")
      */
     private $events;
@@ -149,12 +143,16 @@ class Member
     /**
      * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="member", orphanRemoval=true)
      */
-    private $eventSubscriptions;
+    private Collection $eventSubscriptions;
 
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->eventSubscriptions = new ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->firstName.' '.$this->lastName;
     }
 
     public function getId(): ?int
@@ -355,18 +353,6 @@ class Member
         return $this;
     }
 
-    public function getMedicalCertificateName(): ?string
-    {
-        return $this->medicalCertificateName;
-    }
-
-    public function setMedicalCertificateName(string $medicalCertificateName): self
-    {
-        $this->medicalCertificateName = $medicalCertificateName;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Event[]
      */
@@ -424,5 +410,13 @@ class Member
         return $this;
     }
 
+    public function getAdhesion(){
+        foreach ($this->eventSubscriptions as $eventSubscription) {
+            if (!is_null($eventSubscription->getEvent()->getSeason())) {
+                return $eventSubscription->getEvent();
+            }
+        }
 
+        return "";
+    }
 }
