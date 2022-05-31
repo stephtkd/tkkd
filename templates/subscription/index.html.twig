@@ -27,7 +27,7 @@
                                     <select name="rates" id="rates">
                                         {% for rate in event.eventRates %}
                                     /* vérifié app_subscription selon les parametres */
-                                            <a href="{{ path('app_subscription', { 'id' : event.id }) }}">
+                                            <a href="{{ path( 'app_subscription', { 'id' : event.id }) }}">
                                             <option selected></option>
                                             <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} € </option>
                                     </select>
