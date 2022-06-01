@@ -49,7 +49,7 @@ class MemberType extends AbstractType
                 'label' => 'Email',
                 'required' => true,
             ])
-            ->add('streetAdress', TextType::class, [
+            ->add('streetAddress', TextType::class, [
                 'label' => 'Adresse',
                 'required' => true,
             ])
@@ -114,20 +114,6 @@ class MemberType extends AbstractType
             ->add('photoName', FileType::class, [
                 'mapped' => false,
                 'label' => 'Photo de l\'adhérent',
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/*',
-                        ],
-                    ])
-                ]
-            ])
-            ->add('medicalCertificateName',FileType::class, [
-                'data_class' => null,
-                'mapped' => false,
-                'label' => 'Certificat médical',
                 'required' => false,
                 'constraints' => [
                     new File([

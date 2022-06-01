@@ -13,13 +13,6 @@ skinparam classBorderColor #ff0066
 skinparam classBackgroundColor ##f6f4ee
 skinparam shadowing false
 
-table(membership_rate) {
-    {field} +id 			int(11)
-    {field} label		    varchar(255)
-    {field} price		    double
-    {field} maximum_age	?int(11)
-}
-
 table(pictures_album) {
     {field} +id					int(11)
     {field} album_picture_id	int(11)
@@ -47,9 +40,6 @@ table(role) {
     {field} +id		int(11)
     {field} libelle	varchar(10)
 }
-
-'member <-- membership : on member_id = id
-'membership_rate <-- membership : on membership_rate_id = id
 
 table(doctrine_migration_versions) {
     {field} +version			varchar(191)
@@ -106,6 +96,9 @@ table(event_subscription) {
     {field} payment_id	            int(11)
     {field} event_rate_id	        int(11)
     {field} user_id	                int(11)
+    {field} status					varchar(255)
+    {field} comment					?varchar(5000)
+    {field} link_image				?varchar(255)
 }
 
 event "1" <-- "0..*" event_subscription : on event_id = id
@@ -167,37 +160,31 @@ table(category_album) {
 table(member) {
     {field} +id							int(11)
     {field} responsible_adult_id		int(11)
-    {field} --membership_rate_id--			?int(11)
     {field} first_name					varchar(55)
     {field} last_name					varchar(55)
     {field} sex							varchar(10)
     {field} birthdate					date
     {field} email						**?**varchar(255)
-    {field} street_adress				**?**varchar(255)
+    {field} street_address				**?**varchar(255)
     {field} postal_code					**?**varchar(55)
     {field} city						**?**varchar(100)
     {field} phone_number				**?**varchar(50)
     {field} emergency_phone				**?**varchar(55)
     {field} nationality					**?**varchar(100)
     {field} photo_name					?varchar(255)
-    {field} medical_certificate_name	?varchar(255)
     {field} comment						?varchar(255)
     {field} level						?varchar(55)
     {field} --suscription_date--			?date
     {field} membership_state			?varchar(55)
-    {field} --user_id--						int(11)
 }
 
 user "1" <-- "1" member : on responsible_adult_id = id
-'membership_rate <-- member : on membership_rate_id = id
-'user "1" <-- "1" member : on user_id = id
 
 table(slide_picture) {
     {field} +id				int(11)
     {field} title			?varchar(255)
     {field} illustration	varchar(255)
 }
-
 
 table(user) {
     {field} +id			int(11)
@@ -207,6 +194,10 @@ table(user) {
     {field} first_name	varchar(55)
     {field} last_name	varchar(55)
     {field} is_verified	tinyint(1)
+    {field} street_address				**?**varchar(255)
+    {field} postal_code					**?**varchar(55)
+    {field} city						**?**varchar(100)
+    {field} phone_number				**?**varchar(50)
 }
 
 table(doctrine_migration_versions) {

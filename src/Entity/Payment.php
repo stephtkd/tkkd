@@ -6,6 +6,7 @@ use App\Repository\PaymentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Json;
 
 /**
@@ -26,6 +27,7 @@ class Payment
     private string $mean;
 
     /**
+     * @Assert\Choice({"en attente", "refusé", "ok"})
      * @ORM\Column(type="string", length=255)
      */
     private string $status;
@@ -59,6 +61,11 @@ class Payment
     {
         $this->eventSubscriptions = new ArrayCollection();
     }
+
+    public function __toString() {
+        return 'Payment '.$this->getId();
+    }
+
 
     public function getId(): ?int
     {

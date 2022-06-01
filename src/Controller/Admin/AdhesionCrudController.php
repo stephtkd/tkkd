@@ -7,6 +7,8 @@ use App\Repository\EventRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -21,7 +23,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
-class EventCrudController extends AbstractCrudController
+class AdhesionCrudController extends AbstractCrudController
 {
     private EventRepository $eventRepository;
 
@@ -62,13 +64,13 @@ class EventCrudController extends AbstractCrudController
     {
         return $crud
             // Les labels utilisés pour faire référence à l'entité dans les titres, les boutons, etc.
-            ->setEntityLabelInSingular('Evénement')
-            ->setEntityLabelInPlural('Evénements')
+            ->setEntityLabelInSingular('Adhésion')
+            ->setEntityLabelInPlural('Adhésions')
             // Le titre visible en haut de la page et le contenu de l'élément <title>
             // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Liste des Evénements')
-            ->setPageTitle('new', 'Créer un Evénement')
-            ->setPageTitle('edit', 'Modifier l\' %entity_label_singular% <small>(#%entity_id%)</small>')
+            ->setPageTitle('index', 'Liste des %entity_label_plural%')
+            ->setPageTitle('new', 'Créer une %entity_label_singular%')
+            ->setPageTitle('edit', 'Modifier une %entity_label_singular% <small>(#%entity_id%)</small>')
             // Définit le tri initial appliqué à la liste
             // (l'utilisateur peut ensuite modifier ce tri en cliquant sur les colonnes de la table)
             ->setDefaultSort(['id' => 'DESC'])
@@ -77,12 +79,18 @@ class EventCrudController extends AbstractCrudController
             ;
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+    }
+
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
         return $this->eventRepository->createQueryBuilder('e')
-            ->andWhere('e.season IS NULL')
+            ->andWhere('e.season IS NOT NULL')
             ->orderBy('e.id', 'ASC');
     }
 }

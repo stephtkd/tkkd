@@ -75,7 +75,7 @@ class Member
      * @Assert\NotBlank (message="Veuillez renseigner l'adresse de l'adhérent")
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $streetAdress;
+    private ?string $streetAddress;
 
     /**
      * @Assert\NotBlank (message="Veuillez renseigner le code postal de l'adhérent")
@@ -128,12 +128,6 @@ class Member
      * @Assert\File(mimeTypes={"image/gif", "image/jpeg", "image/jpg", "image/png"})
      */
     private $photoName;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\File(mimeTypes={"image/gif", "image/jpeg", "image/png", "image/pdf"})
-     */
-    private $medicalCertificateName;
 
     /**
      * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="participants")
@@ -226,14 +220,14 @@ class Member
         return $this;
     }
 
-    public function getStreetAdress(): ?string
+    public function getStreetAddress(): ?string
     {
-        return $this->streetAdress;
+        return $this->streetAddress;
     }
 
-    public function setStreetAdress(string $streetAdress): self
+    public function setStreetAddress(string $streetAddress): self
     {
-        $this->streetAdress = $streetAdress;
+        $this->streetAddress = $streetAddress;
 
         return $this;
     }
@@ -359,18 +353,6 @@ class Member
         return $this;
     }
 
-    public function getMedicalCertificateName(): ?string
-    {
-        return $this->medicalCertificateName;
-    }
-
-    public function setMedicalCertificateName(string $medicalCertificateName): self
-    {
-        $this->medicalCertificateName = $medicalCertificateName;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Event[]
      */
@@ -431,7 +413,7 @@ class Member
     public function getAdhesion(){
         foreach ($this->eventSubscriptions as $eventSubscription) {
             if (!is_null($eventSubscription->getEvent()->getSeason())) {
-                return $eventSubscription->getEvent()->getName();
+                return $eventSubscription->getEvent();
             }
         }
 

@@ -6,6 +6,7 @@ use App\Repository\EventSubscriptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EventSubscriptionRepository::class)
@@ -50,6 +51,7 @@ class EventSubscription
     private Collection $eventOptions;
 
     /**
+     * @Assert\Choice({"en attente de pièces", "résiliée", "ok"})
      * @ORM\Column(type="string", length=255)
      */
     private ?string $status;
@@ -59,6 +61,17 @@ class EventSubscription
      * @ORM\JoinColumn(nullable=false)
      */
     private Payment $payment;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={"image/gif", "image/jpeg", "image/png", "image/pdf"})
+     */
+    private ?string $medicalCertificateName;
+
+    /**
+     * @ORM\Column(type="string", length=5000, nullable=true)
+     */
+    private ?string $comment;
 
     public function __construct()
     {
@@ -164,5 +177,33 @@ class EventSubscription
         $this->payment = $payment;
 
         return $this;
+    }
+
+    public function getMedicalCertificateName(): ?string
+    {
+        return $this->medicalCertificateName;
+    }
+
+    public function setMedicalCertificateName(string $medicalCertificateName): self
+    {
+        $this->medicalCertificateName = $medicalCertificateName;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string|null $comment
+     */
+    public function setComment(?string $comment): void
+    {
+        $this->comment = $comment;
     }
 }

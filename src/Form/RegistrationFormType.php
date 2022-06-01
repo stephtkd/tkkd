@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,7 +47,22 @@ class RegistrationFormType extends AbstractType
                     'max'=> 60
                 ])
             ])
-
+            ->add('streetAddress', TextType::class, [
+                'label' => 'Adresse',
+                'required' => true,
+            ])
+            ->add('postalCode', TextType::class, [
+                'label' => 'Code Postal',
+                'required' => true,
+            ])
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+                'required' => true,
+            ])
+            ->add('phoneNumber', TelType::class, [
+                'label' => 'Téléphone',
+                'required' => false,
+            ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot de passe est la confirmation doivent être identique!',
