@@ -44,8 +44,6 @@ class Tag
         $this->albumPictures = new ArrayCollection();
     }
 
-
-
     public function __toString()
     {
         return $this->title;
