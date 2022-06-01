@@ -48,6 +48,7 @@
                                     </th>
                                     <td class="align-middle text-center">
                                         {{ subscription.eventRate.name }}
+                                        {% set total = total + subscription.eventRate.amount %}
                                     </td>
                                     <td class="align-middle text-center">
                                         {% for eventOption in subscription.eventOptions %}
@@ -58,7 +59,7 @@
                                         {% endfor %}
                                     </td>
                                     <td class="align-middle text-center">
-                                        {{ (total + subscription.payment.amount) / 100 }} €
+                                        {{ total / 100 }} €
                                     </td>
                                 </tr>
                                 {% endfor %}

@@ -62,6 +62,27 @@
                                 {{ form_row(form.email) }}
                             </div>
 
+                            <div class="form-outline mb-4">
+                                {{ form_row(form.streetAdress) }}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        {{ form_row(form.postalCode) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        {{ form_row(form.city) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                {{ form_row(form.phoneNumber) }}
+                            </div>
+
                             <!-- Password -->
                             <div class="form-outline mb-4">
                                 {{ form_row(form.password) }}
@@ -83,9 +104,4 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 {% endblock %}

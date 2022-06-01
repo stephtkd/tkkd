@@ -20,7 +20,7 @@ class EventRepository extends ServiceEntityRepository
     }
 
 
-    public function findValidAdhesions()
+    public function findActualAdhesion()
     {
         $currentDate = new \DateTime();
 
@@ -33,6 +33,18 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findNextAdhesion()
+    {
+        $nextYear = (new \DateTime())->modify('+1 year');
+
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.season IS NOT NULL')
+            ->andWhere('e.startDate < :nextYear AND e.endDate > :nextYear')
+            ->setParameter('nextYear', $nextYear)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
     /*
     public function findOneBySomeField($value): ?Event
     {

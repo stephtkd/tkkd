@@ -68,23 +68,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private bool $isVerified = false;
 
-    private ArrayCollection $adherents;
-
     /**
      * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="user", orphanRemoval=true)
      */
-    private $eventSubscriptions;
+    private Collection $eventSubscriptions;
 
+    /**
+     * @Assert\NotBlank (message="Veuillez renseigner l'adresse de l'adhérent")
+     * @ORM\Column(type="string", length=255)
+     */
+    private ?string $streetAddress;
+
+    /**
+     * @Assert\NotBlank (message="Veuillez renseigner le code postal de l'adhérent")
+     * @ORM\Column(type="string", length=55)
+     */
+    private ?string $postalCode;
+
+    /**
+     * @Assert\NotBlank (message="Veuillez renseigner la ville de l'adhérent")
+     * @ORM\Column(type="string", length=100)
+     */
+    private ?string $city;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private ?string $phoneNumber;
 
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
         $this->members = new ArrayCollection();
-        $this->orders = new ArrayCollection();
         $this->eventSubscriptions = new ArrayCollection();
     }
 
-
+    public function __toString() {
+        return $this->firstName.' '.$this->lastName;
+    }
 
     public function getId(): ?int
     {
@@ -205,7 +226,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|Member[]
+     * @return Collection
      */
     public function getMembers(): Collection
     {
@@ -216,7 +237,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->members->contains($member)) {
             $this->members[] = $member;
-            $member->setUser($this);
+            $member->setResponsibleAdult($this);
         }
 
         return $this;
@@ -226,8 +247,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->members->removeElement($member)) {
             // set the owning side to null (unless already changed)
-            if ($member->getUser() === $this) {
-                $member->setUser(null);
+            if ($member->getResponsibleAdult() === $this) {
+                $member->setResponsibleAdult(null);
             }
         }
 
@@ -281,4 +302,67 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getStreetAddress(): ?string
+    {
+        return $this->streetAddress;
+    }
+
+    /**
+     * @param string|null $streetAddress
+     */
+    public function setStreetAddress(?string $streetAddress): void
+    {
+        $this->streetAddress = $streetAddress;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    /**
+     * @param string|null $postalCode
+     */
+    public function setPostalCode(?string $postalCode): void
+    {
+        $this->postalCode = $postalCode;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string|null $city
+     */
+    public function setCity(?string $city): void
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param string|null $phoneNumber
+     */
+    public function setPhoneNumber(?string $phoneNumber): void
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
 }

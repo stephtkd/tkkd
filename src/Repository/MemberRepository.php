@@ -19,22 +19,19 @@ class MemberRepository extends ServiceEntityRepository
         parent::__construct($registry, Member::class);
     }
 
-    // /**
-    //  * @return Member[] Returns an array of Member objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllMembersFromEvent($event)
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
+            ->leftJoin('m.eventSubscriptions', 'es')
+            ->andWhere('es.event = :event AND es.status = :status')
+            ->setParameter('event', $event)
+            ->setParameter('status', 'Payé')
             ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Member

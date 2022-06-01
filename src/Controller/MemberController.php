@@ -30,7 +30,7 @@ class MemberController extends AbstractController
      */
     public function index(): Response
     {
-        $adhesion = $this->eventRepository->findValidAdhesions();
+        $adhesion = $this->eventRepository->findActualAdhesion();
 
         return $this->render('account/member.html.twig', [
             'adhesion' => $adhesion
@@ -48,9 +48,8 @@ class MemberController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
                 $file = $form->get('photoName')->getData();
-                $fileMedical = $form->get('medicalCertificateName')->getData();
 
-                $member = $this->setFilesToMember($member, $file, $fileMedical);
+                $member = $this->setFilesToMember($member, $file);
 
                 $member->setMembershipState('Paiement en attente');
                 $member->setResponsibleAdult($this->getUser());
@@ -58,7 +57,7 @@ class MemberController extends AbstractController
                 $this->entityManager->persist($member);
                 $this->entityManager->flush();
 
-                $adhesion = $this->eventRepository->findValidAdhesions();
+                $adhesion = $this->eventRepository->findActualAdhesion();
 
                 if (is_null($adhesion)) {
                     return $this->redirectToRoute('account_member');
@@ -68,6 +67,7 @@ class MemberController extends AbstractController
 
         return $this->render('account/memberForm.html.twig', [
             'form' => $form->createView(),
+            'user' => $this->getUser()
         ]);
     }
 
@@ -84,9 +84,6 @@ class MemberController extends AbstractController
         if (!is_null($member->getPhotoName())) {
             $member->setPhotoName('./upload/member/'.$member->getPhotoName());
         }
-        if (!is_null($member->getMedicalCertificateName())) {
-            $member->setMedicalCertificateName('./upload/member/' . $member->getMedicalCertificateName());
-        }
 
         $form = $this->createForm(MemberType::class, $member);
 
@@ -94,9 +91,8 @@ class MemberController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('photoName')->getData();
-            $fileMedical = $form->get('medicalCertificateName')->getData();
 
-            $member = $this->setFilesToMember($member, $file, $fileMedical);
+            $member = $this->setFilesToMember($member, $file);
 
             $this->entityManager->persist($member);
             $this->entityManager->flush();
@@ -104,7 +100,8 @@ class MemberController extends AbstractController
         }
 
         return $this->render('account/memberForm.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'user' => $member
         ]);
     }
 
@@ -121,7 +118,7 @@ class MemberController extends AbstractController
 
     }
 
-    private function setFilesToMember($member, $file, $fileMedical) {
+    private function setFilesToMember($member, $file) {
         if (!is_null($file)) {
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move(
@@ -130,15 +127,6 @@ class MemberController extends AbstractController
             $member->setPhotoName($fileName);
         } else if (!is_null($member->getPhotoName())) {
             $member->setPhotoName(str_replace("./upload/member/", "",$member->getPhotoName()));
-        }
-        if (!is_null($fileMedical)) {
-            $fileNameMedical = md5(uniqid()) . '.' . $fileMedical->guessExtension();
-            $fileMedical->move(
-                $this->getParameter('member_directory'),
-                $fileNameMedical);
-            $member->setMedicalCertificateName($fileNameMedical);
-        } else if (!is_null($member->getMedicalCertificateName())) {
-            $member->setMedicalCertificateName(str_replace("./upload/member/", "", $member->getMedicalCertificateName()));
         }
 
         return $member;
