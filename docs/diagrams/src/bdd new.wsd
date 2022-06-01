@@ -165,7 +165,7 @@ table(member) {
     {field} sex							varchar(10)
     {field} birthdate					date
     {field} email						**?**varchar(255)
-    {field} street_adress				**?**varchar(255)
+    {field} street_address				**?**varchar(255)
     {field} postal_code					**?**varchar(55)
     {field} city						**?**varchar(100)
     {field} phone_number				**?**varchar(50)
@@ -194,6 +194,10 @@ table(user) {
     {field} first_name	varchar(55)
     {field} last_name	varchar(55)
     {field} is_verified	tinyint(1)
+    {field} street_address				**?**varchar(255)
+    {field} postal_code					**?**varchar(55)
+    {field} city						**?**varchar(100)
+    {field} phone_number				**?**varchar(50)
 }
 
 table(doctrine_migration_versions) {
