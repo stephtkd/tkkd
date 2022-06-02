@@ -31,14 +31,6 @@ class AlbumPictureCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-       /* if (Crud::PAGE_DETAIL === $pageName) {
-            $field = ArrayField::new('Tag', 'Tag de l\'album');
-        } else {
-            $field = AssociationField::new('Tag', 'Tag de l\'album')
-             // ->setTemplatePath('Admin/Fields/multiTag.html.twig')
-                ->setColumns('col-6')
-            ;
-        }*/
 
         return[
             IdField::new('id')->hideOnForm(), // enleve l'affichage du id
@@ -51,7 +43,6 @@ class AlbumPictureCrudController extends AbstractCrudController
 
             // Intégrer un système de multi selection des Tags, peut être avec TomSelect ou Select2
             //MultiTagField::new('Tag', 'Tags de l\'album'),
-            //$field,
             //ChoiceField::new('Tag', 'Tags de l\'album')->setFormType(MultiTagType::class),
 
             // fonction de base pour les Tags dans l'EasyAdmin
