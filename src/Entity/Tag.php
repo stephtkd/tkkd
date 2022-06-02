@@ -35,7 +35,7 @@ class Tag
     private $color;
 
     /**
-     * @ORM\OneToMany(targetEntity=AlbumPicture::class, mappedBy="Tag")
+     * @ORM\OneToMany(targetEntity=AlbumPicture::class, mappedBy="Tag", cascade={"persist"})
      */
     private $albumPictures;
 
@@ -43,8 +43,6 @@ class Tag
     {
         $this->albumPictures = new ArrayCollection();
     }
-
-
 
     public function __toString()
     {

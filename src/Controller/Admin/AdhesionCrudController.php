@@ -68,8 +68,8 @@ class AdhesionCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Adhésions')
             // Le titre visible en haut de la page et le contenu de l'élément <title>
             // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
-            ->setPageTitle('index', 'Liste des %entity_label_plural%')
-            ->setPageTitle('new', 'Créer une %entity_label_singular%')
+            ->setPageTitle('index', 'Liste des Adhésions')
+            ->setPageTitle('new', 'Créer une Adhésion')
             ->setPageTitle('edit', 'Modifier une %entity_label_singular% <small>(#%entity_id%)</small>')
             // Définit le tri initial appliqué à la liste
             // (l'utilisateur peut ensuite modifier ce tri en cliquant sur les colonnes de la table)

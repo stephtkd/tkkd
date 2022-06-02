@@ -8,6 +8,7 @@
            and uncomment the following Encore helpers to start using Symfony UX #}
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
+        <link href="{{ asset('build/LogoRond.png') }}" rel="shortcut icon" type="imagage/x-icon">
         <link href="{{ asset('build/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('build/tkkd.css') }}" rel="stylesheet">
     {% endblock %}
