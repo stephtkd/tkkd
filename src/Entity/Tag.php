@@ -35,7 +35,7 @@ class Tag
     private $color;
 
     /**
-     * @ORM\OneToMany(targetEntity=AlbumPicture::class, mappedBy="Tag")
+     * @ORM\OneToMany(targetEntity=AlbumPicture::class, mappedBy="Tag", cascade={"persist"})
      */
     private $albumPictures;
 

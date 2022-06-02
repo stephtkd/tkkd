@@ -9,7 +9,9 @@ use App\Form\MultiTagType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -17,6 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AlbumPictureCrudController extends AbstractCrudController
 {
@@ -28,6 +31,14 @@ class AlbumPictureCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+       /* if (Crud::PAGE_DETAIL === $pageName) {
+            $field = ArrayField::new('Tag', 'Tag de l\'album');
+        } else {
+            $field = AssociationField::new('Tag', 'Tag de l\'album')
+             // ->setTemplatePath('Admin/Fields/multiTag.html.twig')
+                ->setColumns('col-6')
+            ;
+        }*/
 
         return[
             IdField::new('id')->hideOnForm(), // enleve l'affichage du id
@@ -36,9 +47,17 @@ class AlbumPictureCrudController extends AbstractCrudController
                 ->setTargetFieldName('title'),
             TextEditorField::new('description', 'Description de l\'album')
                 ->setFormType(CKEditorType::class), // appel du CKEditor
+
+
             // Intégrer un système de multi selection des Tags, peut être avec TomSelect ou Select2
             //MultiTagField::new('Tag', 'Tag de l\'album'),
+            //$field,
+            //ChoiceField::new('Tag', 'Tag de l\'album')->setFormType(MultiTagType::class),
+
+            // fonction de base pour les Tags dans l'EasyAdmin
             AssociationField::new('Tag', 'Tag de l\'album'),
+
+
             ImageField::new('picture', 'image principal de l\'album')
                 ->setBasePath('upload/album') //système d'upload des images
                 ->setUploadDir('public/upload/album')
@@ -46,7 +65,8 @@ class AlbumPictureCrudController extends AbstractCrudController
                 ->setRequired(false),
              // Intégrer un système de multi upload d'image avec AlbumPictureType
             MultipleImageField::new('picturesAlbums', 'Photos de l\'album')
-                ->onlyOnForms(),
+                ->onlyOnForms()
+                ->setColumns('col-6'),
 
         ];
     }
