@@ -3,88 +3,70 @@
 {% block title %}Tarifs - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
-
     <div class="container">
-        <h1>{{ event.name }} </h1>
         <div class="pb-5 ">
             <div class="container">
                 <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                    <div class="col-md-6 p-3">
-                        <!-- accordion form -->
-                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                  <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                        Membre à inscrire
-                                      </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                      <div class="accordion-body">
-                                         <!-- formulaire ou select des members -->
-                                          {% for member in app.user.members %}
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="{{ member.id }}">{{ member.firstname }} {{ member.lastname }}</option>
-                                                </select>
-                                          {% endfor %}
-                                      </div>
+                    <form id="search-form" class="example-wrapper" role="search" method="get" action="{{ path('search_subscription_by_member') }}">
+                        <div class="row col-12 p-3">
+                            <input type="text" class="col-6" name="search" placeholder="Recherchez un membre...">
+                            <button type="submit" class="btn btn-primary col-1" name="sub">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="col-6 card-padding-3">
+                    {% for member in listMember %}
+                        <div class="card mt-2 mb-4">
+                            <div class="container">
+                                <h4 class="card-title mt-2"><b>{{member.firstName}} {{member.lastName}}</b></h4>
+                                <div class="row">
+                                    <div class="col-6 mb-2">
+                                        <div class="col-12 card-subtitle">TARIF</div>
+                                        <div class="col-12 mt-2">
+                                            <select class="form-select" aria-label="Default select example">
+                                                <option selected>Sélectionnez un tarif</option>
+                                                <option value="1">Tarif1</option>
+                                                <option value="2">Tarif2</option>
+                                                <option value="3">Tarif3</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                  </div>
-                                  <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        Personne non membre à inscrire
-                                      </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                                        <div class="accordion-body">
-                                        <!-- formulaire ou select des members -->
-                                            <div class="input_fields_wrap">
-                                                <button class="add_field_button mb-3">Ajouter des Personnes</button>
-                                                <div>
-                                                    <label class="sr-only" for="inlineFormInputName">Nom Prénom</label>
-                                                    <input type="text" name="mytext[]" class="form-control mb-2" id="inlineFormInputName">
-                                                </div>
+                                    <div class="col-6 mb-2">
+                                        <div class="col-12 card-subtitle">OPTION</div>
+                                        <div class="col-12 mt-2">
+                                            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btncheck1">Passeport 20€</label>
+                                                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btncheck2">Option2</label>
                                             </div>
                                         </div>
                                     </div>
-                                  </div>
-
-                            </div>
-                            </div>
-                                <!-- end accordion form -->
-
-                            <div class="col-md-6 p-3">
-                                <h5 class="card-title">Les tarifs :</h5>
-                                <div class="mb-3">
-                                    <label for="rates"></label>
-                                    <select name="rates" id="rates">
-                                        {% for rate in event.eventRates %}
-                                            <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} €</option>
-                                        {% endfor %}
-                                    </select>
                                 </div>
-                                {% if event.eventOptions is not empty %}
-                                    <h5 class="card-title">Les options :</h5>
-                                    {% for option in event.eventOptions %}
-                                        <div class="mb-3">
-                                            <input type="checkbox" id="{{ option.id }}" name="{{ option.name }}" >
-                                            <label for="{{ option.id }}">{{ option.name }} {{ option.amount/100 }} €</label>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <button type="submit" class="btn btn-primary" name="sub">
+                                            Enregistrer
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-
-                <a href="{{ path('order_resume', {'mean' : 'cb'}) }}" class="btn btn-dark btn-sm">Payer en CB</a>
-                <a href="{{ path('order_resume', {'mean' : 'espece'}) }}" class="btn btn-dark btn-sm">Payer en Espèce</a>
+                    {% endfor %}
+                        <div class="mt-4">
+                            <a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
+                            <a href="{{ path('order_resume_esp', {'total' : 0}) }}" class="btn btn-dark btn-sm">Payer en Espèce</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-
+{{ encore_entry_script_tags('subscription') }}
 {% endblock %}
+
 
 {% block javascripts %}
 

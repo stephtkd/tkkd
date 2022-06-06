@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <title>{% block title %}Taekwonkido Phenix{% endblock %}</title>
     {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
+    and uncomment the following Encore helpers to start using Symfony UX #}
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
         <link href="{{ asset('build/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('build/tkkd.css') }}" rel="stylesheet">
     {% endblock %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
 
     <style>
         .bd-placeholder-img {

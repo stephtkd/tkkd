@@ -8,8 +8,15 @@ use App\Entity\EventSubscription;
 use App\Entity\Member;
 use App\Entity\Payment;
 use App\Service\StripeApiService;
+use App\Form\EventSubscriptionType;
+use App\Form\OrderType;
+use App\Form\SubscriptionType;
+use App\Repository\EventRepository;
+use App\Service\HelloAssoApiService;
+use ContainerMQNbkTr\getFollowedMembershipControllerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,13 +32,57 @@ class SubscriptionController extends AbstractController
         $this->apiService = $apiService;
     }
 
-    #[Route('/subscription/{id}', name: 'app_subscription')]  // order
-    public function index($id, Request $request): Response
+    #[Route('/subscription/{id}', name: 'app_subscription')]
+    public function index(
+        $id, 
+        Request $request
+        ): Response
     {
         $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
+        $listMember = $this->entityManager->getRepository(Member::class)->findAll();
 
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
+            'listMember' => $listMember,
+        ]);
+    }
+
+    public function new(Request $request): Response
+    {
+        $eventSubscription = new EventSubscription();
+        $form = $this->createForm(EventSubscriptionType::class, $eventSubscription);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $eventSubscription = $form->getData();
+
+
+            return $this->redirectToRoute('app_subscription');
+        }
+
+        return $this->renderForm('subscription/index.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/searchSubscriptionByMember", name="search_subscription_by_member")
+     * @param  Request $request
+     * @return JsonResponse
+     */
+    #[Route('/searchSubscriptionByMember', name: 'search_subscription_by_member')]
+    public function searchSubscriptionByMember(
+        Request $request,
+    ):JsonResponse
+    {
+
+        $search = "bonjour";
+        $listMember = $this->entityManager->getRepository(Member::class)->findAll();
+
+        return new JsonResponse([
+            'content' => $this->renderView('subscription/index.html.twig',[
+                'listMember' => $listMember
+            ])
         ]);
     }
 

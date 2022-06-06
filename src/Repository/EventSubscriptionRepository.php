@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\EventSubscription;
+use App\Entity\Member;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,18 @@ class EventSubscriptionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, EventSubscription::class);
+    }
+
+    public function findBySubscriptionMember(string $search):array
+    {
+        return $this->createQueryBuilder('eventSubscription')
+                ->select('eventSubscription')
+                ->innerJoin(Member::class,'memberVar','WITH','memberVar.id = eventSubscription.member')
+                ->where('memberVar.lastName like :search')
+                ->setParameter('search','%'.$search.'%')
+                ->getQuery()
+                ->getResult()
+                ;
     }
 
     public function add(EventSubscription $entity, bool $flush = false): void
