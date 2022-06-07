@@ -73,4 +73,19 @@ class  Cart
         }
         return $cartComplete;
     }
+
+    public function persistCart($session_id = null) 
+    {
+        $cart = $this->session->get('cart', []);
+
+        if ($cart != []) {
+            foreach ($this->getFull() as $subscription) {
+                $subscription->getPayment()->setReference($session_id);
+                $this->entityManager->merge($subscription);
+            }
+        }
+
+        $this->entityManager->flush();
+        $this->remove();
+    }
 }

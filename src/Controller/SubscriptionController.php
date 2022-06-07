@@ -62,12 +62,8 @@ class SubscriptionController extends AbstractController
     #[Route('/order/resumeEsp', name: 'order_resume_esp')]
     public function checkoutEsp(Cart $cart): Response
     {
-        foreach ($cart->getFull() as $subscription) {
-            $this->entityManager->persist($subscription);
-        }
-
-        $this->entityManager->flush();
-
+        $cart->persistCart();
+        
         return $this->redirectToRoute('app_subscribe_event');
     }
 
@@ -76,15 +72,7 @@ class SubscriptionController extends AbstractController
     {
         $this->addToCart($cart);
 
-        if ($cart->get() != null) {
-            foreach ($cart->getFull() as $subscription) {
-                $subscription->getPayment()->setReference($session_id);
-                $this->entityManager->persist($subscription);
-            }
-
-            $this->entityManager->flush();
-            $cart->remove();
-        }
+        $cart->persistCart($session_id);
 
         return $this->render('order/success.html.twig');
     }

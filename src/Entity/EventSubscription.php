@@ -45,7 +45,7 @@ class EventSubscription
     private EventRate $eventRate;
 
     /**
-     * @ORM\ManyToMany(targetEntity=EventOption::class, inversedBy="eventSubscriptions")
+     * @ORM\ManyToMany(targetEntity=EventOption::class, inversedBy="eventSubscriptions", cascade={"merge"})
      * @ORM\JoinTable(name="event_subscription_event_option")
      */
     private Collection $eventOptions;
