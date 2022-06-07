@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Fields;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class MultipleImageField implements FieldInterface
 {
@@ -18,6 +19,11 @@ class MultipleImageField implements FieldInterface
             ->setFormTypeOptions([
                 'multiple' => true,
                 'data_class' => null,
+                /*'constraints' => [
+                    new File([
+                        'maxSize' => '1024k'
+                    ])
+                ]*/
             ]);
     }
 }

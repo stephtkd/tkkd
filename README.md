@@ -13,6 +13,7 @@
         Un IDE
         
 * Pour lancer le projet il faut le clonner depuis le depot git.
+* Vérifier dans votre php.ini que _extension=gd_ est bien décommenté.
 
 * Se déplacer dans le projet depuis le terminal et lancer la commande :
     
