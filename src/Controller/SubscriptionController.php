@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Classe\Cart;
 use App\Entity\Event;
+use App\Entity\EventOption;
+use App\Entity\EventRate;
 use App\Entity\EventSubscription;
 use App\Entity\Member;
 use App\Entity\Payment;
@@ -20,6 +22,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SubscriptionController extends AbstractController
 {
@@ -40,10 +44,55 @@ class SubscriptionController extends AbstractController
     {
         $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
         $listMember = $this->entityManager->getRepository(Member::class)->findAll();
+        $listEventRate = $this->entityManager->getRepository(EventRate::class)->findAll();
+        $listEventOption = $this->entityManager->getRepository(EventOption::class)->findAll();
 
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
             'listMember' => $listMember,
+            'listEventRate' => $listEventRate,
+            'listEventOption' => $listEventOption,
+            'subscriptionId' =>$id
+        ]);
+    }
+
+    #[Route('/subscription/{id}/add-member-event-subscription', name: 'add_member_event_subscription')]
+    public function addMemberEventSubscription(
+        Request $request,
+        ValidatorInterface $validator,
+        $id
+    ):JsonResponse
+    {
+        dump($request->request->get('output'));
+        $member = $this->entityManager->getRepository(Member::class)->findOneById();
+        $eventRate = $this->entityManager->getRepository(EventRate::class)->findOneById();
+        $event = $this->entityManager->getRepository(Event::class)->findOneById();
+        $user = $this->getUser();
+        $eventSubscription = new EventSubscription();
+
+        $eventSubscription->setMember($member);
+        $eventSubscription->setEventRate($eventRate);
+        $eventSubscription->setUser($user);
+        $eventSubscription->setEvent($event);
+
+        $this->entityManager->persist($eventSubscription);
+        $this->entityManager->flush();
+
+        $errors = $validator->validate($eventSubscription);
+
+        if (count($errors) > 0) {
+            $errorsString = (string) $errors;
+    
+            return new JsonResponse([
+                'success' => false,
+                'message' => $errorsString
+            ]);
+        }
+    
+
+        return new JsonResponse([
+            'success' => true,
+            'message' => "L'enregistrement a été validé."
         ]);
     }
 
@@ -65,26 +114,6 @@ class SubscriptionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/searchSubscriptionByMember", name="search_subscription_by_member")
-     * @param  Request $request
-     * @return JsonResponse
-     */
-    #[Route('/searchSubscriptionByMember', name: 'search_subscription_by_member')]
-    public function searchSubscriptionByMember(
-        Request $request,
-    ):JsonResponse
-    {
-
-        $search = "bonjour";
-        $listMember = $this->entityManager->getRepository(Member::class)->findAll();
-
-        return new JsonResponse([
-            'content' => $this->renderView('subscription/index.html.twig',[
-                'listMember' => $listMember
-            ])
-        ]);
-    }
 
     #[Route('/order/resumeCb', name: 'order_resume_cb')]
     public function checkoutCb(Cart $cart): Response

@@ -7,28 +7,22 @@
         <div class="pb-5 ">
             <div class="container">
                 <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                    <form id="search-form" class="example-wrapper" role="search" method="get" action="{{ path('search_subscription_by_member') }}">
-                        <div class="row col-12 p-3">
-                            <input type="text" class="col-6" name="search" placeholder="Recherchez un membre...">
-                            <button type="submit" class="btn btn-primary col-1" name="sub">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <div class="col-6 card-padding-3">
+                    <div class="row col-12 p-4">
+                        <input type="search" class="col-sm-12 col-md-6 col-lg-6" id="searchbox" placeholder="Recherchez un membre...">
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 card-padding-3">
                     {% for member in listMember %}
                         <div class="card mt-2 mb-4">
-                            <div class="container">
+                            <div class="container box">
                                 <h4 class="card-title mt-2"><b>{{member.firstName}} {{member.lastName}}</b></h4>
                                 <div class="row">
                                     <div class="col-6 mb-2">
                                         <div class="col-12 card-subtitle">TARIF</div>
                                         <div class="col-12 mt-2">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Sélectionnez un tarif</option>
-                                                <option value="1">Tarif1</option>
-                                                <option value="2">Tarif2</option>
-                                                <option value="3">Tarif3</option>
+                                            <select id="select-event-rate" class="form-select" aria-label="Default select example">
+                                            {% for eventRate in listEventRate %}
+                                                <option value="{{eventRate.id}}">{{eventRate.name}}</option>
+                                            {% endfor %}
                                             </select>
                                         </div>
                                     </div>
@@ -36,17 +30,17 @@
                                         <div class="col-12 card-subtitle">OPTION</div>
                                         <div class="col-12 mt-2">
                                             <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-                                                <label class="btn btn-outline-primary" for="btncheck1">Passeport 20€</label>
-                                                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                                                <label class="btn btn-outline-primary" for="btncheck2">Option2</label>
+                                            {% for eventOption in listEventOption %}
+                                                <input type="checkbox" class="btn-check" id="{{eventOption.id}}" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="{{eventOption.id}}">{{eventOption.name}}</label>
+                                            {% endfor %}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-6">
-                                        <button type="submit" class="btn btn-primary" name="sub">
+                                        <button id="btn-save-event-subscription-{{member.id}}" type="submit" class="btn btn-primary btn-save-event-subscription-class" data-save-event-subscription-url="{{path('add_member_event_subscription',{'id':subscriptionId})}}">
                                             Enregistrer
                                         </button>
                                     </div>

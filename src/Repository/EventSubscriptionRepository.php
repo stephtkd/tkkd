@@ -22,18 +22,6 @@ class EventSubscriptionRepository extends ServiceEntityRepository
         parent::__construct($registry, EventSubscription::class);
     }
 
-    public function findBySubscriptionMember(string $search):array
-    {
-        return $this->createQueryBuilder('eventSubscription')
-                ->select('eventSubscription')
-                ->innerJoin(Member::class,'memberVar','WITH','memberVar.id = eventSubscription.member')
-                ->where('memberVar.lastName like :search')
-                ->setParameter('search','%'.$search.'%')
-                ->getQuery()
-                ->getResult()
-                ;
-    }
-
     public function add(EventSubscription $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

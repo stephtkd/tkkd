@@ -29,3 +29,5 @@
     padding-bottom: 1rem;
     padding-left: 1rem;
 }
+
+.is-hidden { display: none; }
