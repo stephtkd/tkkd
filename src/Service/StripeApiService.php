@@ -10,7 +10,7 @@ class StripeApiService
 {
     public function __construct()
     {
-        Stripe::setApiKey('sk_test_4mZ0qz6FCcrtDGxYOMQUwIkv00QU1seQUS');
+        Stripe::setApiKey($_ENV["API_KEY"]);
     }
 
     public function generatePaymentLink(Cart $cart) {

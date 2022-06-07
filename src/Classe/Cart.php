@@ -1,20 +1,19 @@
 <?php
 
-
 namespace App\Classe;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class  Cart
 {
+    private SessionInterface $session;
+    private EntityManagerInterface $entityManager;
 
-    private  $session;
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager, SessionInterface $session)
+    public function __construct(EntityManagerInterface $entityManager, RequestStack $requestStack)
     {
-        $this->session = $session;
+        $this->session = $requestStack->getSession();
         $this->entityManager = $entityManager;
     }
 
@@ -29,7 +28,7 @@ class  Cart
 
     public function get()
     {
-        return $this->session->get('cart');
+        return $this->session->get('cart', []);
     }
 
     public function remove()
@@ -59,27 +58,12 @@ class  Cart
         return $this->session->set('cart', $cart);
     }
 
-    public function getFull(): array
-    {
-
-        $cartComplete = [];
-
-        if ($this->get()) {
-            foreach ($this->get() as $subscription){
-                $cartComplete = [
-                    $subscription
-                ];
-            }
-        }
-        return $cartComplete;
-    }
-
     public function persistCart($session_id = null) 
     {
         $cart = $this->session->get('cart', []);
 
         if ($cart != []) {
-            foreach ($this->getFull() as $subscription) {
+            foreach ($this->get() as $subscription) {
                 $subscription->getPayment()->setReference($session_id);
                 $this->entityManager->merge($subscription);
             }

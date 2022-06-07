@@ -70,8 +70,6 @@ class SubscriptionController extends AbstractController
     #[Route('/order/success/{session_id}', name: 'order_success')]
     public function success($session_id, Cart $cart): Response
     {
-        $this->addToCart($cart);
-
         $cart->persistCart($session_id);
 
         return $this->render('order/success.html.twig');
@@ -80,10 +78,12 @@ class SubscriptionController extends AbstractController
     #[Route('/order/resume/{mean}', name: 'order_resume')]
     public function checkout(string $mean, Cart $cart): Response
     {
+        $cart->remove();
+        $this->addToCart($cart);
         $this->addToCart($cart);
 
         return $this->render('order/resume.html.twig', [
-            'subscriptions' => $cart->getFull(),
+            'subscriptions' => $cart->get(),
             'mean' => $mean
         ]);
     }
