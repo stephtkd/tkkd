@@ -39,9 +39,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% set total = null %}
                                 {% for subscription in subscriptions %}
-                                    {% set total = 0 %}
                                     <tr>
                                     <th scope="row">
                                         <div class="p-2">
@@ -52,18 +50,16 @@
                                     </th>
                                     <td class="align-middle text-center">
                                         {{ subscription.eventRate.name }}
-                                        {% set total = total + subscription.eventRate.amount %}
                                     </td>
                                     <td class="align-middle text-center">
                                         {% for eventOption in subscription.eventOptions %}
                                             <p>
                                                 {{ eventOption.name }}
                                             </p>
-                                            {% set total = total + eventOption.amount %}
                                         {% endfor %}
                                     </td>
                                     <td class="align-middle text-center">
-                                        {{ total / 100 }} €
+                                        {{ subscription.amount / 100 }} €
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -73,7 +69,12 @@
                         <!-- End -->
                     </div>
                 </div>
-                <a href="{{ path('order_resume_esp', { 'total' : total }) }}" class="btn btn-dark btn-sm">Confirmer</a>
+                {% if mean == 'espece' %}
+                    <a href="{{ path('order_resume_esp') }}" class="btn btn-dark btn-sm">Confirmer</a>
+                {% else %}
+                    <a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Confirmer</a>
+                {% endif %}
+
             </div>
         </div>
     </div>

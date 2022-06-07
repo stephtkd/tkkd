@@ -206,4 +206,13 @@ class EventSubscription
     {
         $this->comment = $comment;
     }
+
+    public function getAmount() {
+        $totalOption = 0;
+        foreach ($this->getEventOptions() as $option) {
+            $totalOption += $option->getAmount();
+        }
+
+        return $this->getEventRate()->getAmount() + $totalOption;
+    }
 }

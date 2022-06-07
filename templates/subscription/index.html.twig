@@ -77,8 +77,8 @@
                         </div>
 
 
-                <a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
-                <a href="{{ path('order_resume_esp', {'total' : 0}) }}" class="btn btn-dark btn-sm">Payer en Espèce</a>
+                <a href="{{ path('order_resume', {'mean' : 'cb'}) }}" class="btn btn-dark btn-sm">Payer en CB</a>
+                <a href="{{ path('order_resume', {'mean' : 'espece'}) }}" class="btn btn-dark btn-sm">Payer en Espèce</a>
             </div>
         </div>
     </div>
