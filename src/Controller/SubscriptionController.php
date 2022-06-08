@@ -63,10 +63,9 @@ class SubscriptionController extends AbstractController
         $id
     ):JsonResponse
     {
-        dump($request->request->get('output'));
-        $member = $this->entityManager->getRepository(Member::class)->findOneById();
-        $eventRate = $this->entityManager->getRepository(EventRate::class)->findOneById();
-        $event = $this->entityManager->getRepository(Event::class)->findOneById();
+        $member = $this->entityManager->getRepository(Member::class)->findOneById($request->request->get('output')['member']);
+        $eventRate = $this->entityManager->getRepository(EventRate::class)->findOneById($request->request->get('output')['eventRate']);
+        $event = $this->entityManager->getRepository(Event::class)->findOneById($id);
         $user = $this->getUser();
         $eventSubscription = new EventSubscription();
 
@@ -74,15 +73,17 @@ class SubscriptionController extends AbstractController
         $eventSubscription->setEventRate($eventRate);
         $eventSubscription->setUser($user);
         $eventSubscription->setEvent($event);
+        $eventSubscription->setStatus('status');
 
-        $this->entityManager->persist($eventSubscription);
-        $this->entityManager->flush();
+        // $this->entityManager->persist($eventSubscription);
+        // $this->entityManager->flush();
 
         $errors = $validator->validate($eventSubscription);
-
+        
         if (count($errors) > 0) {
-            $errorsString = (string) $errors;
-    
+            // $errorsString = (string) $errors;
+            $errorsString = $errors->get(0)->getMessage();
+            
             return new JsonResponse([
                 'success' => false,
                 'message' => $errorsString
