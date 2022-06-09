@@ -21,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -60,28 +61,91 @@ class SubscriptionController extends AbstractController
     public function addMemberEventSubscription(
         Request $request,
         ValidatorInterface $validator,
+        SessionInterface $sessionInterface,
         $id
-    ):JsonResponse
+    ):Response
     {
-        $member = $this->entityManager->getRepository(Member::class)->findOneById($request->request->get('output')['member']);
-        $eventRate = $this->entityManager->getRepository(EventRate::class)->findOneById($request->request->get('output')['eventRate']);
-        $event = $this->entityManager->getRepository(Event::class)->findOneById($id);
-        $user = $this->getUser();
-        $eventSubscription = new EventSubscription();
 
-        $eventSubscription->setMember($member);
-        $eventSubscription->setEventRate($eventRate);
-        $eventSubscription->setUser($user);
-        $eventSubscription->setEvent($event);
-        $eventSubscription->setStatus('status');
+        $output = $request->request->get('output');
+        dump($output);
+        $cart = new Cart($this->entityManager, $sessionInterface);
+        $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
 
-        // $this->entityManager->persist($eventSubscription);
-        // $this->entityManager->flush();
+        foreach($output as $value){
+            $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => $value['member']]);
+            $eventRate = $this->entityManager->getRepository(EventRate::class)->findOneById($value['eventRate']);
 
-        $errors = $validator->validate($eventSubscription);
+            $eventSubsciption = new EventSubscription();
+
+            $eventSubsciption->setStatus('ok');
+            $eventSubsciption->setEvent($event);
+            $eventSubsciption->setEventRate($eventRate);
+            $eventSubsciption->setMember($member);
+
+            if(array_key_exists('eventOption', $value)){
+
+                foreach($value['eventOption'] as $eventOption){
+                    $valueEventOption = $this->entityManager->getRepository(EventOption::class)->findOneById($eventOption);
+                    $eventSubsciption->addEventOption($valueEventOption);
+                }
+            }
+            
+            $eventSubsciption->setUser($this->getUser());
+
+            $payment = new Payment();
+            $payment->setStatus('ok');
+            $payment->setAmount(1500);
+            $payment->setDate(new \DateTime());
+            $payment->setMean('Espèce');
+
+            $details = [
+                'user' => [
+                    'id' => $eventSubsciption->getUser()->getId(),
+                    'firstName' => $eventSubsciption->getUser()->getFirstName(),
+                    'lastName' => $eventSubsciption->getUser()->getLastName(),
+                    'email' => $eventSubsciption->getUser()->getEmail(),
+                ],
+                'member' => [
+                    'id' => $member->getId(),
+                    'firstName' => $member->getFirstName(),
+                    'lastName' => $member->getLastName(),
+                    'email' => $member->getEmail(),
+                    'street' => $member->getStreetAddress(),
+                    'postalCode' => $member->getPostalCode(),
+                    'city' => $member->getCity(),
+                    'country' => $member->getNationality(),
+                ],
+                'event' => [
+                    'id' => $event->getId(),
+                    'slug' => $event->getSlug(),
+                    'startDate' => $event->getStartDate(),
+                    'endDate' => $event->getEndDate(),
+                    'rate' => [
+                        'id' => $eventSubsciption->getEventRate()->getId(),
+                        'name' => $eventSubsciption->getEventRate()->getName(),
+                        'amount' => $eventSubsciption->getEventRate()->getAmount(),
+                    ],
+                    'options' => []
+                ]
+            ];
+            
+            foreach ($eventSubsciption->getEventOptions() as $option) {
+                $opt = [
+                    'id' => $option->getId(),
+                    'name' => $option->getName(),
+                    'amount' => $option->getAmount(),
+                ];
+                array_push($details['event']['options'], $opt);
+            }
+
+            $payment->setDetails($details);
+            $eventSubsciption->setPayment($payment);
+            $cart->add($eventSubsciption);
+        }
+
+        $errors = $validator->validate($eventSubsciption);
         
         if (count($errors) > 0) {
-            // $errorsString = (string) $errors;
             $errorsString = $errors->get(0)->getMessage();
             
             return new JsonResponse([
@@ -90,11 +154,12 @@ class SubscriptionController extends AbstractController
             ]);
         }
     
+        return $this->redirectToRoute('order_resume_esp',['total' => 0.0,'cart' => $cart]);
 
-        return new JsonResponse([
-            'success' => true,
-            'message' => "L'enregistrement a été validé."
-        ]);
+        // return new JsonResponse([
+        //     'success' => true,
+        //     'message' => "L'enregistrement a été validé."
+        // ]);
     }
 
     public function new(Request $request): Response

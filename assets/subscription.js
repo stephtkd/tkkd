@@ -1,4 +1,5 @@
 
+
 const initialize = () => {
     let typingTimer;               
     let typeInterval = 500;  
@@ -10,18 +11,8 @@ const initialize = () => {
         typingTimer = setTimeout(liveSearch, typeInterval);
     });
 
-    // let allBtnSaveEventSubscriptionClass = document.getElementsByClassName('btn-save-event-subscription-class');
-
-    // for (var i = 0; i < allBtnSaveEventSubscriptionClass.length; i++) {
-    //     allBtnSaveEventSubscriptionClass.item(i).addEventListener("click", saveEventSubscriptionFnct);
-    // }
-
-
-    // let allBtnSaveEventSubscriptionClass = document.getElementsByClassName('btn-save-event-subscription-class');
-
-    // for (var i = 0; i < allBtnSaveEventSubscriptionClass.length; i++) {
-    //     allBtnSaveEventSubscriptionClass.item(i).addEventListener("click", boutonTest);
-    // }
+    let btnPaidCash = document.getElementById('btn-paid-cash-id');
+    btnPaidCash.addEventListener("click", saveEventSubscriptionFnct);
 
     let allCardIdMemberClass = document.getElementsByClassName('card');
 
@@ -47,15 +38,13 @@ function liveSearch() {
     }
 }
 
-
 function seletCardIdMember(evt){
+    let memberId = evt.currentTarget.id.split('card-id-')[1];
 
     if(evt.target.classList[0] !== "form-select" && 
         evt.target.classList[0] !== "btn-check" && 
         evt.target.classList[0] !== "btn" &&
         evt.target.classList[0] !== "select-option-value"){
-
-        let memberId = evt.currentTarget.id.split('card-id-')[1];
 
         if(evt.currentTarget.style.backgroundColor == "rgb(197, 225, 165)"){//if selected so I delete the selection
             // console.log('------------------------');
@@ -86,35 +75,57 @@ function seletCardIdMember(evt){
             };
 
             listCard.push(value);
-            console.log(listCard);
+            // console.log(listCard);
         }
+    }else{ //UPDATE
+        //DELETE
+        json = listCard.find(element => element['member'] == memberId);// get the object with memberId
+        id = listCard.indexOf(json); //get index of the object
+        listCard.splice(id,1);//delete the object with the index
+
+        //ADD
+        let eventRateEl = document.getElementById('select-event-rate-'+memberId);
+        let eventOptionEl = evt.currentTarget.getElementsByClassName('btn-check');
+        let arrEventOptionChecked = [];
+
+        for(var i = 0; i< eventOptionEl.length; i++){
+            
+            if(eventOptionEl[i].checked){
+                arrEventOptionChecked.push(eventOptionEl[i].id.split('member-'+memberId+'-event-')[1]);
+            }
+        }
+
+        value = {
+                member: memberId,
+                eventRate:eventRateEl.value, 
+                eventOption: arrEventOptionChecked
+        };
+
+        listCard.push(value);
+        // console.log(listCard);
     }
 
     
 }
 
 function saveEventSubscriptionFnct(evt){
+    // evt.preventDefault();
+    
     let url = evt.currentTarget.dataset.saveEventSubscriptionUrl;
-    let eventRateEl = document.getElementById('select-event-rate');
-    let memberId = evt.currentTarget.id.split('btn-save-event-subscription-')[1];
-
-    let dataValues = {
-        eventRate: eventRateEl.value,
-        eventOption: 'test',
-        member: memberId
-    };
-
+    console.log(url);
+    // console.log(listCard);
     $.ajax({
         type: "POST",
         url: url,
         data: {
-            'output': dataValues
+            'output': listCard
         },
     }).done(function( msg,evt) {
         console.log(msg.message);
         console.log(evt);
 
     });
+    // console.log({'output': listCard});
 }
 
 
