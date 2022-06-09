@@ -23,7 +23,6 @@ class MemberType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
                 'required' => true,
@@ -76,9 +75,9 @@ class MemberType extends AbstractType
             ->add('emergencyPhone', TelType::class, [
                 'label' => "Téléphone d'urgence",
                 'required' => false,
-                 'attr'  => [
+                'attr'  => [
                     'placeholder' => 'Numéro de la personne à contacter en cas d\'urgence'
-                 ]
+                ]
             ])
             ->add('photoName', FileType::class, [
                 'mapped' => false,

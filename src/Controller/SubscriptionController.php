@@ -11,6 +11,7 @@ use App\Entity\Member;
 use App\Entity\Payment;
 use App\Service\StripeApiService;
 use App\Form\EventSubscriptionType;
+use App\Form\MemberExpressType;
 use App\Form\OrderType;
 use App\Form\SubscriptionType;
 use App\Repository\EventRepository;
@@ -48,12 +49,27 @@ class SubscriptionController extends AbstractController
         $listEventRate = $this->entityManager->getRepository(EventRate::class)->findAll();
         $listEventOption = $this->entityManager->getRepository(EventOption::class)->findAll();
 
+        $member = new Member();
+        $formMemberExpress = $this->createForm(MemberExpressType::class,$member);
+
+        $formMemberExpress->handleRequest($request);
+
+        if ($formMemberExpress->isSubmitted() && $formMemberExpress->isValid()) {
+            $member = $formMemberExpress->getData();
+            $this->entityManager->persist($member);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_subscription',['id' => $id]);
+        }
+
+
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
             'listMember' => $listMember,
             'listEventRate' => $listEventRate,
             'listEventOption' => $listEventOption,
-            'subscriptionId' =>$id
+            'subscriptionId' =>$id,
+            'formMemberExpress' => $formMemberExpress->createView(),
         ]);
     }
 
