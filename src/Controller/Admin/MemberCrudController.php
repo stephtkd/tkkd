@@ -3,21 +3,22 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Member;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 
 class MemberCrudController extends AbstractCrudController
@@ -56,6 +57,17 @@ class MemberCrudController extends AbstractCrudController
             AssociationField::new('responsibleAdult', 'Adulte Responsable')
                 ->renderAsNativeWidget(),
             TelephoneField::new('emergencyPhone', 'Téléphone d\'urgence'),
+            ChoiceField::new('status', 'Status')
+                ->setChoices([
+                    'Elève' => 'Elève',
+                    'Président'=> 'Président',
+                    'Trésorier'=> 'Trésorier',
+                    'Secrétaire'=> 'Secrétaire',
+                    'Professeur'=> 'Professeur',
+                    'Assistant'=> 'Assistant'
+                ]),
+            BooleanField::new('instructor', 'Instructeur'),
+            BooleanField::new('bureau', 'Membre du bureau'),
             ChoiceField::new('level', 'Grade')
                 ->setChoices([
                     'aucun'=> 'aucun',
@@ -85,7 +97,7 @@ class MemberCrudController extends AbstractCrudController
                     '9e Dan'=> '9e Dan'
                 ]),
             TextEditorField::new('comment', 'Commentaire')->setFormType(CKEditorType::class),
-            TextField::new('Adhesion', 'Adhésion')
+            TextField::new('Adhesion', 'Adhésion')->hideOnForm()
         ];
     }
 
@@ -99,7 +111,7 @@ class MemberCrudController extends AbstractCrudController
             // Le titre visible en haut de la page et le contenu de l'élément <title>
             // Cela peut inclure ces différents placeholders : %entity_id%, %entity_label_singular%, %entity_label_plural%
             ->setPageTitle('index', 'Liste des %entity_label_plural%')
-            ->setPageTitle('new', 'Créer %entity_label_singular%')
+            ->setPageTitle('new', 'Créer un membre')
             ->setPageTitle('edit', 'Modifier %entity_label_singular% <small>(#%entity_id%)</small>')
             // Définit le tri initial appliqué à la liste
             // (l'utilisateur peut ensuite modifier ce tri en cliquant sur les colonnes de la table)

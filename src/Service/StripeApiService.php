@@ -2,15 +2,19 @@
 
 namespace App\Service;
 
+use Stripe\Stripe;
 use App\Classe\Cart;
 use Stripe\Checkout\Session;
-use Stripe\Stripe;
+use App\Repository\CredentialRepository;
 
 class StripeApiService
 {
-    public function __construct()
+    private CredentialRepository $credentialRepository;
+    
+    public function __construct(CredentialRepository $credentialRepository) 
     {
-        Stripe::setApiKey($_ENV["API_KEY"]);
+        $credential = $credentialRepository->findOneBy(['id' => 1]);
+        Stripe::setApiKey($credential->getApiKey());
     }
 
     public function generatePaymentLink(Cart $cart) {
@@ -19,8 +23,8 @@ class StripeApiService
             'payment_method_types' => ['card'],
             'line_items' => [$items],
             'mode' => 'payment',
-            'success_url' => $_ENV["BACK_URL"] . 'order/success/{CHECKOUT_SESSION_ID}',
-            'cancel_url' => $_ENV["BACK_URL"] . 'order/resume/cb',
+            'success_url' =>  "http://$_SERVER[HTTP_HOST]" . '/order/success/{CHECKOUT_SESSION_ID}',
+            'cancel_url' =>  "http://$_SERVER[HTTP_HOST]" . '/order/resume/cb',
         ]);
 
         return $checkout_session->url;
@@ -29,9 +33,9 @@ class StripeApiService
     private function generateLineItems(Cart $cart)
     {
         $items = [];
-        $description = '';
 
-        foreach ($cart->getFull() as $subscription) {
+        foreach ($cart->get() as $subscription) {
+            $description = '';
             foreach ($subscription->getEventOptions() as $option) {
                 $description .= $option->getName().', ';
             }

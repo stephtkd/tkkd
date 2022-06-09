@@ -2,23 +2,24 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\AlbumPicture;
-use App\Entity\Contact;
-use App\Entity\Event;
-use App\Entity\EventOption;
-use App\Entity\EventRate;
-use App\Entity\EventSubscription;
-use App\Entity\HomeComment;
-use App\Entity\Member;
-use App\Entity\Payment;
-use App\Entity\SlidePicture;
 use App\Entity\Tag;
 use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Event;
+use App\Entity\Member;
+use App\Entity\Contact;
+use App\Entity\Payment;
+use App\Entity\EventRate;
+use App\Entity\Credential;
+use App\Entity\EventOption;
+use App\Entity\HomeComment;
+use App\Entity\AlbumPicture;
+use App\Entity\SlidePicture;
+use App\Entity\EventSubscription;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -70,6 +71,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Gestion des paiements');
         yield MenuItem::linkToCrud('Paiement', 'fas fa-pen', Payment::class);
+        yield MenuItem::linkToCrud('Infos API', 'fas fa-pen', Credential::class);
 
         yield MenuItem::section('Gestion de la page Contact');
         yield MenuItem::linkToCrud('Contact', 'fas fa-pen', Contact::class);

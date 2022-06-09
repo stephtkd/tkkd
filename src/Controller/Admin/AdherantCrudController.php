@@ -3,28 +3,29 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Member;
+use Doctrine\ORM\QueryBuilder;
 use App\Repository\EventRepository;
 use App\Repository\MemberRepository;
-use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 
 class AdherantCrudController extends AbstractCrudController
@@ -72,6 +73,17 @@ class AdherantCrudController extends AbstractCrudController
             AssociationField::new('responsibleAdult', 'Adulte Responsable')
                 ->renderAsNativeWidget(),
             TelephoneField::new('emergencyPhone', 'Téléphone d\'urgence'),
+            ChoiceField::new('status', 'Status')
+            ->setChoices([
+                'Elève' => 'Elève',
+                'Président'=> 'Président',
+                'Trésorier'=> 'Trésorier',
+                'Secrétaire'=> 'Secrétaire',
+                'Professeur'=> 'Professeur',
+                'Assistant'=> 'Assistant'
+            ]),
+            BooleanField::new('instructor', 'Instructeur'),
+            BooleanField::new('bureau', 'Membre du bureau'),
             ChoiceField::new('level', 'Grade')
                 ->setChoices([
                     'aucun'=> 'aucun',
@@ -101,7 +113,7 @@ class AdherantCrudController extends AbstractCrudController
                     '9e Dan'=> '9e Dan'
                 ]),
             TextEditorField::new('comment', 'Commentaire')->setFormType(CKEditorType::class),
-            TextField::new('Adhesion', 'Adhésion')
+            TextField::new('Adhesion', 'Adhésion')->hideOnForm()
         ];
     }
 
