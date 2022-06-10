@@ -80,7 +80,6 @@ class SubscriptionController extends AbstractController
     {
         $cart->remove();
         $this->addToCart($cart);
-        $this->addToCart($cart);
 
         return $this->render('order/resume.html.twig', [
             'subscriptions' => $cart->get(),

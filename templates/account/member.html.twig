@@ -5,7 +5,7 @@
 {% block body %}
 <div class="m-5">
     <h1 class="m-3">Vos adhérents</h1>
-    <a href="{{ path('account_member_add') }}" class="btn btn-dark btn-sm">Ajouter un adhérent</a>
+    <a href="{{ path('account_member_add') }}" class="btn btn-dark btn-sm">Ajouter un membre</a>
     {% if adhesion is not null %}
         <a href="{{ path('app_subscription', { 'id' : adhesion.id }) }}" class="btn btn-dark btn-sm">Adhésion {{ adhesion.season }}</a>
     {% endif %}
@@ -33,7 +33,6 @@
                                 Adresses : {{ member.streetAddress }},<br>
                                 {{ member.postalCode }} - {{ member.city }}<br>
                                 Numéro de téléphone : {{ member.phoneNumber }}<br>
-                                Grade : {{ member.level }} <br>
                                 Adulte responsable : {{ member.responsibleAdult.firstName }} {{ member.responsibleAdult.lastName }} <br>
                                 Téléphone d'urgence : {{ member.emergencyPhone }} <br>
                                 Commentaire : {{ member.comment }} <br>
