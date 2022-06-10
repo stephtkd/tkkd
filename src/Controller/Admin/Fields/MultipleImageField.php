@@ -19,11 +19,6 @@ class MultipleImageField implements FieldInterface
             ->setFormTypeOptions([
                 'multiple' => true,
                 'data_class' => null,
-                /*'constraints' => [
-                    new File([
-                        'maxSize' => '1024k'
-                    ])
-                ]*/
             ]);
     }
 }

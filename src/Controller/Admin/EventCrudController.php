@@ -50,8 +50,8 @@ class EventCrudController extends AbstractCrudController
             DateTimeField::new('registration_deadline', 'Date limite d\'inscription'),
             BooleanField::new('allowVisitors', 'Autoriser des externes')->setValue(true),
             ImageField::new('link_image', 'Image')
-                ->setBasePath('upload/')
-                ->setUploadDir('public/upload')
+                ->setBasePath('upload/event')
+                ->setUploadDir('public/upload/event')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
         ];

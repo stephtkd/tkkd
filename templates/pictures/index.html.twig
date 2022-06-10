@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Albums Photo - Taekwonkido Phenix{% endblock %}
+{% block title %}Albums - Taekwonkido Phenix{% endblock %}
 
 {% block body %}
 
@@ -38,7 +38,7 @@
     <div class="row m-5">
         <div class="col-md-12">
             <div class="col-md-5 ">
-                <h4 class="fst-italic">Albums Photos</h4>
+                <h4 class="fst-italic">Albums de Taekwonkido Phenix</h4>
                 <ol class="list-unstyled mb-0">
                     {% for Tag in Tags %}
                         <a class="text-decoration-none" href="{{ path('app_tag_slug', { 'slug' : Tag.slug}) }}" style="color:{{ Tag.color }}">{{ Tag.title|raw }}</a>
@@ -59,7 +59,7 @@
                         <p class="card-text">
                             {{ AlbumPicture.description|raw }}
                         </p>
-                        <a href="{{ path('app_pictures_slug', { 'slug' : AlbumPicture.slug}) }}" class="btn btn-dark float-right">Album Photo</a>
+                        <a href="{{ path('app_pictures_slug', { 'slug' : AlbumPicture.slug}) }}" class="btn btn-dark float-right">Album</a>
                     </div>
                 </div>
             </div>

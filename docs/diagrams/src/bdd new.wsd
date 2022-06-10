@@ -174,6 +174,9 @@ table(member) {
     {field} photo_name					?varchar(255)
     {field} comment						?varchar(255)
     {field} level						?varchar(55)
+    {field} status						?varchar(55)
+    {field} bureau  					tinyint(1) default '0'
+    {field} instructor					tinyint(1) default '0'
     {field} --suscription_date--			?date
     {field} membership_state			?varchar(55)
 }
@@ -184,6 +187,11 @@ table(slide_picture) {
     {field} +id				int(11)
     {field} title			?varchar(255)
     {field} illustration	varchar(255)
+}
+
+table(credential) {
+    {field} +id				int(11)
+    {field} api_key			varchar(5000)
 }
 
 table(user) {

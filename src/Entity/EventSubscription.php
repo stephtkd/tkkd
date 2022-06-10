@@ -45,7 +45,7 @@ class EventSubscription
     private EventRate $eventRate;
 
     /**
-     * @ORM\ManyToMany(targetEntity=EventOption::class, inversedBy="eventSubscriptions")
+     * @ORM\ManyToMany(targetEntity=EventOption::class, inversedBy="eventSubscriptions", cascade={"merge"})
      * @ORM\JoinTable(name="event_subscription_event_option")
      */
     private Collection $eventOptions;
@@ -205,5 +205,14 @@ class EventSubscription
     public function setComment(?string $comment): void
     {
         $this->comment = $comment;
+    }
+
+    public function getAmount() {
+        $totalOption = 0;
+        foreach ($this->getEventOptions() as $option) {
+            $totalOption += $option->getAmount();
+        }
+
+        return $this->getEventRate()->getAmount() + $totalOption;
     }
 }

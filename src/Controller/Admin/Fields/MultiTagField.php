@@ -3,12 +3,9 @@
 
 namespace App\Controller\Admin\Fields;
 
-use App\Form\MultiTagType;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-
 
 class MultiTagField implements FieldInterface
 {
@@ -16,8 +13,6 @@ class MultiTagField implements FieldInterface
 
     public static function new(string $propertyName, ?string $label = null): self
     {
-
-
         return (new self())
             ->setProperty($propertyName)
             ->setFormType(ChoiceType::class)

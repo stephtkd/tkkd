@@ -23,14 +23,12 @@ class PicturesAlbum
 
     /**
      * @ORM\Column(type="string", length=255)
-     * maxSize = "64M"
      */
     private $images;
 
     /**
      * @Vich\UploadableField(mapping="album_directory", fileNameProperty="images")
      * @var File
-     *  maxSize = "64M"
      */
     private $imagesFile;
 

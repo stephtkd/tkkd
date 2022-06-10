@@ -7,9 +7,7 @@ use App\Entity\Event;
 use App\Entity\EventSubscription;
 use App\Entity\Member;
 use App\Entity\Payment;
-use App\Form\SubscriptionNoMemberType;
-use App\Form\OrderType;
-use App\Service\HelloAssoApiService;
+use App\Service\StripeApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,9 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class SubscriptionController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
-    private HelloAssoApiService $apiService;
+    private StripeApiService $apiService;
 
-    public function __construct(EntityManagerInterface $entityManager, HelloAssoApiService $apiService)
+    public function __construct(EntityManagerInterface $entityManager, StripeApiService $apiService)
     {
         $this->entityManager = $entityManager;
         $this->apiService = $apiService;
@@ -32,60 +30,60 @@ class SubscriptionController extends AbstractController
     {
         $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
 
-        $NoMember = new Member();
-        $form = $this->createForm(SubscriptionNoMemberType::class, $NoMember);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $NoMember = $form->getData();
-            $this->entityManager->persist($NoMember);
-            $this->entityManager->flush();
-        }
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
-            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/order/resumeCb', name: 'order_resume_cb')]
-    public function checkoutCb(Request $request): Response
+    public function checkoutCb(Cart $cart): Response
     {
-        $errorMessage = "";
-        $form = $this->createForm(OrderType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $response = $this->apiService->generateCheckoutLink($form->getData());
-
-            if ($response->getStatusCode() == 200) {
-                return $this->redirect($response->toArray()['redirectUrl']);
-            }
-            $errorMessage = $response->toArray(false)['errors'][0]['message'];
-        }
-
-        return $this->render('order/resumeCb.html.twig', [
-            'errorMessage' => $errorMessage,
-            'form' => $form->createView(),
-            'products' => []
-        ]);
+//        $errorMessage = "";
+//        $form = $this->createForm(OrderType::class);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+        return $this->redirect($this->apiService->generatePaymentLink($cart));
+//            $response = $this->apiService->generateCheckoutLink($form->getData());
+//
+//            if ($response->getStatusCode() == 200) {
+//                return $this->redirect($response->toArray()['redirectUrl']);
+//            }
+//            $errorMessage = $response->toArray(false)['errors'][0]['message'];
+//        }
+//
+//        return $this->render('order/resumeCb.html.twig', [
+//            'errorMessage' => $errorMessage,
+//            'form' => $form->createView(),
+//            'products' => []
+//        ]);
     }
 
-    #[Route('/order/resumeEsp/{total}', name: 'order_resume_esp')]
-    public function checkoutEsp(float $total, Cart $cart): Response
+    #[Route('/order/resumeEsp', name: 'order_resume_esp')]
+    public function checkoutEsp(Cart $cart): Response
     {
+        $cart->persistCart();
+        
+        return $this->redirectToRoute('app_subscribe_event');
+    }
+
+    #[Route('/order/success/{session_id}', name: 'order_success')]
+    public function success($session_id, Cart $cart): Response
+    {
+        $cart->persistCart($session_id);
+
+        return $this->render('order/success.html.twig');
+    }
+
+    #[Route('/order/resume/{mean}', name: 'order_resume')]
+    public function checkout(string $mean, Cart $cart): Response
+    {
+        $cart->remove();
         $this->addToCart($cart);
-        if ($total != 0) {
-            foreach ($cart->getFull() as $subscription) {
-                $this->entityManager->persist($subscription);
-            }
 
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('app_subscribe_event');
-        }
-
-        return $this->render('order/resumeEsp.html.twig', [
-            'subscriptions' => $cart->getFull(),
+        return $this->render('order/resume.html.twig', [
+            'subscriptions' => $cart->get(),
+            'mean' => $mean
         ]);
     }
 
@@ -121,7 +119,7 @@ class SubscriptionController extends AbstractController
                 'firstName' => $member->getFirstName(),
                 'lastName' => $member->getLastName(),
                 'email' => $member->getEmail(),
-                'street' => $member->getStreetAdress(),
+                'street' => $member->getStreetAddress(),
                 'postalCode' => $member->getPostalCode(),
                 'city' => $member->getCity(),
                 'country' => $member->getNationality(),

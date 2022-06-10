@@ -55,7 +55,7 @@ class AlbumPictureCrudController extends AbstractCrudController
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
              // Intégrer un système de multi upload d'image avec AlbumPictureType
-            MultipleImageField::new('picturesAlbums', 'Photos de l\'album')
+            MultipleImageField::new('picturesAlbums', 'Photos ou vidéos de l\'album')
                 ->onlyOnForms()
                 ->setColumns('col-6'),
 
