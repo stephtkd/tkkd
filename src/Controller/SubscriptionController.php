@@ -49,19 +49,6 @@ class SubscriptionController extends AbstractController
         $listEventRate = $this->entityManager->getRepository(EventRate::class)->findAll();
         $listEventOption = $this->entityManager->getRepository(EventOption::class)->findAll();
 
-        $member = new Member();
-        $formMemberExpress = $this->createForm(MemberExpressType::class,$member);
-
-        $formMemberExpress->handleRequest($request);
-
-        if ($formMemberExpress->isSubmitted() && $formMemberExpress->isValid()) {
-            $member = $formMemberExpress->getData();
-            $this->entityManager->persist($member);
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('app_subscription',['id' => $id]);
-        }
-
 
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
@@ -69,7 +56,6 @@ class SubscriptionController extends AbstractController
             'listEventRate' => $listEventRate,
             'listEventOption' => $listEventOption,
             'subscriptionId' =>$id,
-            'formMemberExpress' => $formMemberExpress->createView(),
         ]);
     }
 

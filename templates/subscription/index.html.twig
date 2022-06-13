@@ -1,94 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tarifs - Taekwonkido Phenix{% endblock %}
+{% block title %}Tarifs - Taekwonkido Phenix
+{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="container pb-5 bg-white rounded shadow-sm row">
-            <div class="row col-lg-6 col-md-12 col-sm-12 py-5 p-4 ">
-                <div class="row col-12">
-                    <h4>{{event.name}}</h4>
-                </div>
-                <div class="row col-12 p-4">
-                    <input type="search" class="col-12" id="searchbox" placeholder="Recherchez un membre...">
-                </div>
-                <div class="col-12 card-padding-3">
-                {% for member in listMember %}
-                    <div class="card mt-2 mb-4" id="card-id-{{member.id}}">
-                        <div class="container box">
-                            <h4 class="card-title mt-2"><b>{{member.firstName}} {{member.lastName}}</b></h4>
-                            <div class="row">
-                                <div class="col-6 mb-2">
-                                    <div class="col-12 card-subtitle">TARIF
-                                    </div>
-                                    <div class="col-12 mt-2">
-                                        <select id="select-event-rate-{{member.id}}" class="form-select" aria-label="Default select example">
-                                        {% for eventRate in listEventRate %}
-                                            <option value="{{eventRate.id}}" class="select-option-value">{{eventRate.name}}</option>
-                                        {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-6 mb-2">
-                                    <div class="col-12 card-subtitle">OPTION
-                                    </div>
-                                    <div class="col-12 mt-2">
-                                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                        {% for eventOption in listEventOption %}
-                                            <input type="checkbox" class="btn-check" id="member-{{member.id}}-event-{{eventOption.id}}" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="member-{{member.id}}-event-{{eventOption.id}}">{{eventOption.name}}</label>
-                                        {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                    <div class="mt-4">
-                        <a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
-                        <a data-save-event-subscription-url="{{path('add_member_event_subscription',{'id':subscriptionId})}}" id="btn-paid-cash-id" class="btn btn-dark btn-sm">Payer en Espèce</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row col-lg-6 col-md-12 col-sm-12 py-5 p-4 ">
-                <div class="row col-12">
-                    <h4>Création d'un membre</h4>
-                </div>
-                {{form(formMemberExpress)}}
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="container pb-5 bg-white rounded shadow-sm row">
+			<div class="row col-lg-6 col-md-12 col-sm-12 py-5 p-4 ">
+				<div class="row col-12">
+					<h4>{{event.name}}</h4>
+				</div>
+				<div class="row col-12 p-4">
+					<input type="search" class="col-12" id="searchbox" placeholder="Recherchez un membre...">
+				</div>
+				<div class="col-12 card-padding-3">
+					{% for member in listMember %}
+						<div class="card mt-2 mb-4" id="card-id-{{member.id}}">
+							<div class="container box">
+								<h4 class="card-title mt-2">
+									{{member.firstName}}
+									{{member.lastName}}
+								</h4>
+								<div class="row">
+									<div class="col-6 mb-2">
+										<div class="col-12 card-subtitle">TARIF
+										</div>
+										<div class="col-12 mt-2">
+											<select id="select-event-rate-{{member.id}}" class="form-select" aria-label="Default select example">
+												{% for eventRate in listEventRate %}
+													<option value="{{eventRate.id}}" class="select-option-value">{{eventRate.name}}</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+									<div class="col-6 mb-2">
+										<div class="col-12 card-subtitle">OPTION
+										</div>
+										<div class="col-12 mt-2">
+											<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+												{% for eventOption in listEventOption %}
+													<input type="checkbox" class="btn-check" id="member-{{member.id}}-event-{{eventOption.id}}" autocomplete="off">
+													<label class="btn btn-outline-primary" for="member-{{member.id}}-event-{{eventOption.id}}">{{eventOption.name}}</label>
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+					<div class="mt-4">
+						<a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
+						<a data-save-event-subscription-url="{{path('add_member_event_subscription',{'id':subscriptionId})}}" id="btn-paid-cash-id" class="btn btn-dark btn-sm">Payer en Espèce</a>
+					</div>
+				</div>
+			</div>
+			<div class="row col-lg-6 col-md-12 col-sm-12 py-5 p-4 ">
+				<div class="col-12">
+					<a href="{{ path('account_member_add') }}" class="btn btn-dark btn-sm">Création d'un membre</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
-{{ encore_entry_script_tags('subscription') }}
+	{{ encore_entry_script_tags('subscription') }}
 {% endblock %}
 
 
 {% block javascripts %}
 
-    <script src="{{ asset('build/bootstrap.min.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var max_fields      = 10; //maximum input boxes allowed
-            var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-            var add_button      = $(".add_field_button"); //Add button ID
+	<script src="{{ asset('build/bootstrap.min.js') }}"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+var max_fields = 10; // maximum input boxes allowed
+var wrapper = $(".input_fields_wrap"); // Fields wrapper
+var add_button = $(".add_field_button"); // Add button ID
 
-            var x = 1; //initlal text box count
-            $(add_button).click(function(e){ //on add input button click
-                e.preventDefault();
-                if(x < max_fields)
-                { //max input box allowed
-                    x++; //text box increment
-                    $(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); //add input box
-                }
-            });
+var x = 1; // initlal text box count
+$(add_button).click(function (e) { // on add input button click
+e.preventDefault();
+if (x < max_fields) { // max input box allowed
+x++; // text box increment
+$(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); // add input box
+}
+});
 
-            $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-                e.preventDefault();
-                $(this).parent('div').remove();
-                x--;
-            })
-        });
-    </script>
+$(wrapper).on("click", ".remove_field", function (e) { // user click on remove text
+e.preventDefault();
+$(this).parent('div').remove();
+x--;
+})
+});
+	</script>
 {% endblock %}
