@@ -9,6 +9,7 @@
     {% if adhesion is not null %}
         <a href="{{ path('app_subscription', { 'id' : adhesion.id }) }}" class="btn btn-dark btn-sm">Adhésion {{ adhesion.season }}</a>
     {% endif %}
+    <a href="{{ path('account_member_import_csv') }}" class="btn btn-dark btn-sm">Importer un CSV</a>
     <p class="text-left m-3">
         Dans cette espace vous allez gérer toutes vos données adhérent <br>
         <a href="{{ path('app_account') }}">Retour</a>

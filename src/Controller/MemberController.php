@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Shuchkin\SimpleXLSX;
 
 class MemberController extends AbstractController
 {
@@ -31,11 +32,26 @@ class MemberController extends AbstractController
     public function index(): Response
     {
         $adhesion = $this->eventRepository->findActualAdhesion();
-
+        
         return $this->render('account/member.html.twig', [
             'adhesion' => $adhesion
         ]);
 
+    }
+
+    #[Route('/account/members/import-csv', name: 'account_member_import_csv')] 
+    public function importCsv(): Response
+    {
+        $adhesion = $this->eventRepository->findActualAdhesion();
+
+        if ( $xlsx = SimpleXLSX::parse( 'xlsx/books.xlsx' ) ) {
+            print_r( $xlsx->sheetNames() );
+            print_r( $xlsx->sheetName( $xlsx->activeSheet ) );
+        }
+
+        return $this->render('account/member.html.twig', [
+            'adhesion' => $adhesion
+        ]);
     }
 
     #[Route('/account/members/form', name: 'account_member_add')] //affichage du formulaire d'adhesion, d'ajout de membre
