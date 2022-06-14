@@ -11,12 +11,8 @@ use App\Entity\Member;
 use App\Entity\Payment;
 use App\Service\StripeApiService;
 use App\Form\EventSubscriptionType;
-use App\Form\MemberExpressType;
 use App\Form\OrderType;
-use App\Form\SubscriptionType;
-use App\Repository\EventRepository;
 use App\Service\HelloAssoApiService;
-use ContainerMQNbkTr\getFollowedMembershipControllerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,7 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SubscriptionController extends AbstractController
@@ -40,22 +35,20 @@ class SubscriptionController extends AbstractController
 
     #[Route('/subscription/{id}', name: 'app_subscription')]
     public function index(
-        $id, 
+        $id,
         Request $request
-        ): Response
-    {
+        ): Response {
         $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
         $listMember = $this->entityManager->getRepository(Member::class)->findAll();
         $listEventRate = $this->entityManager->getRepository(EventRate::class)->findAll();
         $listEventOption = $this->entityManager->getRepository(EventOption::class)->findAll();
-
 
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
             'listMember' => $listMember,
             'listEventRate' => $listEventRate,
             'listEventOption' => $listEventOption,
-            'subscriptionId' =>$id,
+            'subscriptionId' => $id,
         ]);
     }
 
@@ -65,42 +58,42 @@ class SubscriptionController extends AbstractController
         ValidatorInterface $validator,
         SessionInterface $sessionInterface,
         $id
-    ):Response
-    {
+    ): Response {
+        $cart = null;
+        dump($request->request->get('output'));
 
-        $output = $request->request->get('output');
-        dump($output);
-        $cart = new Cart($this->entityManager, $sessionInterface);
-        $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
+        if ($request->request->get('output')) {
+            $output = $request->request->get('output');
+            $cart = new Cart($this->entityManager, $sessionInterface);
+            $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
 
-        foreach($output as $value){
-            $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => $value['member']]);
-            $eventRate = $this->entityManager->getRepository(EventRate::class)->findOneById($value['eventRate']);
+            foreach ($output as $value) {
+                $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => $value['member']]);
+                $eventRate = $this->entityManager->getRepository(EventRate::class)->findOneById($value['eventRate']);
 
-            $eventSubsciption = new EventSubscription();
+                $eventSubsciption = new EventSubscription();
 
-            $eventSubsciption->setStatus('ok');
-            $eventSubsciption->setEvent($event);
-            $eventSubsciption->setEventRate($eventRate);
-            $eventSubsciption->setMember($member);
+                $eventSubsciption->setStatus('ok');
+                $eventSubsciption->setEvent($event);
+                $eventSubsciption->setEventRate($eventRate);
+                $eventSubsciption->setMember($member);
 
-            if(array_key_exists('eventOption', $value)){
-
-                foreach($value['eventOption'] as $eventOption){
-                    $valueEventOption = $this->entityManager->getRepository(EventOption::class)->findOneById($eventOption);
-                    $eventSubsciption->addEventOption($valueEventOption);
+                if (array_key_exists('eventOption', $value)) {
+                    foreach ($value['eventOption'] as $eventOption) {
+                        $valueEventOption = $this->entityManager->getRepository(EventOption::class)->findOneById($eventOption);
+                        $eventSubsciption->addEventOption($valueEventOption);
+                    }
                 }
-            }
-            
-            $eventSubsciption->setUser($this->getUser());
 
-            $payment = new Payment();
-            $payment->setStatus('ok');
-            $payment->setAmount(1500);
-            $payment->setDate(new \DateTime());
-            $payment->setMean('Espèce');
+                $eventSubsciption->setUser($this->getUser());
 
-            $details = [
+                $payment = new Payment();
+                $payment->setStatus('ok');
+                $payment->setAmount(1500);
+                $payment->setDate(new \DateTime());
+                $payment->setMean('Espèce');
+
+                $details = [
                 'user' => [
                     'id' => $eventSubsciption->getUser()->getId(),
                     'firstName' => $eventSubsciption->getUser()->getFirstName(),
@@ -127,36 +120,37 @@ class SubscriptionController extends AbstractController
                         'name' => $eventSubsciption->getEventRate()->getName(),
                         'amount' => $eventSubsciption->getEventRate()->getAmount(),
                     ],
-                    'options' => []
-                ]
+                    'options' => [],
+                ],
             ];
-            
-            foreach ($eventSubsciption->getEventOptions() as $option) {
-                $opt = [
+
+                foreach ($eventSubsciption->getEventOptions() as $option) {
+                    $opt = [
                     'id' => $option->getId(),
                     'name' => $option->getName(),
                     'amount' => $option->getAmount(),
                 ];
-                array_push($details['event']['options'], $opt);
+                    array_push($details['event']['options'], $opt);
+                }
+
+                $payment->setDetails($details);
+                $eventSubsciption->setPayment($payment);
+                $cart->add($eventSubsciption);
             }
 
-            $payment->setDetails($details);
-            $eventSubsciption->setPayment($payment);
-            $cart->add($eventSubsciption);
+            $errors = $validator->validate($eventSubsciption);
+
+            if (count($errors) > 0) {
+                $errorsString = $errors->get(0)->getMessage();
+
+                return new JsonResponse([
+                'success' => false,
+                'message' => $errorsString,
+            ]);
+            }
         }
 
-        $errors = $validator->validate($eventSubsciption);
-        
-        if (count($errors) > 0) {
-            $errorsString = $errors->get(0)->getMessage();
-            
-            return new JsonResponse([
-                'success' => false,
-                'message' => $errorsString
-            ]);
-        }
-    
-        return $this->redirectToRoute('order_resume_esp',['total' => 0.0,'cart' => $cart]);
+        return $this->redirectToRoute('order_resume_esp', ['total' => 0.0, 'cart' => $cart]);
 
         // return new JsonResponse([
         //     'success' => true,
@@ -173,7 +167,6 @@ class SubscriptionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $eventSubscription = $form->getData();
 
-
             return $this->redirectToRoute('app_subscription');
         }
 
@@ -181,7 +174,6 @@ class SubscriptionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 
     #[Route('/order/resumeCb', name: 'order_resume_cb')]
     public function checkoutCb(Cart $cart): Response
@@ -228,6 +220,15 @@ class SubscriptionController extends AbstractController
     {
         $cart->remove();
         $this->addToCart($cart);
+        if (0 != $total) {
+            foreach ($cart->getFull() as $subscription) {
+                $this->entityManager->persist($subscription);
+            }
+
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_subscribe_event');
+        }
 
         return $this->render('order/resume.html.twig', [
             'subscriptions' => $cart->get(),
@@ -236,7 +237,8 @@ class SubscriptionController extends AbstractController
     }
 
     // Use to test, fill up these data with subscription form
-    private function addToCart(Cart $cart) {
+    private function addToCart(Cart $cart)
+    {
         $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => 1]);
         $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
 
@@ -282,8 +284,8 @@ class SubscriptionController extends AbstractController
                     'name' => $subscription->getEventRate()->getName(),
                     'amount' => $subscription->getEventRate()->getAmount(),
                 ],
-                'options' => []
-            ]
+                'options' => [],
+            ],
         ];
         foreach ($subscription->getEventOptions() as $option) {
             $opt = [

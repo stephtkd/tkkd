@@ -113,20 +113,20 @@ function saveEventSubscriptionFnct(evt){
     // evt.preventDefault();
     
     let url = evt.currentTarget.dataset.saveEventSubscriptionUrl;
-    console.log(url);
-    // console.log(listCard);
-    $.ajax({
+    // console.log(url);
+    console.log(listCard);
+
+    const result = $.ajax({
         type: "POST",
         url: url,
         data: {
             'output': listCard
         },
     }).done(function( msg,evt) {
-        console.log(msg.message);
+        console.log(msg);
         console.log(evt);
-
     });
-    // console.log({'output': listCard});
+    
 }
 
 
