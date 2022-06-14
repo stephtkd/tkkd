@@ -11,8 +11,8 @@ const initialize = () => {
         typingTimer = setTimeout(liveSearch, typeInterval);
     });
 
-    let btnPaidCash = document.getElementById('btn-paid-cash-id');
-    btnPaidCash.addEventListener("click", saveEventSubscriptionFnct);
+    // let btnPaidCash = document.getElementById('btn-paid-cash-id');
+    // btnPaidCash.addEventListener("click", saveEventSubscriptionFnct);
 
     let allCardIdMemberClass = document.getElementsByClassName('card');
 
@@ -109,25 +109,25 @@ function seletCardIdMember(evt){
     
 }
 
-function saveEventSubscriptionFnct(evt){
-    // evt.preventDefault();
+// function saveEventSubscriptionFnct(evt){
+//     // evt.preventDefault();
     
-    let url = evt.currentTarget.dataset.saveEventSubscriptionUrl;
-    // console.log(url);
-    console.log(listCard);
+//     let url = evt.currentTarget.dataset.saveEventSubscriptionUrl;
+//     // console.log(url);
+//     console.log(listCard);
 
-    const result = $.ajax({
-        type: "POST",
-        url: url,
-        data: {
-            'output': listCard
-        },
-    }).done(function( msg,evt) {
-        console.log(msg);
-        console.log(evt);
-    });
+//     const result = $.ajax({
+//         type: "POST",
+//         url: url,
+//         data: {
+//             'output': listCard
+//         },
+//     }).done(function( msg,evt) {
+//         console.log(msg);
+//         console.log(evt);
+//     });
     
-}
+// }
 
 
 

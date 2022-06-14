@@ -13,47 +13,55 @@
 				<div class="row col-12 p-4">
 					<input type="search" class="col-12" id="searchbox" placeholder="Recherchez un membre...">
 				</div>
-				<div class="col-12 card-padding-3">
-					{% for member in listMember %}
-						<div class="card mt-2 mb-4" id="card-id-{{member.id}}">
-							<div class="container box">
-								<h4 class="card-title mt-2">
-									{{member.firstName}}
-									{{member.lastName}}
-								</h4>
-								<div class="row">
-									<div class="col-6 mb-2">
-										<div class="col-12 card-subtitle">TARIF
+				<form action="{{path('add_member_event_subscription',{'id':subscriptionId})}}" method="post">
+					<div class="col-12 card-padding-3">
+						{% for member in listMember %}
+							<div class="card mt-2 mb-4" id="card-id-{{member.id}}">
+								<div class="container box">
+									<h4 class="card-title mt-2">
+										{{member.firstName}}
+										{{member.lastName}}
+									</h4>
+									<div class="row">
+										<div class="col-6 mb-2">
+											<div class="col-12 card-subtitle">TARIF
+											</div>
+											<div class="col-12 mt-2">
+												<select id="select-event-rate-{{member.id}}" class="form-select" aria-label="Default select example">
+													{% for eventRate in listEventRate %}
+														<option value="{{eventRate.id}}" class="select-option-value">{{eventRate.name}}</option>
+													{% endfor %}
+												</select>
+											</div>
 										</div>
-										<div class="col-12 mt-2">
-											<select id="select-event-rate-{{member.id}}" class="form-select" aria-label="Default select example">
-												{% for eventRate in listEventRate %}
-													<option value="{{eventRate.id}}" class="select-option-value">{{eventRate.name}}</option>
-												{% endfor %}
-											</select>
+										<div class="col-6 mb-2">
+											<div class="col-12 card-subtitle">OPTION
+											</div>
+											<div class="col-12 mt-2">
+												<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+													{% for eventOption in listEventOption %}
+														<input type="checkbox" class="btn-check" id="member-{{member.id}}-event-{{eventOption.id}}" autocomplete="off" name="eventOption" value="{{eventOption.name}}">
+														<label class="btn btn-outline-primary" for="member-{{member.id}}-event-{{eventOption.id}}">{{eventOption.name}}</label>
+													{% endfor %}
+												</div>
+											</div>
 										</div>
 									</div>
-									<div class="col-6 mb-2">
-										<div class="col-12 card-subtitle">OPTION
-										</div>
-										<div class="col-12 mt-2">
-											<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-												{% for eventOption in listEventOption %}
-													<input type="checkbox" class="btn-check" id="member-{{member.id}}-event-{{eventOption.id}}" autocomplete="off">
-													<label class="btn btn-outline-primary" for="member-{{member.id}}-event-{{eventOption.id}}">{{eventOption.name}}</label>
-												{% endfor %}
-											</div>
+									<div class="row">
+										<div class="col-6 m-2">
+											<input type="checkbox" name="email" id="email" value="simon5.6@hotmail.fr">
 										</div>
 									</div>
 								</div>
 							</div>
+						{% endfor %}
+						<div class="mt-4">
+							<a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
+							<input id="btn-paid-cash-id" class="btn btn-dark btn-sm" type="submit" value="Payer en Espèce">
+							{# <a data-save-event-subscription-url="{{path('add_member_event_subscription',{'id':subscriptionId})}}" id="btn-paid-cash-id" class="btn btn-dark btn-sm">Payer en Espèce</a> #}
 						</div>
-					{% endfor %}
-					<div class="mt-4">
-						<a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
-						<a data-save-event-subscription-url="{{path('add_member_event_subscription',{'id':subscriptionId})}}" id="btn-paid-cash-id" class="btn btn-dark btn-sm">Payer en Espèce</a>
 					</div>
-				</div>
+				</form>
 			</div>
 			<div class="row col-lg-6 col-md-12 col-sm-12 py-5 p-4 ">
 				<div class="col-12">

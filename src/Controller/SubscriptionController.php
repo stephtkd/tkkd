@@ -60,7 +60,7 @@ class SubscriptionController extends AbstractController
         $id
     ): Response {
         $cart = null;
-        dump($request->request->get('output'));
+        dump($request->request);
 
         if ($request->request->get('output')) {
             $output = $request->request->get('output');
