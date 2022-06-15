@@ -44,9 +44,20 @@ class MemberController extends AbstractController
     {
         $adhesion = $this->eventRepository->findActualAdhesion();
 
-        if ( $xlsx = SimpleXLSX::parse( 'xlsx/books.xlsx' ) ) {
-            print_r( $xlsx->sheetNames() );
-            print_r( $xlsx->sheetName( $xlsx->activeSheet ) );
+        if ( $xlsx = SimpleXLSX::parse('test.xlsx') ) {
+ 
+            foreach( $xlsx->rows() as $key=> $r ) {
+                // $produit= new Produit();
+                // $produit->setRef($r[0]);
+                // $produit->SetPrix($r[1]);
+               
+                // $em->persist($produit);
+ 
+            }
+            // $em->flush();
+ 
+        } else {
+            echo SimpleXLSX::parseError();
         }
 
         return $this->render('account/member.html.twig', [
