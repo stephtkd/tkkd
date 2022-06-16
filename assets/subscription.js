@@ -1,10 +1,22 @@
 
+var nbMemberChecked = 0;
 
 const initialize = () => {
     let typingTimer;               
     let typeInterval = 500;  
     let searchInput = document.getElementById('searchbox');
     searchInput.value = "";
+    var inputMemberHidden = document.getElementsByClassName('class-member');
+
+    for (var l = 0; l < inputMemberHidden.length; l++) {
+        inputMemberHidden.item(l).value = "";
+    }
+
+    var inputEventOptionHidden = document.getElementsByClassName('class-event-option');
+
+    for(var m = 0; m < inputEventOptionHidden.length; m++){
+        inputEventOptionHidden.item(m).value = "";
+    }
 
     searchInput.addEventListener('keyup', () => {
         clearTimeout(typingTimer);
@@ -18,6 +30,33 @@ const initialize = () => {
 
     for (var i = 0; i < allCardIdMemberClass.length; i++) {
         allCardIdMemberClass.item(i).addEventListener("click", seletCardIdMember);
+    }
+
+    var allCheckboxMemberClass = document.getElementsByClassName("btn-check");
+
+    for (var j = 0; j < allCheckboxMemberClass.length; j++) {
+
+        allCheckboxMemberClass.item(j).addEventListener('change', function() {
+            var inputId = 'input-check-'+this.id;
+            var inputCheckHidden = document.getElementById(inputId);
+
+            if (this.checked) {
+                inputCheckHidden.value = this.value;
+            } else {
+                inputCheckHidden.value = '';
+            }
+        });
+    }
+
+    var allSelectMemberClass = document.getElementsByClassName('form-select');
+
+    for (var k = 0; k < allSelectMemberClass.length; k++) {
+
+        allSelectMemberClass.item(k).addEventListener("change", function() {
+            var inputId = 'input-'+this.id;
+            var inputSelectHidden = document.getElementById(inputId);
+            inputSelectHidden.value = this.value;
+        });
     }
     
 }
@@ -41,68 +80,78 @@ function liveSearch() {
 
 function seletCardIdMember(evt){
     let memberId = evt.currentTarget.id.split('card-id-')[1];
+    var inputHidden = document.getElementById('id-member-'+memberId);
+    let inputHiddenNbChecked = document.getElementById('input-bool-checked');
 
     if(evt.target.classList[0] !== "form-select" && 
         evt.target.classList[0] !== "btn-check" && 
         evt.target.classList[0] !== "btn" &&
         evt.target.classList[0] !== "select-option-value"){
 
-        if(evt.currentTarget.style.backgroundColor == "rgb(197, 225, 165)"){//if selected so I delete the selection
+        if(evt.currentTarget.style.backgroundColor == "rgb(197, 225, 165)"){//if is already selected so I delete the selection
             // console.log('------------------------');
             evt.currentTarget.style.backgroundColor = "white";
-            json = listCard.find(element => element['member'] == memberId);// get the object with memberId
-            id = listCard.indexOf(json); //get index of the object
-            listCard.splice(id,1);//delete the object with the index
-            console.log(listCard);
+            // json = listCard.find(element => element['member'] == memberId);// get the object with memberId
+            // id = listCard.indexOf(json); //get index of the object
+            // listCard.splice(id,1);//delete the object with the index
+            // console.log(listCard);
+            inputHidden.value = '';
+            nbMemberChecked--;
+            inputHiddenNbChecked.value = nbMemberChecked;
 
         }else{
             // console.log("++++++++++++++++++++++++");
             evt.currentTarget.style.backgroundColor = "#C5E1A5";
-            let eventRateEl = document.getElementById('select-event-rate-'+memberId);
-            let eventOptionEl = evt.currentTarget.getElementsByClassName('btn-check');
-            let arrEventOptionChecked = [];
+            nbMemberChecked++;
+            inputHiddenNbChecked.value = nbMemberChecked;
+            // let eventRateEl = document.getElementById('select-event-rate-'+memberId);
+            // let eventOptionEl = evt.currentTarget.getElementsByClassName('btn-check');
+            // let arrEventOptionChecked = [];
 
-            for(var i = 0; i< eventOptionEl.length; i++){
+            // for(var i = 0; i< eventOptionEl.length; i++){
                 
-                if(eventOptionEl[i].checked){
-                    arrEventOptionChecked.push(eventOptionEl[i].id.split('member-'+memberId+'-event-')[1]);
-                }
-            }
+            //     if(eventOptionEl[i].checked){
+            //         arrEventOptionChecked.push(eventOptionEl[i].id.split('member-'+memberId+'-event-')[1]);
+            //     }
+            // }
 
-            value = {
-                    member: memberId,
-                    eventRate:eventRateEl.value, 
-                    eventOption: arrEventOptionChecked
-            };
+            
+            inputHidden.value = memberId;
 
-            listCard.push(value);
+            // value = {
+            //         member: memberId,
+            //         eventRate:eventRateEl.value, 
+            //         eventOption: arrEventOptionChecked
+            // };
+
+            // listCard.push(value);
             // console.log(listCard);
         }
     }else{ //UPDATE
         //DELETE
-        json = listCard.find(element => element['member'] == memberId);// get the object with memberId
-        id = listCard.indexOf(json); //get index of the object
-        listCard.splice(id,1);//delete the object with the index
+        // json = listCard.find(element => element['member'] == memberId);// get the object with memberId
+        // id = listCard.indexOf(json); //get index of the object
+        // listCard.splice(id,1);//delete the object with the index
 
         //ADD
-        let eventRateEl = document.getElementById('select-event-rate-'+memberId);
-        let eventOptionEl = evt.currentTarget.getElementsByClassName('btn-check');
-        let arrEventOptionChecked = [];
+        // let eventRateEl = document.getElementById('select-event-rate-'+memberId);
+        // let eventOptionEl = evt.currentTarget.getElementsByClassName('btn-check');
+        // let arrEventOptionChecked = [];
 
-        for(var i = 0; i< eventOptionEl.length; i++){
+        // for(var i = 0; i< eventOptionEl.length; i++){
             
-            if(eventOptionEl[i].checked){
-                arrEventOptionChecked.push(eventOptionEl[i].id.split('member-'+memberId+'-event-')[1]);
-            }
-        }
+        //     if(eventOptionEl[i].checked){
+        //         arrEventOptionChecked.push(eventOptionEl[i].id.split('member-'+memberId+'-event-')[1]);
+        //     }
+        // }
 
-        value = {
-                member: memberId,
-                eventRate:eventRateEl.value, 
-                eventOption: arrEventOptionChecked
-        };
+        // value = {
+        //         member: memberId,
+        //         eventRate:eventRateEl.value, 
+        //         eventOption: arrEventOptionChecked
+        // };
 
-        listCard.push(value);
+        // listCard.push(value);
         // console.log(listCard);
     }
 
