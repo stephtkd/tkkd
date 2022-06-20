@@ -39,12 +39,19 @@
 										<div class="col-12 card-subtitle">OPTION
 										</div>
 										<div class="col-12 mt-2">
-											<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
 												{% for eventOption in listEventOption %}
-													<input type="checkbox" class="btn-check" id="member-{{member.id}}-event-{{eventOption.id}}" autocomplete="off" value="{{eventOption.name}}">
-													<label class="btn btn-outline-primary" for="member-{{member.id}}-event-{{eventOption.id}}">{{eventOption.name}}</label>
+													{# <div class="form-check">
+														<input class="form-check-input" type="checkbox" value="{{eventOption.name}}" id="member-{{member.id}}-event-{{eventOption.id}}" checked>
+														<label class="form-check-label" for="member-{{member.id}}-event-{{eventOption.id}}">
+															{{eventOption.name}}
+														</label>
+													</div> #}
+
+													<div>
+														<input type="checkbox" id="member-{{member.id}}-event-{{eventOption.id}}" name="member-{{member.id}}-event-{{eventOption.id}}" class="event-option-class">
+														<label for="member-{{member.id}}-event-{{eventOption.id}}">{{eventOption.name}}</label>
+    												</div>
 												{% endfor %}
-											</div>
 										</div>
 									</div>
 								</div>

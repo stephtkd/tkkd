@@ -8,6 +8,8 @@ const initialize = () => {
     let subscriptionId = document.getElementById('subscription-id').value;
     var memberId = "";
 
+    // document.getElementById('member-1-event-1').checked = true;
+
 
     searchInput.addEventListener('keyup', () => {
         clearTimeout(typingTimer);
@@ -98,11 +100,12 @@ function seletCardIdMember(evt){
     let memberId = evt.currentTarget.id.split('card-id-')[1];
     let eventId = document.getElementById('event-id').value;
     let subscriptionId = document.getElementById('subscription-id').value;
-
+    console.log( evt.target);
+    console.log(evt.target.className);
 
     if(evt.target.classList[0] !== "form-select" && 
-        evt.target.classList[0] !== "btn-check" && 
-        evt.target.classList[0] !== "btn" &&
+        evt.target.className !== "event-option-class" && 
+        // evt.target.classList[0] !== "btn" &&
         evt.target.classList[0] !== "select-option-value"){
 
         if(evt.currentTarget.style.backgroundColor == "rgb(197, 225, 165)"){//if selected so I delete the selection
@@ -175,9 +178,15 @@ function seletCardIdMember(evt){
 
             
         }
+    }else if(evt.target.className == "event-option-class"){
+        console.log(evt.target.checked);
+        evt.target.checked = false;
+        // document.getElementById(evt.target.id).checked = true;
+        console.log('CHECKED');
+        console.log(evt.target.checked);
     }else{ //UPDATE
         //DELETE
-        console.log('UPDATE');
+        console.log(evt.target.classList[0]);
         json = listCard.find(element => element['member'] == memberId);// get the object with memberId
         id = listCard.indexOf(json); //get index of the object
         listCard.splice(id,1);//delete the object with the index
