@@ -41,7 +41,7 @@
 										<div class="col-12 mt-2">
 											<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
 												{% for eventOption in listEventOption %}
-													<input type="checkbox" class="btn-check" id="member-{{member.id}}-event-{{eventOption.id}}" autocomplete="off" value="{{eventOption.name}} - {{eventOption.amount}}">
+													<input type="checkbox" class="btn-check" id="member-{{member.id}}-event-{{eventOption.id}}" autocomplete="off" value="{{eventOption.name}}">
 													<label class="btn btn-outline-primary" for="member-{{member.id}}-event-{{eventOption.id}}">{{eventOption.name}}</label>
 												{% endfor %}
 											</div>
@@ -54,7 +54,7 @@
 					<div class="mt-4">
 						<a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
 						{# <input id="btn-paid-cash-id" class="btn btn-dark btn-sm" type="submit" value="Payer en Espèce"> #}
-						<a href="{{path('order_resume_esp')}}" id="btn-paid-cash-id" class="btn btn-dark btn-sm">Payer en Espèce</a>
+						<a href="{{path('order_resume_esp',{'id': subscriptionId})}}" id="btn-paid-cash-id" class="btn btn-dark btn-sm">Payer en Espèce</a>
 					</div>
 				</div>
 			</div>

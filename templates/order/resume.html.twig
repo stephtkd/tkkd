@@ -80,12 +80,11 @@
                         <!-- End -->
                     </div>
                 </div>
-                {% if mean == 'espece' %}
-                    <a href="{{ path('order_resume_esp') }}" class="btn btn-dark btn-sm">Confirmer</a>
-                {% else %}
-                    <a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Confirmer</a>
-                {% endif %}
-
+                <a href="#" class="btn btn-dark btn-sm">Confirmer</a>
+                <a href="{{ path('delete_cart', { 'id' : subscriptionId }) }}" class="btn btn-danger btn-sm">Annuler</a>
+                <div class="alert alert-info mt-2" role="alert">
+                    {{message}}
+                </div>
             </div>
         </div>
     </div>

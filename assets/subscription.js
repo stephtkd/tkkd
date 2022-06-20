@@ -7,16 +7,12 @@ const initialize = () => {
     searchInput.value = "";
     let subscriptionId = document.getElementById('subscription-id').value;
     var memberId = "";
-    let totalPrice = document.getElementById('total-price');
 
 
     searchInput.addEventListener('keyup', () => {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(liveSearch, typeInterval);
     });
-
-    // let btnPaidCash = document.getElementById('btn-paid-cash-id');
-    // btnPaidCash.addEventListener("click", saveEventSubscriptionFnct);
 
     let allCardIdMemberClass = document.getElementsByClassName('card');
 
@@ -60,36 +56,18 @@ const initialize = () => {
                     };
 
                     listCard.push(value);
+
+
+                    let selectPrice = document.getElementById('select-event-rate-'+memberId);
+                    let priceArray = selectPrice.options[selectPrice.selectedIndex].firstChild.data.split('-');
+                    let spanTotalPrice = document.getElementById('total-price');
+                    let actualTotalPrice = parseInt(spanTotalPrice.firstChild.data);
+                    spanTotalPrice.textContent = actualTotalPrice+parseInt(priceArray[1]);
                 }
             }
     
             console.log(listCard);
             allCardIdMemberClass.item(i).addEventListener("click", seletCardIdMember);
-
-        }
-
-        for (var i = 0; i < allCardIdMemberClass.length; i++) {
-            // let memberId = allCardIdMemberClass.item(i).id.split('card-id-')[1];
-            // let eventId = document.getElementById('event-id').value;
-            // let eventRateEl = document.getElementById('select-event-rate-'+memberId);
-            // let eventOptionEl = allCardIdMemberClass.item(i).getElementsByClassName('btn-check');
-            // let arrEventOptionChecked = [];
-
-            // for(var i = 0; i< eventOptionEl.length; i++){
-                
-            //     if(eventOptionEl[i].checked){
-            //         arrEventOptionChecked.push(eventOptionEl[i].id.split('member-'+memberId+'-event-')[1]);
-            //     }
-            // }
-
-            // value = {
-            //     member: memberId,
-            //     event: eventId,
-            //     eventRate:eventRateEl.value, 
-            //     eventOption: arrEventOptionChecked
-            // };
-
-            // listCard.push(value);
 
         }
     });
@@ -199,6 +177,7 @@ function seletCardIdMember(evt){
         }
     }else{ //UPDATE
         //DELETE
+        console.log('UPDATE');
         json = listCard.find(element => element['member'] == memberId);// get the object with memberId
         id = listCard.indexOf(json); //get index of the object
         listCard.splice(id,1);//delete the object with the index
@@ -222,33 +201,11 @@ function seletCardIdMember(evt){
         };
 
         listCard.push(value);
-        // console.log(listCard);
+        console.log(listCard);
     }
 
     
 }
-
-// function saveEventSubscriptionFnct(evt){
-//     // evt.preventDefault();
-    
-//     let url = evt.currentTarget.dataset.saveEventSubscriptionUrl;
-//     // console.log(url);
-//     console.log(listCard);
-
-//     const result = $.ajax({
-//         type: "POST",
-//         url: url,
-//         data: {
-//             'output': listCard
-//         },
-//     }).done(function( msg,evt) {
-//         console.log(msg);
-//         console.log(evt);
-//     });
-    
-// }
-
-
 
 
 

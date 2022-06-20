@@ -61,223 +61,6 @@ class SubscriptionController extends AbstractController
     }
     
 
-    #[Route('/subscription/{id}/add-member-event-subscription', name: 'add_member_event_subscription')]
-    public function addMemberEventSubscription(
-        Request $request,
-        ValidatorInterface $validator,
-        SessionInterface $sessionInterface,
-        $id
-    ): Response {
-        $cart = null;
-        $tabValues = $request->request->all();
-        $eventSubscription = null;
-        $member = null;
-        $i = 0;
-        $indexMember = "";
-        $total = 0;
-        $payment = null;
-
-        if($tabValues['key-bool-checked'] > 0){
-            $cart = new Cart($this->entityManager, $sessionInterface);
-            $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
-
-            foreach($tabValues as $key => $value){
-
-                if(str_contains($key,"key-member-")){
-                    $indexMember = explode("key-member-",$key)[1];
-                }
-    
-                if(str_contains($key,"key-member") && $value !== "" && $i === 0){
-                    $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => $value]);
-                    $eventSubscriptionExist = $this->entityManager->getRepository(EventSubscription::class)->findBy([
-                        'member' => $member->getId(),
-                        'event' => $event->getId()
-                    ]);
-
-                    if(!$eventSubscriptionExist){
-                        $payment = new Payment();
-                        $payment->setStatus('ok');
-                        $payment->setAmount(1500);
-                        $payment->setDate(new \DateTime());
-                        $payment->setMean('Espèce');
-                    }
-                    
-                    $i++;
-    
-                }else if(!$eventSubscriptionExist && $key === "key-event-rate-member-".$indexMember && $value !== "" && $tabValues['key-member-'.$indexMember] !== "" ){
-                    $eventRate = $this->entityManager->getRepository(EventRate::class)->findOneById($value);
-
-                    $eventSubscription = new EventSubscription();
-                    $eventSubscription->setStatus('ok');
-                    $eventSubscription->setEvent($event);
-                    $eventSubscription->setEventRate($eventRate);
-                    $eventSubscription->setMember($member);
-                    $eventSubscription->setUser($this->getUser());
-                    $eventSubscription->setIsPaid(false);
-                    $total += $eventRate->getAmount();
-
-
-                }else if(!$eventSubscriptionExist && str_contains($key,"key-event-option-member-".$indexMember) && $value !== ""){
-                    $valueEventOption = $this->entityManager->getRepository(EventOption::class)->findOneByName($value);
-                    $eventSubscription->addEventOption($valueEventOption);
-                    
-                }else if(str_contains($key,"key-member-") && $i !== 0){
-                    
-                    if($eventSubscription){
-                        $details = [
-                            'user' => [
-                                'id' => $eventSubscription->getUser()->getId(),
-                                'firstName' => $eventSubscription->getUser()->getFirstName(),
-                                'lastName' => $eventSubscription->getUser()->getLastName(),
-                                'email' => $eventSubscription->getUser()->getEmail(),
-                            ],
-                            'member' => [
-                                'id' => $member->getId(),
-                                'firstName' => $member->getFirstName(),
-                                'lastName' => $member->getLastName(),
-                                'email' => $member->getEmail(),
-                                'street' => $member->getStreetAddress(),
-                                'postalCode' => $member->getPostalCode(),
-                                'city' => $member->getCity(),
-                                'country' => $member->getNationality(),
-                            ],
-                            'event' => [
-                                'id' => $event->getId(),
-                                'slug' => $event->getSlug(),
-                                'startDate' => $event->getStartDate(),
-                                'endDate' => $event->getEndDate(),
-                                'rate' => [
-                                    'id' => $eventSubscription->getEventRate()->getId(),
-                                    'name' => $eventSubscription->getEventRate()->getName(),
-                                    'amount' => $eventSubscription->getEventRate()->getAmount(),
-                                ],
-                                'options' => [],
-                            ],
-                        ];
-                        
-                        foreach ($eventSubscription->getEventOptions() as $option) {
-                            $opt = [
-                                'id' => $option->getId(),
-                                'name' => $option->getName(),
-                                'amount' => $option->getAmount(),
-                            ];
-                            array_push($details['event']['options'], $opt);
-                        }
-
-                        if($payment){
-                            $payment->setDetails($details);
-                            $eventSubscription->setPayment($payment);
-                            $cart->add($eventSubscription);
-                            $this->entityManager->persist($payment);
-                        }
-                    }
-                    
-
-                    if($value !== ""){
-                        $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => $value]);
-                        $eventSubscriptionExist = $this->entityManager->getRepository(EventSubscription::class)->findBy([
-                            'member' => $member->getId(),
-                            'event' => $event->getId()
-                        ]);
-
-                        if(!$eventSubscriptionExist){
-                            $payment = new Payment();
-                            $payment->setStatus('ok');
-                            $payment->setAmount(1500);
-                            $payment->setDate(new \DateTime());
-                            $payment->setMean('Espèce');
-                            $this->entityManager->persist($payment);
-                        }
-                        
-                        $i++;
-                    }
-
-                    
-                }
-
-                
-    
-                // $errors = $validator->validate($eventSubscription);
-    
-                // if (count($errors) > 0) {
-                //     $errorsString = $errors->get(0)->getMessage();
-
-                //     return $this->redirectToRoute('app_subscription',[
-                //         'id' => $id
-                //     ]);
-                // }
-            }
-
-            if($eventSubscription && $tabValues['key-bool-checked'] == 1){
-                $details = [
-                    'user' => [
-                        'id' => $eventSubscription->getUser()->getId(),
-                        'firstName' => $eventSubscription->getUser()->getFirstName(),
-                        'lastName' => $eventSubscription->getUser()->getLastName(),
-                        'email' => $eventSubscription->getUser()->getEmail(),
-                    ],
-                    'member' => [
-                        'id' => $member->getId(),
-                        'firstName' => $member->getFirstName(),
-                        'lastName' => $member->getLastName(),
-                        'email' => $member->getEmail(),
-                        'street' => $member->getStreetAddress(),
-                        'postalCode' => $member->getPostalCode(),
-                        'city' => $member->getCity(),
-                        'country' => $member->getNationality(),
-                    ],
-                    'event' => [
-                        'id' => $event->getId(),
-                        'slug' => $event->getSlug(),
-                        'startDate' => $event->getStartDate(),
-                        'endDate' => $event->getEndDate(),
-                        'rate' => [
-                            'id' => $eventSubscription->getEventRate()->getId(),
-                            'name' => $eventSubscription->getEventRate()->getName(),
-                            'amount' => $eventSubscription->getEventRate()->getAmount(),
-                        ],
-                        'options' => [],
-                    ],
-                ];
-                
-                foreach ($eventSubscription->getEventOptions() as $option) {
-                    $opt = [
-                        'id' => $option->getId(),
-                        'name' => $option->getName(),
-                        'amount' => $option->getAmount(),
-                    ];
-                    array_push($details['event']['options'], $opt);
-                }
-
-                if($payment){
-                    $payment->setDetails($details);
-                    $eventSubscription->setPayment($payment);
-                    $cart->add($eventSubscription);
-                    $this->entityManager->persist($payment);
-                }
-                
-            }
-
-        }
-        
-        if($eventSubscription){
-            $this->entityManager->persist($eventSubscription);
-            $this->entityManager->flush();
-        }
-        
-
-        return $this->redirectToRoute('order_resume_esp', [
-            'total' => $total, 
-            'cart' => $cart
-            // 'cart' => $cart->getOne($eventSubscription->getId())
-        ]);
-
-        // return new JsonResponse([
-        //     'success' => true,
-        //     'message' => "L'enregistrement a été validé."
-        // ]);
-    }
-
     public function new(Request $request): Response
     {
         $eventSubscription = new EventSubscription();
@@ -340,9 +123,6 @@ class SubscriptionController extends AbstractController
     {
         $cart = $session->get('cart',[]);
 
-        dump($request->request->get('output'));
-
-        
         if ($request->request->get('output')) {
             $cart = $request->request->get('output');
             $session->set('cart',$cart);
@@ -354,8 +134,21 @@ class SubscriptionController extends AbstractController
         ]);
     }
 
-    #[Route('/order/resumeEsp', name: 'order_resume_esp')]
-    public function checkoutEsp(SessionInterface $session): Response
+
+    #[Route('/subscription/{id}/deletCart', name: 'delete_cart')]
+    public function deleteCart($id, Request $request,SessionInterface $session): Response
+    {
+        $cart = $session->get('cart',[]);
+        $session->remove('cart');
+
+        return $this->redirectToRoute('app_subscription',[
+            'id' => $id
+        ]);
+    }
+
+
+    #[Route('/order/{id}/resumeEsp', name: 'order_resume_esp')]
+    public function checkoutEsp($id,SessionInterface $session): Response
     {
         $eventSubscriptions = [];
         // $this->addToCart($cart);
@@ -375,9 +168,10 @@ class SubscriptionController extends AbstractController
 
         }
 
-        return $this->render('order/resume.html.twig', [
-            'subscriptions' => $cart->get(),
-            'mean' => $mean
+        return $this->render('order/resumeEsp.html.twig', [
+            'subscriptions' => $eventSubscriptions,
+            'subscriptionId' => $id,
+            'message' => "Merci de faire l'appoint auprès de l'organisateur."
         ]);
     }
 
@@ -392,8 +186,11 @@ class SubscriptionController extends AbstractController
         $subscription->setEvent($event);
         $subscription->setEventRate($event->getEventRates()[0]);
         $subscription->setMember($member);
-        $subscription->addEventOption($event->getEventOptions()[0]);
-        $subscription->addEventOption($event->getEventOptions()[1]);
+
+        for($i = 0; array_key_exists('eventOption',$cart) && $i< count($cart['eventOption']); $i++ ){
+            $subscription->addEventOption($cart['eventOption'][$i]);
+        }
+        
         $subscription->setUser($this->getUser());
 
         $payment->setStatus('ok');
@@ -445,69 +242,4 @@ class SubscriptionController extends AbstractController
 
     }  
 
-    // Use to test, fill up these data with subscription form
-    private function addToCart(Cart $cart)
-    {
-        $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => 1]);
-        $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
-
-        $subscription = new EventSubscription();
-        $payment = new Payment();
-
-        $subscription->setStatus('ok');
-        $subscription->setEvent($event);
-        $subscription->setEventRate($event->getEventRates()[0]);
-        $subscription->setMember($member);
-        $subscription->addEventOption($event->getEventOptions()[0]);
-        $subscription->addEventOption($event->getEventOptions()[1]);
-        $subscription->setUser($this->getUser());
-
-        $payment->setStatus('ok');
-        $payment->setAmount(1500);
-        $payment->setDate(new \DateTime());
-        $payment->setMean('Espèce');
-        $details = [
-            'user' => [
-                'id' => $subscription->getUser()->getId(),
-                'firstName' => $subscription->getUser()->getFirstName(),
-                'lastName' => $subscription->getUser()->getLastName(),
-                'email' => $subscription->getUser()->getEmail(),
-            ],
-            'member' => [
-                'id' => $member->getId(),
-                'firstName' => $member->getFirstName(),
-                'lastName' => $member->getLastName(),
-                'email' => $member->getEmail(),
-                'street' => $member->getStreetAddress(),
-                'postalCode' => $member->getPostalCode(),
-                'city' => $member->getCity(),
-                'country' => $member->getNationality(),
-            ],
-            'event' => [
-                'id' => $event->getId(),
-                'slug' => $event->getSlug(),
-                'startDate' => $event->getStartDate(),
-                'endDate' => $event->getEndDate(),
-                'rate' => [
-                    'id' => $subscription->getEventRate()->getId(),
-                    'name' => $subscription->getEventRate()->getName(),
-                    'amount' => $subscription->getEventRate()->getAmount(),
-                ],
-                'options' => [],
-            ],
-        ];
-        foreach ($subscription->getEventOptions() as $option) {
-            $opt = [
-                'id' => $option->getId(),
-                'name' => $option->getName(),
-                'amount' => $option->getAmount(),
-            ];
-            array_push($details['event']['options'], $opt);
-        }
-        $payment->setDetails($details);
-        $subscription->setPayment($payment);
-
-        $cart->add($subscription);
-
-    }
 }
