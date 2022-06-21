@@ -57,7 +57,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home'); // les icones fontawesome.com/icons
 
         yield MenuItem::section('Gestion des comptes');
-        yield MenuItem::linkToCrud('Comptes Utilisateurs', 'fas fa-list', User::class);
+        yield MenuItem::linkToCrud('Comptes Utilisateurs', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Tableau Adhérents', 'fas fa-table', Member::class)->setController(AdherantCrudController::class);
         yield MenuItem::linkToCrud('Tableau Membres', 'fas fa-table', Member::class)->setController(MemberCrudController::class);
 
@@ -71,8 +71,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Album Photo', 'fas fa-images', AlbumPicture::class);
 
         yield MenuItem::section('Gestion des paiements');
-        yield MenuItem::linkToCrud('Paiement', 'fas fa-pen', Payment::class);
-        yield MenuItem::linkToCrud('Infos API', 'fas fa-pen', Credential::class);
+        yield MenuItem::linkToCrud('Paiement', 'fas fa-credit-card', Payment::class);
+        yield MenuItem::linkToCrud('Infos API', 'fas fa-money-bill-transfer', Credential::class);
 
         yield MenuItem::section('Gestion de la page Contact');
         yield MenuItem::linkToCrud('Contact', 'fas fa-pen', Contact::class);
@@ -80,8 +80,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Gestion des Evènements');
         yield MenuItem::linkToCrud('Evénements', 'fas fa-newspaper', Event::class)->setController(EventCrudController::class);
         yield MenuItem::linkToCrud('Adhésions', 'fas fa-newspaper', Event::class)->setController(AdhesionCrudController::class);
-        yield MenuItem::linkToCrud('Inscriptions évènements', 'fas fa-newspaper', EventSubscription::class)->setController(EventSubscriptionCrudController::class);
-        yield MenuItem::linkToCrud('Inscriptions adhésions', 'fas fa-newspaper', EventSubscription::class)->setController(AdhesionSubscriptionCrudController::class);
+        yield MenuItem::linkToCrud('Inscriptions évènements', 'fas fa-calendar-days', EventSubscription::class)->setController(EventSubscriptionCrudController::class);
+        yield MenuItem::linkToCrud('Inscriptions adhésions', 'fas fa-id-badge', EventSubscription::class)->setController(AdhesionSubscriptionCrudController::class);
         yield MenuItem::linkToCrud('Tarifs Evenements', 'fas fa-cash-register', EventRate::class);
         yield MenuItem::linkToCrud('Options Evenements', 'fas fa-cash-register', EventOption::class);
     }

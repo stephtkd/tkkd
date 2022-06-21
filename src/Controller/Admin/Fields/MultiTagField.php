@@ -4,6 +4,7 @@
 namespace App\Controller\Admin\Fields;
 
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Field\FieldInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FieldTrait;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -20,10 +21,7 @@ class MultiTagField implements FieldInterface
                 'multiple' => true,
                 'expanded' => true,
             ])
-           // ->setColumns('col-6')
+            ->setColumns('col-6')
         ;
     }
-
-
-
 }
