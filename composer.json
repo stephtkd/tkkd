@@ -25,7 +25,6 @@
         "ninsuo/symfony-collection": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.3",
         "sensio/framework-extra-bundle": "^6.2",
-        "shuchkin/simplexlsx": "^1.0",
         "stripe/stripe-php": "^8.5",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.4.*.*",
