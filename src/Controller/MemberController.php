@@ -21,21 +21,6 @@ class MemberController extends AbstractController
     private EntityManagerInterface $entityManager;
     private EventRepository $eventRepository;
 
-    const CLUB="CLUB";
-    const NOM="NOM";
-    const PRENOM="PRENOM";
-    const MF="M/F";
-    const NEE_LE="NE(E) LE";
-    const ADRESSE="ADRESSE";
-    const CODE_POSTAL="CODE POSTAL";
-    const VILLE="VILLE";
-    const TEL="TEL";
-    const TEL_ACCIDENT="TEL ACCIDENT";
-    const NATIONALITE="NATIONALITE";
-    const EMAIL="EMAIL";
-    const GRADE="GRADE TAEKWONKIDO";
-    
-    
 
     public function __construct(EntityManagerInterface $entityManager, EventRepository $eventRepository)
     {
@@ -64,8 +49,6 @@ class MemberController extends AbstractController
         SerializerInterface $serializer
     ): Response
     {
-        $adhesion = $this->eventRepository->findActualAdhesion();
-
         $listMember = $memberRepository->findAll();
         $list =[];
         $listResult = [];
@@ -87,6 +70,7 @@ class MemberController extends AbstractController
             if($j !== 0){
                 unset($listUnSet[$j][0]);
             }elseif($j === 0){
+                $listUnSet[$j][0] =  str_replace('"','',$listUnSet[$j][0]);
                 unset($listUnSet[$j][2]);
             }
 
@@ -104,10 +88,6 @@ class MemberController extends AbstractController
             foreach($listUnSet[$m] as $value){
                 $listResult[$z] = $value;
                 $listResult[$z] = explode(',',$listResult[$z]);
-
-                if($z === 0){
-                    $listResult[$z] = $this->exportChangeColumn($listResult[$z]);
-                }
                 
                 $z++;
                 
@@ -124,30 +104,7 @@ class MemberController extends AbstractController
         fclose($fp);
 
 
-        return $this->render('account/member.html.twig', [
-            'adhesion' => $adhesion
-        ]);
-    }
-
-    private function exportChangeColumn(array $list){
-
-        $replacement = array(
-            0 => self::NOM,
-            1 => self::PRENOM,
-            2 => self::MF,
-            3 => self::NEE_LE,
-            4 => self::EMAIL,
-            5 => self::ADRESSE,
-            6 => self::CODE_POSTAL,
-            7 => self::VILLE,
-            8 => self::NATIONALITE,
-            9 => self::TEL,
-            10 => self::GRADE,
-            11 => self::TEL_ACCIDENT,
-        );
-        $list = array_replace($list,$replacement);
-
-        return $list;
+        return $this->redirectToRoute('account_member');
     }
 
     #[Route('/account/members/import-csv', name: 'account_member_import_csv')] 
@@ -155,7 +112,7 @@ class MemberController extends AbstractController
     {
         $adhesion = $this->eventRepository->findActualAdhesion();
 
-        $targetPath = "upload/".basename($_FILES['inpFile']['name']);
+        $targetPath = "upload/member/".basename($_FILES['inpFile']['name']);
         move_uploaded_file($_FILES['inpFile']['tmp_name'],$targetPath);
 
         $index = 0;
@@ -187,16 +144,16 @@ class MemberController extends AbstractController
 
             foreach($arrayResult[$j] as $key => $value){
 
-                if($key === self::CLUB){
+                if($key === Member::CLUB){
                     // $member->setClub($value);
 
-                }else if($key === self::NOM){
+                }else if($key === Member::NOM){
                     $member->setLastName($value);
 
-                }else if($key === self::PRENOM){
+                }else if($key === Member::PRENOM){
                     $member->setFirstName($value);
 
-                }else if($key === self::MF){
+                }else if($key === Member::MF){
 
                     if($value === "M"){
                         $member->setSex("Homme");
@@ -206,34 +163,34 @@ class MemberController extends AbstractController
             
                     }
 
-                }else if($key === self::NEE_LE){
+                }else if($key === Member::NEE_LE){
                     $date = DateTime::createFromFormat('d/m/Y', $value);
                     $strDate = $date->format('Y-m-d');
                     $resDate = new DateTime($strDate);
                     $member->setBirthdate($resDate);
 
-                }else if($key === self::ADRESSE){
+                }else if($key === Member::ADRESSE){
                     $member->setStreetAddress($value);
 
-                }else if($key === self::CODE_POSTAL){
+                }else if($key === Member::CODE_POSTAL){
                     $member->setPostalCode($value);
 
-                }else if($key === self::VILLE){
+                }else if($key === Member::VILLE){
                     $member->setCity($value);
 
-                }else if($key === self::TEL){
+                }else if($key === Member::TEL){
                     $member->setPhoneNumber($value);
 
-                }else if($key === self::TEL_ACCIDENT){
+                }else if($key === Member::TEL_ACCIDENT){
                     $member->setEmergencyPhone($value);
 
-                }else if($key === self::NATIONALITE){
+                }else if($key === Member::NATIONALITE){
                     $member->setNationality($value);
 
-                }else if($key === self::EMAIL){
+                }else if($key === Member::EMAIL){
                     $member->setEmail($value);
 
-                }else if($key === self::GRADE){
+                }else if($key === Member::GRADE){
                     $member->setLevel($value);
 
                 }

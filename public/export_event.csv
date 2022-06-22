@@ -1,0 +1,3 @@
+NOM;slug;description;maximumNumberOfParticipants;startDate;endDate;season;registrationOpenDate
+Tombola;tombola;"""<p>Cr&eacute;ation d&#39;une tombola pour l&#39;association</p>""";50;2022-07-01T14:00:00+02:00;2022-08-01T14:00:00+02:00;2022;2022-06-01T14:00:00+02:00
+Test;test;"""<p>Je fais test d&#39;un nouvel&nbsp; &eacute;v&eacute;nement</p>""";50;2022-06-01T14:00:00+02:00;2022-06-30T14:00:00+02:00;2022;2022-01-01T14:00:00+01:00
