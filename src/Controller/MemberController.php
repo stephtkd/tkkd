@@ -71,7 +71,7 @@ class MemberController extends AbstractController
         $listResult = [];
         $listUnSet = [];
 
-        foreach($listMember as $value){
+        foreach($listMember as $value){// object to array [value,value, ...]
 
             $list[] = $serializer->serialize(
                 $value,
@@ -80,14 +80,13 @@ class MemberController extends AbstractController
             );
         }
 
-        for($j = 0; $j < count($list); $j++){
+        for($j = 0; $j < count($list); $j++){//separate colum and row in each array
             $listUnSet[$j] = explode("\n",$list[$j]);
-            // $listResult[$j] = explode(",",$list[$j]);
         }
 
         $i = 0;
 
-        foreach($listUnSet as $value){
+        foreach($listUnSet as $value){//delete array which no utility
 
             if($i !== 0){
                 unset($listUnSet[$i][0]);
@@ -100,26 +99,24 @@ class MemberController extends AbstractController
             $i++;
         }
 
+        $z= 0;
 
         for($m = 0; $m < count($listUnSet); $m++){
 
-            $listUnSet[$m] = implode(',',$listUnSet[$m]); //+$listUnSet[$m][$n];// str_replace(",",";",$listUnSet[$m][$n]);
-            // $listUnSet[$m] = explode(",",$listUnSet[$m]);
+            foreach($listUnSet[$m] as $value){
+                $listResult[$z] = $value;
+                $z++;
+            }
         }
         
-        for($m = 0; $m < count($listUnSet); $m++){
-            $listUnSet[$m] = explode(',',$listUnSet[$m]);
+        for($m = 0; $m < count($listResult); $m++){
+            $listResult[$m] = explode(',',$listResult[$m]);
         }
 
         $fp = fopen('file.csv', 'w');
-        // fputcsv($fp, $listResult);
         
-        foreach ($listUnSet as $fields) {
-
-            // foreach($fields as $value){
-                fputcsv($fp, $fields,";");
-
-            // }
+        foreach ($listResult as $fields) {
+            fputcsv($fp, $fields,";");
         }
         
         fclose($fp);
