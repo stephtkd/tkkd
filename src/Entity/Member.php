@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MemberRepository::class)
@@ -33,6 +34,7 @@ class Member
      * )
      * @Assert\Regex ("/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u", message="impossible d'utiliser des caractères spéciaux")
      * @ORM\Column(type="string", length=55)
+     * @Groups("member")
      */
     private ?string $firstName;
 
@@ -46,6 +48,7 @@ class Member
      * )
      * @Assert\Regex("/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u", message="Impossible d'utiliser des caractères spéciaux")
      * @ORM\Column(type="string", length=55)
+     * @Groups("member")
      */
     private string $lastName;
 
@@ -53,6 +56,7 @@ class Member
      * @Assert\NotBlank (message="Veuillez renseigner le sexe de l'adhérent")
      * @Assert\Choice({"Homme", "Femme"}, message="Erreur sur le sexe de l'adhérent")
      * @ORM\Column(type="string", length=10)
+     * @Groups("member")
      */
     private ?string $sex;
 
@@ -61,6 +65,7 @@ class Member
      * @Assert\NotBlank (message="Veuillez renseigner la date de naissance de l'adhérent")
      * @Assert\LessThan("today")
      * @ORM\Column(type="date")
+     * @Groups("member")
      */
     private ?DateTimeInterface $birthdate;
 
@@ -68,35 +73,41 @@ class Member
      * @Assert\Email(message="Veuillez renseigner un email valide")
      * @Assert\NotBlank (message="Veuillez renseigner un email pour l'adhérent")
      * @ORM\Column(type="string", length=255)
+     * @Groups("member")
      */
     private ?string $email;
 
     /**
      * @Assert\NotBlank (message="Veuillez renseigner l'adresse de l'adhérent")
      * @ORM\Column(type="string", length=255)
+     * @Groups("member")
      */
     private ?string $streetAddress;
 
     /**
      * @Assert\NotBlank (message="Veuillez renseigner le code postal de l'adhérent")
      * @ORM\Column(type="string", length=55)
+     * @Groups("member")
      */
     private ?string $postalCode;
 
     /**
      * @Assert\NotBlank (message="Veuillez renseigner la ville de l'adhérent")
      * @ORM\Column(type="string", length=100)
+     * @Groups("member")
      */
     private ?string $city;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank (message="Veuillez renseigner la nationalité de l'adhérent")
+     * @Groups("member")
      */
     private ?string $nationality;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups("member")
      */
     private ?string $phoneNumber;
 
@@ -108,11 +119,13 @@ class Member
     /**
      * @Assert\Choice({"aucun","14e keup", "13e keup", "12e keup", "11e keup", "10e keup", "9e keup", "8e keup","7e keup","6e keup","5e keup","4e keup","3e keup","2e keup","1er keup","BanDan","1er Dan/Poom","2e Dan/Poom","3e Dan/Poom","4e Dan","5e Dan","6e Dan","7e Dan", "8e Dan", "9e Dan"}, message="La valeur du niveau n'est pas correcte")
      * @ORM\Column(type="string", length=55, nullable=true)
+     * @Groups("member")
      */
     private string $level = 'aucun';
 
     /**
      * @ORM\Column(type="string", length=55, nullable=true)
+     * @Groups("member")
      */
     private ?string $emergencyPhone;
 

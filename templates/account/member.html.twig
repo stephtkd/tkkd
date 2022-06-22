@@ -9,12 +9,14 @@
     {% if adhesion is not null %}
         <a href="{{ path('app_subscription', { 'id' : adhesion.id }) }}" class="btn btn-dark btn-sm">Adhésion {{ adhesion.season }}</a>
     {% endif %}
+    <a href="{{ path('account_member_export_csv') }}" class="btn btn-dark btn-sm">Exporter un CSV</a>
     <div class="" role="alert" id="alert-success-id">
     </div>
+
     
     <form class="form" id="myForm" class="mt-2">
-        <input type="file" id="inpFile"/>
-        <button type="submit">Importer fichier CSV</button>
+        <input type="file" id="inpFile" />
+        <button type="submit" class="btn btn-dark btn-sm">Importer fichier CSV</button>
     </form>
 
     <p class="text-left m-3">

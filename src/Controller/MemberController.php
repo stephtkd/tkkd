@@ -6,6 +6,7 @@ use App\Classe\affiliated;
 use App\Entity\Member;
 use App\Form\MemberType;
 use App\Repository\EventRepository;
+use App\Repository\MemberRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Shuchkin\SimpleXLSX;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class MemberController extends AbstractController
 {
@@ -57,9 +59,71 @@ class MemberController extends AbstractController
     }
 
     #[Route('/account/members/export-csv', name: 'account_member_export_csv')] 
-    public function exportCsv(): Response
+    public function exportCsv(
+        MemberRepository $memberRepository,
+        SerializerInterface $serializer
+    ): Response
     {
         $adhesion = $this->eventRepository->findActualAdhesion();
+
+        $listMember = $memberRepository->findAll();
+        $list =[];
+        $listResult = [];
+        $listUnSet = [];
+
+        foreach($listMember as $value){
+
+            $list[] = $serializer->serialize(
+                $value,
+                'csv',
+                ['groups' => 'member']
+            );
+        }
+
+        for($j = 0; $j < count($list); $j++){
+            $listUnSet[$j] = explode("\n",$list[$j]);
+            // $listResult[$j] = explode(",",$list[$j]);
+        }
+
+        $i = 0;
+
+        foreach($listUnSet as $value){
+
+            if($i !== 0){
+                unset($listUnSet[$i][0]);
+            }
+
+            if(count($value) === 3){
+                unset($listUnSet[$i][2]);
+            }
+
+            $i++;
+        }
+
+
+        for($m = 0; $m < count($listUnSet); $m++){
+
+            $listUnSet[$m] = implode(',',$listUnSet[$m]); //+$listUnSet[$m][$n];// str_replace(",",";",$listUnSet[$m][$n]);
+            // $listUnSet[$m] = explode(",",$listUnSet[$m]);
+        }
+        
+        for($m = 0; $m < count($listUnSet); $m++){
+            $listUnSet[$m] = explode(',',$listUnSet[$m]);
+        }
+
+        $fp = fopen('file.csv', 'w');
+        // fputcsv($fp, $listResult);
+        
+        foreach ($listUnSet as $fields) {
+
+            // foreach($fields as $value){
+                fputcsv($fp, $fields,";");
+
+            // }
+        }
+        
+        fclose($fp);
+
 
         return $this->render('account/member.html.twig', [
             'adhesion' => $adhesion
