@@ -1,4 +1,4 @@
-firstName;lastName;sex;birthdate;email;streetAddress;postalCode;city;nationality;phoneNumber;level;emergencyPhone
+NOM;PRENOM;M/F;"NE(E) LE";EMAIL;ADRESSE;"CODE POSTAL";VILLE;NATIONALITE;TEL;"GRADE TAEKWONKIDO";"TEL ACCIDENT"
 Marc;Mahe;Homme;1979-01-01T00:00:00+01:00;simon.toullec@outlook.fr;"""2 rue des brins""";35200;Rennes;France;35200;"""7e Dan""";0643065050
 Marin;TARIN;Homme;2002-06-06T00:00:00+02:00;m.tarin@outlook.fr;"""3 rue des brins""";35000;Rennes;France;3500;"""7e Dan""";0643065051
 Cousin;Cousin;Homme;1954-01-01T00:00:00+01:00;autrse.toullec@outlook.fr;"""2 rue des brins""";35200;Rennes;France;35200;"""4e keup""";

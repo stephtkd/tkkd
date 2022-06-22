@@ -104,6 +104,11 @@ class MemberController extends AbstractController
             foreach($listUnSet[$m] as $value){
                 $listResult[$z] = $value;
                 $listResult[$z] = explode(',',$listResult[$z]);
+
+                if($z === 0){
+                    $listResult[$z] = $this->exportChangeColumn($listResult[$z]);
+                }
+                
                 $z++;
                 
             }
@@ -122,6 +127,27 @@ class MemberController extends AbstractController
         return $this->render('account/member.html.twig', [
             'adhesion' => $adhesion
         ]);
+    }
+
+    private function exportChangeColumn(array $list){
+
+        $replacement = array(
+            0 => self::NOM,
+            1 => self::PRENOM,
+            2 => self::MF,
+            3 => self::NEE_LE,
+            4 => self::EMAIL,
+            5 => self::ADRESSE,
+            6 => self::CODE_POSTAL,
+            7 => self::VILLE,
+            8 => self::NATIONALITE,
+            9 => self::TEL,
+            10 => self::GRADE,
+            11 => self::TEL_ACCIDENT,
+        );
+        $list = array_replace($list,$replacement);
+
+        return $list;
     }
 
     #[Route('/account/members/import-csv', name: 'account_member_import_csv')] 
