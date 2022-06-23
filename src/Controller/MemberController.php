@@ -110,8 +110,6 @@ class MemberController extends AbstractController
     #[Route('/account/members/import-csv', name: 'account_member_import_csv')] 
     public function importCsv(): Response
     {
-        $adhesion = $this->eventRepository->findActualAdhesion();
-
         $targetPath = "upload/member/".basename($_FILES['inpFile']['name']);
         move_uploaded_file($_FILES['inpFile']['tmp_name'],$targetPath);
 
@@ -205,9 +203,7 @@ class MemberController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->render('account/member.html.twig', [
-            'adhesion' => $adhesion
-        ]);
+        return $this->redirectToRoute('account_member');
     }
 
     #[Route('/account/members/form', name: 'account_member_add')] //affichage du formulaire d'adhesion, d'ajout de membre
