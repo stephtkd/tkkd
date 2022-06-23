@@ -10,7 +10,6 @@ const initialize = () => {
 
     // document.getElementById('member-1-event-1').checked = true;
 
-
     searchInput.addEventListener('keyup', () => {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(liveSearch, typeInterval);
@@ -95,6 +94,10 @@ function liveSearch() {
     }
 }
 
+
+
+
+
 function seletCardIdMember(evt){
     evt.preventDefault();
     let memberId = evt.currentTarget.id.split('card-id-')[1];
@@ -178,12 +181,6 @@ function seletCardIdMember(evt){
 
             
         }
-    }else if(evt.target.className == "event-option-class"){
-        console.log(evt.target.checked);
-        evt.target.checked = false;
-        // document.getElementById(evt.target.id).checked = true;
-        console.log('CHECKED');
-        console.log(evt.target.checked);
     }else{ //UPDATE
         //DELETE
         console.log(evt.target.classList[0]);
