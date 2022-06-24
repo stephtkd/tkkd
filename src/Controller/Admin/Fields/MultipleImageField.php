@@ -10,10 +10,10 @@ class MultipleImageField implements FieldInterface
 {
     use FieldTrait;
 
-    public static function new(string $propertyName, ?string $label = null): self
+    public static function new(string $picturesAlbums, ?string $label = null): self
     {
         return (new self())
-            ->setProperty($propertyName)
+            ->setProperty($picturesAlbums)
             ->setFormType(FileType::class)
             ->setFormTypeOptions([
                 'multiple' => true,

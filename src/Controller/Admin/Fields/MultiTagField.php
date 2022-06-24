@@ -11,16 +11,15 @@ class MultiTagField implements FieldInterface
 {
     use FieldTrait;
 
-    public static function new(string $propertyName, ?string $label = null): self
+    public static function new(string $Tag, ?string $label = null): self
     {
         return (new self())
-            ->setProperty($propertyName)
+            ->setProperty($Tag)
             ->setFormType(ChoiceType::class)
             ->setFormTypeOptions([
                 'multiple' => true,
                 'expanded' => true,
             ])
-
         ;
     }
 }

@@ -5,11 +5,10 @@ namespace App\Controller\Admin;
 use App\Controller\Admin\Fields\MultipleImageField;
 use App\Controller\Admin\Fields\MultiTagField;
 use App\Entity\AlbumPicture;
-use App\Form\MultiTagType;
+use App\Form\MultiTagsType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -42,11 +41,11 @@ class AlbumPictureCrudController extends AbstractCrudController
 
 
             // Intégrer un système de multi selection des Tags, peut être avec TomSelect ou Select2
-            MultiTagField::new('Tag', 'Tags de l\'album')
-                ->setColumns('col-8'),
+            //MultiTagField::new('Tag', 'Tags de l\'album')->setColumns('col-8'),
+            //ChoiceField::new('Tag', 'Tags de l\'album')->setFormType(MultiTagsType::class),
 
             // fonction de base pour les Tags dans l'EasyAdmin
-            //AssociationField::new('Tag', 'Tags de l\'album'),
+            AssociationField::new('Tag', 'Tags de l\'album'),
 
 
             ImageField::new('picture', 'Image principal de l\'album')
