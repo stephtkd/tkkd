@@ -39,9 +39,15 @@ class Tag
      */
     private $albumPictures;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MultiTag::class, mappedBy="Tag")
+     */
+    private $multiTags;
+
     public function __construct()
     {
         $this->albumPictures = new ArrayCollection();
+        $this->multiTags = new ArrayCollection();
     }
 
     public function __toString()
@@ -114,6 +120,36 @@ class Tag
             // set the owning side to null (unless already changed)
             if ($albumPicture->getTag() === $this) {
                 $albumPicture->setTag(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MultiTag>
+     */
+    public function getMultiTags(): Collection
+    {
+        return $this->multiTags;
+    }
+
+    public function addMultiTag(MultiTag $multiTag): self
+    {
+        if (!$this->multiTags->contains($multiTag)) {
+            $this->multiTags[] = $multiTag;
+            $multiTag->setTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMultiTag(MultiTag $multiTag): self
+    {
+        if ($this->multiTags->removeElement($multiTag)) {
+            // set the owning side to null (unless already changed)
+            if ($multiTag->getTag() === $this) {
+                $multiTag->setTag(null);
             }
         }
 

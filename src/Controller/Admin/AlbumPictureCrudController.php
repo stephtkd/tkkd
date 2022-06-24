@@ -42,10 +42,11 @@ class AlbumPictureCrudController extends AbstractCrudController
 
 
             // Intégrer un système de multi selection des Tags, peut être avec TomSelect ou Select2
-            //MultiTagField::new('Tag', 'Tags de l\'album'),
+            MultiTagField::new('Tag', 'Tags de l\'album')
+                ->setColumns('col-8'),
 
             // fonction de base pour les Tags dans l'EasyAdmin
-            AssociationField::new('Tag', 'Tags de l\'album'),
+            //AssociationField::new('Tag', 'Tags de l\'album'),
 
 
             ImageField::new('picture', 'Image principal de l\'album')
