@@ -10,6 +10,7 @@ const initialize = () => {
 
     // document.getElementById('member-1-event-1').checked = true;
 
+
     searchInput.addEventListener('keyup', () => {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(liveSearch, typeInterval);
@@ -216,4 +217,4 @@ function seletCardIdMember(evt){
 
 
 
-document.addEventListener("DOMContentLoaded", initialize);
+// document.addEventListener("DOMContentLoaded", initialize);

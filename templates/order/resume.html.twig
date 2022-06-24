@@ -80,7 +80,7 @@
                         <!-- End -->
                     </div>
                 </div>
-                <a href="#" class="btn btn-dark btn-sm">Confirmer</a>
+                <a href="{{path('confirm_resume_esp',{'id':subscriptionId})}}" class="btn btn-dark btn-sm">Confirmer</a>
                 <a href="{{ path('delete_cart', { 'id' : subscriptionId }) }}" class="btn btn-danger btn-sm">Annuler</a>
                 <div class="alert alert-info mt-2" role="alert">
                     {{message}}

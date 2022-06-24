@@ -12,6 +12,7 @@ use App\Entity\Payment;
 use App\Service\StripeApiService;
 use App\Form\EventSubscriptionType;
 use App\Form\OrderType;
+use App\Repository\EventSubscriptionRepository;
 use App\Service\HelloAssoApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -134,9 +135,33 @@ class SubscriptionController extends AbstractController
         ]);
     }
 
+    #[Route('/subscription/{id}/confirmResumeEsp',name:'confirm_resume_esp')]
+    public function confirmResumeEsp(
+        $id,
+        EventSubscriptionRepository $eventSubscriptionRepository
+        ):Response
+    {
+        $listEventSubscription = $eventSubscriptionRepository->findBy([
+            'event' => $id
+        ]);
+
+        foreach($listEventSubscription as $value){
+            $value->setIsPaid(true);
+        }
+
+        $this->entityManager->flush();
+
+        
+        return $this->redirectToRoute('app_subscription',['id' =>$id]);
+    }
+
 
     #[Route('/subscription/{id}/deletCart', name: 'delete_cart')]
-    public function deleteCart($id, Request $request,SessionInterface $session): Response
+    public function deleteCart(
+        $id, 
+        Request $request,
+        SessionInterface $session
+        ): Response 
     {
         $cart = $session->get('cart',[]);
         $session->remove('cart');
