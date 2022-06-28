@@ -96,7 +96,7 @@ class EventSubscription
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isPaid;
+    private $isPaid = false;
 
     public function __construct()
     {
@@ -250,4 +250,5 @@ class EventSubscription
 
         return $this;
     }
+
 }

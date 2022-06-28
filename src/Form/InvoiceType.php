@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Invoice;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class InvoiceType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+
+       // $builder->add('tugs', CollectionType::class, [
+            //     'entry_type' => TugType::class,
+            //     'entry_options' => ['label' => false],
+            // ]);
+
+        $builder->add('eventSubscriptions', CollectionType::class, [
+            'entry_type' => MemberEventSubscriptionType::class,
+            'entry_options' => $options,
+            'by_reference' => false,
+        ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Invoice::class,
+            'responsibleAdult' => "",
+            'event' =>"",
+            'eventOptions' => []
+        ]);
+    }
+}

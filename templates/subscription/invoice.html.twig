@@ -35,55 +35,9 @@
 					<input type="search" class="col-12" id="searchbox" placeholder="Recherchez un membre...">
 				</div> #}
 				<fieldset>Ajouter un membre à l'événement</fieldset>
-				{{ form(form) }}
+                {{ form_start(form) }}
+                {{ form_end(form) }}
 				<div class="col-12">
-					{% for eventSubscription in listEventSubscription %}
-						<div class="card mt-2 mb-4" id="card-id-{{eventSubscription.member.id}}">
-							<div class="container box">
-								<h4 class="card-title mt-2">
-									{{eventSubscription.member.firstName}}
-									{{eventSubscription.member.lastName}}
-								</h4>
-								<div class="row">
-									<div class="col-6 mb-2">
-										<div class="col-12 card-subtitle">TARIF
-										</div>
-										<div class="col-12 mt-2">
-											<select id="select-event-rate-{{eventSubscription.member.id}}" class="form-select" aria-label="Default select example">
-												{% for eventRate in listEventRate %}
-													<option value="{{eventRate.id}}" class="select-option-value">{{eventRate.name}} - {{eventRate.amount}}</option>
-												{% endfor %}
-											</select>
-										</div>
-									</div>
-									<div class="col-6 mb-2">
-										<div class="col-12 card-subtitle">OPTION
-										</div>
-										<div class="col-12 mt-2">
-												{% for eventOption in listEventOption %}
-													{# <div class="form-check">
-														<input class="form-check-input" type="checkbox" value="{{eventOption.name}}" id="member-{{member.id}}-event-{{eventOption.id}}" checked>
-														<label class="form-check-label" for="member-{{member.id}}-event-{{eventOption.id}}">
-															{{eventOption.name}}
-														</label>
-													</div> #}
-
-													<div>
-														<input type="checkbox" id="member-{{eventSubscription.member.id}}-event-{{eventOption.id}}" 
-														name="member-{{eventSubscription.member.id}}-event-{{eventOption.id}}" class="event-option-class" >
-														<label for="member-{{eventSubscription.member.id}}-event-{{eventOption.id}}">{{eventOption.name}}</label>
-    												</div>
-												{% endfor %}
-										</div>
-									</div>
-									<div class="col-6 mb-2">
-										<a href="{{ path('delete_event_subscription',{'id':subscriptionId,'idMember': eventSubscription.member.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
-										<a href="{{ path('update_event_subscription',{'id':subscriptionId,'idMember': eventSubscription.member.id}) }}" class="btn btn-primary btn-sm">Modifier</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					{% endfor %}
 					<div class="mt-4">
 						<a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
 						{# <input id="btn-paid-cash-id" class="btn btn-dark btn-sm" type="submit" value="Payer en Espèce"> #}

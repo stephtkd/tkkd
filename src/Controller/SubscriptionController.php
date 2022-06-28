@@ -7,10 +7,13 @@ use App\Entity\Event;
 use App\Entity\EventOption;
 use App\Entity\EventRate;
 use App\Entity\EventSubscription;
+use App\Entity\Invoice;
 use App\Entity\Member;
 use App\Entity\Payment;
 use App\Service\StripeApiService;
 use App\Form\EventSubscriptionType;
+use App\Form\InvoiceType;
+use App\Form\MemberEventSubscriptionType;
 use App\Form\OrderType;
 use App\Repository\EventSubscriptionRepository;
 use App\Service\HelloAssoApiService;
@@ -40,17 +43,129 @@ class SubscriptionController extends AbstractController
         Request $request
         ): Response {
         $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
-        $listMember = $this->entityManager->getRepository(Member::class)->findBy(['responsibleAdult' => $this->getUser()->getId()]);
         $listEventRate = $this->entityManager->getRepository(EventRate::class)->findAll();
-        $listEventOption = $this->entityManager->getRepository(EventOption::class)->findAll();
+        $listEventOption = $this->entityManager->getRepository(EventOption::class)->findBy(['event' => $id]);
+        $listEventSubscription = $this->entityManager->getRepository(EventSubscription::class)->findBy(['event' =>$id]);
+
+        $eventSubscription = new EventSubscription();
+        $options['responsibleAdult'] = $this->getUser()->getId();
+        $options['event'] = $id;
+        $resultListEventOption = [];
+        $i=1;
+
+        foreach($listEventOption as $value){
+            $resultListEventOption[$value->getName()] = $i; 
+            $i++;
+        }
+
+        $options['eventOptions'] = $resultListEventOption;
+        $form = $this->createForm(MemberEventSubscriptionType::class,$eventSubscription,$options);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $tabValues = $request->request->all();
+            $eventSubscription = $form->getData();
+
+            foreach($tabValues['member_event_subscription']['eventOption'] as $value){
+                $eventOption = $this->entityManager->getRepository(EventOption::class)->findOneById($value);
+                $eventSubscription->addEventOption($eventOption);
+
+            }
+            $eventSubscription->setStatus('ok');
+            $eventSubscription->setEvent($event);
+            $eventSubscription->setUser($this->getUser());
+
+
+            //PAYMENT
+            $payment = new Payment();
+            $payment->setStatus('ok');
+            $payment->setAmount(15);
+            $payment->setDate(new \DateTime());
+            $payment->setMean('Espèce');
+            $details = [
+                'user' => [
+                    'id' => $eventSubscription->getUser()->getId(),
+                    'firstName' => $eventSubscription->getUser()->getFirstName(),
+                    'lastName' => $eventSubscription->getUser()->getLastName(),
+                    'email' => $eventSubscription->getUser()->getEmail(),
+                ],
+                'member' => [
+                    'id' => $eventSubscription->getMember()->getId(),
+                    'firstName' => $eventSubscription->getMember()->getFirstName(),
+                    'lastName' => $eventSubscription->getMember()->getLastName(),
+                    'email' => $eventSubscription->getMember()->getEmail(),
+                    'street' => $eventSubscription->getMember()->getStreetAddress(),
+                    'postalCode' => $eventSubscription->getMember()->getPostalCode(),
+                    'city' => $eventSubscription->getMember()->getCity(),
+                    'country' => $eventSubscription->getMember()->getNationality(),
+                ],
+                'event' => [
+                    'id' => $event->getId(),
+                    'slug' => $event->getSlug(),
+                    'startDate' => $event->getStartDate(),
+                    'endDate' => $event->getEndDate(),
+                    'rate' => [
+                        'id' => $eventSubscription->getEventRate()->getId(),
+                        'name' => $eventSubscription->getEventRate()->getName(),
+                        'amount' => $eventSubscription->getEventRate()->getAmount(),
+                    ],
+                    'options' => [],
+                ],
+            ];
+            foreach ($eventSubscription->getEventOptions() as $option) {
+                $opt = [
+                    'id' => $option->getId(),
+                    'name' => $option->getName(),
+                    'amount' => $option->getAmount(),
+                ];
+                array_push($details['event']['options'], $opt);
+            }
+            $payment->setDetails($details);
+            $eventSubscription->setPayment($payment);
+
+
+            $this->entityManager->persist($eventSubscription);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_subscription',['id' => $id]);
+        }
+        $invoice = new Invoice();
+        
+        foreach($listEventSubscription as $value){
+            $invoice->getEventSubscriptions()->add($value);
+        }
+
+        $formInvoice = $this->createForm(InvoiceType::class,$invoice,$options);
 
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
-            'listMember' => $listMember,
+            // 'listMember' => $listMember,
+            'listEventSubscription' => $listEventSubscription,
             'listEventRate' => $listEventRate,
             'listEventOption' => $listEventOption,
             'subscriptionId' => $id,
+            'form' => $form->createView(),
+            'formInvoice' => $formInvoice->createView()
         ]);
+    }
+
+    #[Route('/subscription/{id}/updateEventSubscription/{idMember}', name:'update_event_subscription')]
+    public function updateEventSubscription(
+        $id, 
+        $idMember,
+        EventSubscriptionRepository $eventSubscriptionRepository
+        ): Response
+    {
+
+        $eventSubscription = $eventSubscriptionRepository->findOneBy([
+            'event' => $id,
+            'member' => $idMember
+        ]);
+
+        
+        return $this->redirectToRoute('app_subscription',['id' =>$id]);
+
     }
 
     #[Route('/subscription/{id}/getCart', name: 'app_get_cart')]
@@ -155,6 +270,25 @@ class SubscriptionController extends AbstractController
         return $this->redirectToRoute('app_subscription',['id' =>$id]);
     }
 
+    #[Route('/subscription/{id}/deleteEventSubscription/{idMember}', name:'delete_event_subscription')]
+    public function deleteEventSubscription(
+        $id, 
+        $idMember,
+        EventSubscriptionRepository $eventSubscriptionRepository
+        ): Response
+    {
+
+        $eventSubscription = $eventSubscriptionRepository->findOneBy([
+            'event' => $id,
+            'member' => $idMember
+        ]);
+
+        $this->entityManager->remove($eventSubscription);
+        $this->entityManager->flush();
+        
+        return $this->redirectToRoute('app_subscription',['id' =>$id]);
+
+    }
 
     #[Route('/subscription/{id}/deletCart', name: 'delete_cart')]
     public function deleteCart(
@@ -266,5 +400,127 @@ class SubscriptionController extends AbstractController
         return $subscription;
 
     }  
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #[Route('/subscription/{id}/invoice', name: 'app_invoice')]
+    public function invoice(
+        $id,
+        Request $request
+        ): Response {
+        $event = $this->entityManager->getRepository(Event::class)->findOneBy(['id' => $id]);
+        $listEventRate = $this->entityManager->getRepository(EventRate::class)->findAll();
+        $listEventOption = $this->entityManager->getRepository(EventOption::class)->findBy(['event' => $id]);
+        $listEventSubscription = $this->entityManager->getRepository(EventSubscription::class)->findBy(['event' =>$id]);
+
+        $eventSubscription = new EventSubscription();
+        // $eventSubscription->setMember($this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]));
+        $options['responsibleAdult'] = $this->getUser()->getId();
+        $options['event'] = $id;
+        $resultListEventOption = [];
+        $i=1;
+
+        foreach($listEventOption as $value){
+            $resultListEventOption[$value->getName()] = $i; 
+            $i++;
+        }
+
+        $options['eventOptions'] = $resultListEventOption;
+        $invoice = new Invoice();
+        // $invoice->getEventSubscriptions()->add($eventSubscription);
+        $invoice->getEventSubscriptions()->add($listEventSubscription[0]);
+        $form = $this->createForm(InvoiceType::class,$invoice,$options);
+        // $form = $this->createForm(MemberEventSubscriptionType::class,$eventSubscription,$options);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $tabValues = $request->request->all();
+            $eventSubscription = $form->getData();
+
+            foreach($tabValues['member_event_subscription']['eventOption'] as $value){
+                $eventOption = $this->entityManager->getRepository(EventOption::class)->findOneById($value);
+                $eventSubscription->addEventOption($eventOption);
+
+            }
+            $eventSubscription->setStatus('ok');
+            $eventSubscription->setEvent($event);
+            $eventSubscription->setUser($this->getUser());
+
+
+            //PAYMENT
+            $payment = new Payment();
+            $payment->setStatus('ok');
+            $payment->setAmount(15);
+            $payment->setDate(new \DateTime());
+            $payment->setMean('Espèce');
+            $details = [
+                'user' => [
+                    'id' => $eventSubscription->getUser()->getId(),
+                    'firstName' => $eventSubscription->getUser()->getFirstName(),
+                    'lastName' => $eventSubscription->getUser()->getLastName(),
+                    'email' => $eventSubscription->getUser()->getEmail(),
+                ],
+                'member' => [
+                    'id' => $eventSubscription->getMember()->getId(),
+                    'firstName' => $eventSubscription->getMember()->getFirstName(),
+                    'lastName' => $eventSubscription->getMember()->getLastName(),
+                    'email' => $eventSubscription->getMember()->getEmail(),
+                    'street' => $eventSubscription->getMember()->getStreetAddress(),
+                    'postalCode' => $eventSubscription->getMember()->getPostalCode(),
+                    'city' => $eventSubscription->getMember()->getCity(),
+                    'country' => $eventSubscription->getMember()->getNationality(),
+                ],
+                'event' => [
+                    'id' => $event->getId(),
+                    'slug' => $event->getSlug(),
+                    'startDate' => $event->getStartDate(),
+                    'endDate' => $event->getEndDate(),
+                    'rate' => [
+                        'id' => $eventSubscription->getEventRate()->getId(),
+                        'name' => $eventSubscription->getEventRate()->getName(),
+                        'amount' => $eventSubscription->getEventRate()->getAmount(),
+                    ],
+                    'options' => [],
+                ],
+            ];
+            foreach ($eventSubscription->getEventOptions() as $option) {
+                $opt = [
+                    'id' => $option->getId(),
+                    'name' => $option->getName(),
+                    'amount' => $option->getAmount(),
+                ];
+                array_push($details['event']['options'], $opt);
+            }
+            $payment->setDetails($details);
+            $eventSubscription->setPayment($payment);
+
+
+            $this->entityManager->persist($eventSubscription);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_subscription',['id' => $id]);
+        }
+
+        return $this->render('subscription/invoice.html.twig', [
+            'event' => $event,
+            // 'listMember' => $listMember,
+            'listEventSubscription' => $listEventSubscription,
+            'listEventRate' => $listEventRate,
+            'listEventOption' => $listEventOption,
+            'subscriptionId' => $id,
+            'form' => $form->createView()
+        ]);
+    }
 
 }
