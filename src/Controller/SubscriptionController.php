@@ -438,7 +438,9 @@ class SubscriptionController extends AbstractController
         $options['eventOptions'] = $resultListEventOption;
         $invoice = new Invoice();
         // $invoice->getEventSubscriptions()->add($eventSubscription);
-        $invoice->getEventSubscriptions()->add($listEventSubscription[0]);
+        // $invoice->getEventSubscriptions()->add($listEventSubscription[0]);
+        $tug1 = new Tug();
+        $invoice->getTugs()->add($tug1);
         $form = $this->createForm(InvoiceType::class,$invoice,$options);
         // $form = $this->createForm(MemberEventSubscriptionType::class,$eventSubscription,$options);
 
