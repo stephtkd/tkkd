@@ -36,6 +36,16 @@
 				</div> #}
 				<fieldset>Ajouter un membre à l'événement</fieldset>
                 {{ form_start(form) }}
+					{% for eventSubscription in form.eventSubscriptions %}
+					<div class="card mt-2 mb-4">
+						<div class="container box">
+							{{ form_row(eventSubscription.member) }}
+							{{ form_row(eventSubscription.eventRate) }}
+							{{ form_row(eventSubscription.eventOption) }}
+							{{ form_row(eventSubscription.submit) }}
+						</div>
+					</div>
+					{% endfor %}
                 {{ form_end(form) }}
 				<div class="col-12">
 					<div class="mt-4">

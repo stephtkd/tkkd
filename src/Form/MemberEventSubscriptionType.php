@@ -16,6 +16,8 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MemberEventSubscriptionType extends AbstractType
@@ -25,6 +27,7 @@ class MemberEventSubscriptionType extends AbstractType
         $builder
             ->add('member', EntityType::class, [
                 'class' => Member::class,
+                'mapped' => false,
                 'label' => false,
                 'query_builder' => function (MemberRepository $mr) use($options) {
                     return $mr->findForEventSubscription($options);
@@ -32,6 +35,7 @@ class MemberEventSubscriptionType extends AbstractType
             ])
             ->add('eventRate', EntityType::class, [
                 'class' => EventRate::class,
+                'mapped' => false,
                 'label' => false,
                 'query_builder' => function (EventRateRepository $evr) {
                     return $evr->createQueryBuilder('er')
@@ -59,6 +63,22 @@ class MemberEventSubscriptionType extends AbstractType
                 ]
             ])
         ;
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            [$this,'preSetDataOnMember']
+        );
+        
+    }
+
+    public function preSetDataOnMember(FormEvent $event): void
+    {
+        $form = $event->getForm();
+        $data = $event->getData();
+        dump($form,$data);
+
+        // unset($form->get('member'));
+        // $form->get('member')->setData($data->getEventSubscriptions()[0]->getMember());
+        // $form->get('member')->setData($data->getEventSubscriptions()[0]->getMember());
     }
 
 

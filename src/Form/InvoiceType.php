@@ -12,16 +12,11 @@ class InvoiceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $builder->add('eventSubscriptions', CollectionType::class, [
+            'entry_type' => MemberEventSubscriptionType::class,
+            'entry_options' => $options,
+        ]);
 
-        $builder->add('tugs', CollectionType::class, [
-                'entry_type' => TugType::class,
-                'entry_options' => ['label' => false],
-            ]);
-
-        // $builder->add('eventSubscriptions', CollectionType::class, [
-        //     'entry_type' => MemberEventSubscriptionType::class,
-        //     'entry_options' => $options,
-        // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
