@@ -15,6 +15,7 @@ class StripeApiService
     {
         $credential = $credentialRepository->findOneBy(['id' => 1]);
         Stripe::setApiKey($credential->getApiKey());
+        
     }
 
     public function generatePaymentLink(Cart $cart) {
