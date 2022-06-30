@@ -50,7 +50,7 @@ class Member
      * )
      * @Assert\Regex ("/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u", message="impossible d'utiliser des caractères spéciaux")
      * @ORM\Column(type="string", length=55)
-     * @Groups("member")
+     * @Groups({"member","export_event_subscription"})
      * @SerializedName(self::PRENOM)
      */
     private ?string $firstName;
@@ -65,7 +65,7 @@ class Member
      * )
      * @Assert\Regex("/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u", message="Impossible d'utiliser des caractères spéciaux")
      * @ORM\Column(type="string", length=55)
-     * @Groups("member")
+     * @Groups({"member","export_event_subscription"})
      * @SerializedName(self::NOM)
      */
     private string $lastName;
@@ -74,7 +74,7 @@ class Member
      * @Assert\NotBlank (message="Veuillez renseigner le sexe de l'adhérent")
      * @Assert\Choice({"Homme", "Femme"}, message="Erreur sur le sexe de l'adhérent")
      * @ORM\Column(type="string", length=10)
-     * @Groups("member")
+     * @Groups({"member","export_event_subscription"})
      * @SerializedName(self::MF)
      */
     private ?string $sex;
@@ -84,7 +84,7 @@ class Member
      * @Assert\NotBlank (message="Veuillez renseigner la date de naissance de l'adhérent")
      * @Assert\LessThan("today")
      * @ORM\Column(type="date")
-     * @Groups("member")
+     * @Groups({"member","export_event_subscription"})
      * @SerializedName(self::NEE_LE)
      */
     private ?DateTimeInterface $birthdate;

@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -20,6 +22,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    public const EMAIL="EMAIL";
+    public const PRENOM="PRENOM";
+    public const NOM="NOM";
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -30,6 +36,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @Assert\NotBlank (message="Veuillez renseigner un email")
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups("export_event_subscription")
+     * @SerializedName(self::EMAIL)
      */
     private ?string $email;
 
@@ -49,12 +57,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @Assert\NotBlank (message="Veuillez renseigner un prénom")
      * @ORM\Column(type="string", length=55)
+     * @Groups("export_event_subscription")
+     * @SerializedName(self::PRENOM)
      */
     private ?string $firstName;
 
     /**
      * @Assert\NotBlank (message="Veuillez renseigner un nom de famille")
      * @ORM\Column(type="string", length=55)
+     * @Groups("export_event_subscription")
+     * @SerializedName(self::NOM)
      */
     private ?string $lastName;
 

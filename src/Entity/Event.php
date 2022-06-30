@@ -36,7 +36,7 @@ class Event
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("event")
+     * @Groups({"export_event_subscription","event"})
      * @SerializedName(self::NOM)
      */
     private $name;

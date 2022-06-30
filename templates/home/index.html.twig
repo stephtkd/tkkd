@@ -24,17 +24,18 @@
     <div class="title-events mt-3">
         <h2>Prochain événements</h2>
     </div>
-        <a href="{{ path('app_export_csv') }}" class="btn btn-dark btn-sm">Exporter un CSV</a>
+        <a href="{{ path('app_export_event_csv') }}" class="btn btn-dark btn-sm">Exporter un CSV - Événement</a>
+        <a href="{{ path('app_export_event_subscription_csv') }}" class="btn btn-dark btn-sm">Exporter un CSV - Inscription</a>
     <div class="" role="alert" id="alert-success-id">
     </div>
 
     
     <form class="form" id="myForm" class="mt-2">
         <input type="file" id="inpFile" />
-        <button type="submit" class="btn btn-dark btn-sm">Importer fichier CSV</button>
+        <button type="submit" class="btn btn-dark btn-sm">Importer fichier CSV - Événement</button>
     </form>
 
- <!-- Card for the events -->
+<!-- Card for the events -->
     <div class="row m-3">
         {% for event in events %}
         <div class="card mb-8 shadow p-2 mb-5 bg-white rounded w-50">
