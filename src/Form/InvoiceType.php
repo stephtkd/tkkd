@@ -15,8 +15,9 @@ class InvoiceType extends AbstractType
         $builder->add('eventSubscriptions', CollectionType::class, [
             'entry_type' => MemberEventSubscriptionType::class,
             'entry_options' => $options,
+            'allow_add' => true,
+            'by_reference' => false
         ]);
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

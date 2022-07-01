@@ -98,6 +98,12 @@ class EventSubscription
      */
     private $isPaid = false;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Invoice::class, inversedBy="eventSubscriptions", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Invoice $invoice;
+
     public function __construct()
     {
         $this->eventOptions = new ArrayCollection();
@@ -247,6 +253,19 @@ class EventSubscription
     public function setIsPaid(bool $isPaid): self
     {
         $this->isPaid = $isPaid;
+
+        return $this;
+    }
+
+
+    public function getInvoice(): Invoice
+    {
+        return $this->invoice;
+    }
+
+    public function setInvoice(Invoice $invoice): self
+    {
+        $this->invoice = $invoice;
 
         return $this;
     }

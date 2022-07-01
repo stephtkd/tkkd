@@ -19,7 +19,12 @@ class Invoice
      */
     private $id;
 
-    protected $eventSubscriptions;
+    /**
+     * @var Collection|EventSubscription[] 
+     * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="invoice")
+     * @ORM\JoinTable(name="event_subscription_invoice")
+     */
+    protected Collection $eventSubscriptions;
 
     protected $tugs;
 
@@ -39,6 +44,7 @@ class Invoice
         return $this->id;
     }
 
+    /** @return EventSubscription[] */
     public function getEventSubscriptions(): Collection
     {
         return $this->eventSubscriptions;

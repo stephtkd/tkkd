@@ -17,6 +17,17 @@
 				</div> #}
 				<fieldset>Ajouter un membre à l'événement</fieldset>
                 {{ form_start(form) }}
+				 	{{form_row(form.eventSubscriptions)}}
+                {{ form_end(form) }}
+
+				{#
+
+				   invoice 
+				      --> subscribption
+					  --> subscribption
+
+				#}
+{# 
 					{% for eventSubscription in form.eventSubscriptions %}
 					<div class="card mt-2 mb-4">
 						<div class="container box">
@@ -26,8 +37,13 @@
 							{{ form_row(eventSubscription.submit) }}
 						</div>
 					</div>
-					{% endfor %}
-                {{ form_end(form) }}
+					{% endfor %} #}
+
+
+
+
+
+				
 				<div class="col-12">
 					<div class="mt-4">
 						<a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
