@@ -16,8 +16,25 @@
 					<input type="search" class="col-12" id="searchbox" placeholder="Recherchez un membre...">
 				</div> #}
 				<fieldset>Ajouter un membre à l'événement</fieldset>
-                {{ form_start(form) }}
-				 	{{form_row(form.eventSubscriptions)}}
+				<button type="button" class="add_item_link" data-collection-holder-class="eventSubscriptions">Ajouter un membre</button>
+                
+				{{ form_start(form) }}
+				{#  	{{form_row(form.eventSubscriptions)}} #}
+					{# {% for eventSubscription in form.eventSubscriptions %}
+						<div class="card mt-2 mb-4">
+							<div class="container box">
+								{{ form_row(eventSubscription.member) }}
+								{{ form_row(eventSubscription.eventRate) }}
+								{{ form_row(eventSubscription.eventOption) }}
+								{{ form_row(eventSubscription.submit) }}
+							</div>
+						</div>
+					{% endfor %} #}
+					
+				<ul class="eventSubscriptions"
+					data-index="{{ form.eventSubscriptions|length > 0 ? form.eventSubscriptions|last.vars.name + 1 : 0 }}"
+					data-prototype="{{ form_widget(form.eventSubscriptions.vars.prototype)|e('html_attr') }}"
+				></ul>
                 {{ form_end(form) }}
 
 				{#
@@ -71,25 +88,55 @@
 	<script src="{{ asset('build/bootstrap.min.js') }}"></script>
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script type="text/javascript">
+		
+
+
+		const addFormToCollection = (e) => {
+			const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+			const item = document.createElement('li');
+
+			item.innerHTML = collectionHolder
+				.dataset
+				.prototype
+				.replace(
+				/__name__/g,
+				collectionHolder.dataset.index
+				);
+
+			collectionHolder.appendChild(item);
+
+			collectionHolder.dataset.index++;
+		};
+
+
+
 		$(document).ready(function () {
-var max_fields = 10; // maximum input boxes allowed
-var wrapper = $(".input_fields_wrap"); // Fields wrapper
-var add_button = $(".add_field_button"); // Add button ID
+			document
+			.querySelectorAll('.add_item_link')
+			.forEach(btn => {
+				btn.addEventListener("click", addFormToCollection)
+			});
 
-var x = 1; // initlal text box count
-$(add_button).click(function (e) { // on add input button click
-e.preventDefault();
-if (x < max_fields) { // max input box allowed
-x++; // text box increment
-$(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); // add input box
-}
-});
+			var max_fields = 10; // maximum input boxes allowed
+			var wrapper = $(".input_fields_wrap"); // Fields wrapper
+			var add_button = $(".add_field_button"); // Add button ID
 
-$(wrapper).on("click", ".remove_field", function (e) { // user click on remove text
-e.preventDefault();
-$(this).parent('div').remove();
-x--;
-})
-});
+			var x = 1; // initlal text box count
+			$(add_button).click(function (e) { // on add input button click
+				e.preventDefault();
+
+				if (x < max_fields) { // max input box allowed
+					x++; // text box increment
+					$(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); // add input box
+				}
+			});
+
+			$(wrapper).on("click", ".remove_field", function (e) { // user click on remove text
+			e.preventDefault();
+			$(this).parent('div').remove();
+			x--;
+			})
+		});
 	</script>
 {% endblock %}

@@ -66,4 +66,18 @@ class Invoice
     {
         return $this->tugs;
     }
+
+    public function addEventSubscription(EventSubscription $eventSubscription): void
+    {
+        $this->eventSubscriptions->add($eventSubscription);
+    }
+
+    public function removeEventSubscription(EventSubscription $eventSubscription): self
+    {
+        if ($this->invoice->contains($eventSubscription)) {
+            $this->invoice->removeElement($eventSubscription);
+        }
+
+        return $this;
+    }
 }

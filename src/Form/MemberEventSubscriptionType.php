@@ -29,9 +29,9 @@ class MemberEventSubscriptionType extends AbstractType
                 'class' => Member::class,
                 // 'mapped' => false,
                 'label' => false,
-                // 'query_builder' => function (MemberRepository $mr) use($options) {
-                //     return $mr->findForEventSubscription($options);
-                // },
+                'query_builder' => function (MemberRepository $mr) use($options) {
+                    return $mr->findForEventSubscription($options);
+                },
             ])
             ->add('eventRate', EntityType::class, [
                 'class' => EventRate::class,

@@ -34,7 +34,7 @@ class MemberRepository extends ServiceEntityRepository
     }
 
     public function findForEventSubscription($options){
-
+        $qb = null;
         $not = $this->createQueryBuilder('mb1')
                     ->select('mb1.id')
                     ->innerJoin(EventSubscription::class,'eventSubscription','WITH','eventSubscription.member = mb1.id')
@@ -50,12 +50,13 @@ class MemberRepository extends ServiceEntityRepository
             ->setParameter('responsibleAdult', $options['responsibleAdult'])
             ->andWhere($qb->expr()->notIn('memberAs.id', $not->getQuery()->getResult()[0]))
             ;
+        }else{
+            $qb= $this->createQueryBuilder('memberAs');
+            $qb->where('memberAs.responsibleAdult =:responsibleAdult')
+            ->setParameter('responsibleAdult', $options['responsibleAdult']);
         }
         
-
-        return null;
-        // return $qb;
-                
+        return $qb;
     }
 
 

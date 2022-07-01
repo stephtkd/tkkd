@@ -549,6 +549,7 @@ class SubscriptionController extends AbstractController
                 $eventSubscription->addEventOption($eventOption);
 
             }
+            
             $eventSubscription->setStatus('ok');
             $eventSubscription->setEvent($event);
             $eventSubscription->setUser($this->getUser());
