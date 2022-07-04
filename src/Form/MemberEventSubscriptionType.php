@@ -27,7 +27,6 @@ class MemberEventSubscriptionType extends AbstractType
         $builder
             ->add('member', EntityType::class, [
                 'class' => Member::class,
-                // 'mapped' => false,
                 'label' => false,
                 'query_builder' => function (MemberRepository $mr) use($options) {
                     return $mr->findForEventSubscription($options);
@@ -35,7 +34,6 @@ class MemberEventSubscriptionType extends AbstractType
             ])
             ->add('eventRate', EntityType::class, [
                 'class' => EventRate::class,
-                // 'mapped' => false,
                 'label' => false,
                 'query_builder' => function (EventRateRepository $evr) {
                     return $evr->createQueryBuilder('er')
@@ -43,18 +41,10 @@ class MemberEventSubscriptionType extends AbstractType
                 },
             ])
             ->add('eventOption', ChoiceType::class, [
-                // 'mapped' =>false,
                 'label' => false,
                 'expanded' => true,
                 'multiple' => true,
                 'choices' => $options['eventOptions']
-                // 'choice_label' => function ($eventOptions) {
-                //     return $eventOptions->getName();
-                // }
-                // 'query_builder' => function (EventOptionRepository $eor) {
-                //     return $eor->createQueryBuilder('eo')
-                //         ->orderBy('eo.name', 'ASC');
-                // },
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider l\'inscription',
@@ -63,23 +53,8 @@ class MemberEventSubscriptionType extends AbstractType
                 ]
             ])
         ;
-        // $builder->addEventListener(
-        //     FormEvents::PRE_SET_DATA,
-        //     [$this,'preSetDataOnMember']
-        // );
         
     }
-
-    // public function preSetDataOnMember(FormEvent $event): void
-    // {
-    //     $form = $event->getForm();
-    //     $data = $event->getData();
-    //     dump($form,$data);
-
-    //     // unset($form->get('member'));
-    //     // $form->get('member')->setData($data->getEventSubscriptions()[0]->getMember());
-    //     // $form->get('member')->setData($data->getEventSubscriptions()[0]->getMember());
-    // }
 
 
     public function configureOptions(OptionsResolver $resolver): void

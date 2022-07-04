@@ -26,8 +26,6 @@ class Invoice
      */
     protected Collection $eventSubscriptions;
 
-    protected $tugs;
-
     /**
      * @ORM\Column(type="boolean")
      */
@@ -60,11 +58,6 @@ class Invoice
         $this->isPaid = $isPaid;
 
         return $this;
-    }
-
-    public function getTugs(): Collection
-    {
-        return $this->tugs;
     }
 
     public function addEventSubscription(EventSubscription $eventSubscription): void

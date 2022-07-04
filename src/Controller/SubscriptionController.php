@@ -543,8 +543,9 @@ class SubscriptionController extends AbstractController
         }
 
         $options['eventOptions'] = $resultListEventOption;
+        $invoice = new Invoice();
 
-        $form = $this->createForm(InvoiceType::class, null, $options);
+        $form = $this->createForm(InvoiceType::class, $invoice, $options);
 
         $form->handleRequest($request);
 
