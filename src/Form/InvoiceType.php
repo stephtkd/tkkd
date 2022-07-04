@@ -16,7 +16,8 @@ class InvoiceType extends AbstractType
             'entry_type' => MemberEventSubscriptionType::class,
             'entry_options' => $options,
             'allow_add' => true,
-            'by_reference' => false
+            'by_reference' => false,
+            'allow_delete' => true,
         ]);
     }
 

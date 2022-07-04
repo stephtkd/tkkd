@@ -15,26 +15,14 @@
 				{# <div class="col-12 card-padding-3">
 					<input type="search" class="col-12" id="searchbox" placeholder="Recherchez un membre...">
 				</div> #}
-				<fieldset>Ajouter un membre à l'événement</fieldset>
-				<button type="button" class="add_item_link" data-collection-holder-class="eventSubscriptions">Ajouter un membre</button>
+				{# <fieldset>Ajouter un membre à l'événement</fieldset> #}
+				<button type="button" class="add_item_link btn btn-dark btn-sm" data-collection-holder-class="eventSubscriptions">Ajouter un membre</button>
                 
 				{{ form_start(form) }}
-				{#  	{{form_row(form.eventSubscriptions)}} #}
-					{# {% for eventSubscription in form.eventSubscriptions %}
-						<div class="card mt-2 mb-4">
-							<div class="container box">
-								{{ form_row(eventSubscription.member) }}
-								{{ form_row(eventSubscription.eventRate) }}
-								{{ form_row(eventSubscription.eventOption) }}
-								{{ form_row(eventSubscription.submit) }}
-							</div>
-						</div>
-					{% endfor %} #}
-					
-				<ul class="eventSubscriptions"
-					data-index="{{ form.eventSubscriptions|length > 0 ? form.eventSubscriptions|last.vars.name + 1 : 0 }}"
-					data-prototype="{{ form_widget(form.eventSubscriptions.vars.prototype)|e('html_attr') }}"
-				></ul>
+					<ul class="eventSubscriptions mt-2"
+						data-index="{{ form.eventSubscriptions|length > 0 ? form.eventSubscriptions|last.vars.name + 1 : 0 }}"
+						data-prototype="{{ form_widget(form.eventSubscriptions.vars.prototype)|e('html_attr') }}"
+					></ul>
                 {{ form_end(form) }}
 
 				{#
@@ -89,12 +77,10 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script type="text/javascript">
 		
-
-
 		const addFormToCollection = (e) => {
 			const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
 
-			const item = document.createElement('li');
+			const item = document.createElement('div');
 
 			item.innerHTML = collectionHolder
 				.dataset

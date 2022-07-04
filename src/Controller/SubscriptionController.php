@@ -533,6 +533,17 @@ class SubscriptionController extends AbstractController
         $options['responsibleAdult'] = $this->getUser()->getId();
         $options['event'] = $event->getId();
 
+        $listEventOption = $this->entityManager->getRepository(EventOption::class)->findBy(['event' => $event->getId()]);
+        $resultListEventOption = [];
+        $i=1;
+
+        foreach($listEventOption as $value){
+            $resultListEventOption[$value->getName()] = $i; 
+            $i++;
+        }
+
+        $options['eventOptions'] = $resultListEventOption;
+
         $form = $this->createForm(InvoiceType::class, null, $options);
 
         $form->handleRequest($request);
