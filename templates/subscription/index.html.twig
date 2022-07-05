@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+		<div class="container">
 		<div class="container pb-5 bg-white rounded shadow-sm row">
 			<div class="row col-lg-6 col-md-12 col-sm-12 py-5 p-4 ">
 				<div class="row col-12">
@@ -12,62 +12,16 @@
 					<input type="text" class="col-12 d-none" id="subscription-id" value="{{subscriptionId}}">
 					<input type="text" class="col-12 d-none" id="event-id" value="{{event.id}}">
 				</div>
-				{# <div class="col-12 card-padding-3">
-					<input type="search" class="col-12" id="searchbox" placeholder="Recherchez un membre...">
-				</div> #}
-				<fieldset>Ajouter un membre à l'événement</fieldset>
-				{{ form(form) }}
+				<button type="button" class="add_item_link btn btn-dark btn-sm" data-collection-holder-class="eventSubscriptions">Ajouter un membre</button>
+				{{ form_start(form) }}
+					<ul class="eventSubscriptions mt-2"
+						data-index="{{ form.eventSubscriptions|length > 0 ? form.eventSubscriptions|last.vars.name + 1 : 0 }}"
+						data-prototype="{{ form_widget(form.eventSubscriptions.vars.prototype)|e('html_attr') }}"
+					></ul>
+                {{ form_end(form) }}
 				<div class="col-12">
-					{% for eventSubscription in listEventSubscription %}
-						<div class="card mt-2 mb-4" id="card-id-{{eventSubscription.member.id}}">
-							<div class="container box">
-								<h4 class="card-title mt-2">
-									{{eventSubscription.member.firstName}}
-									{{eventSubscription.member.lastName}}
-								</h4>
-								<div class="row">
-									<div class="col-6 mb-2">
-										<div class="col-12 card-subtitle">TARIF
-										</div>
-										<div class="col-12 mt-2">
-											<select id="select-event-rate-{{eventSubscription.member.id}}" class="form-select" aria-label="Default select example">
-												{% for eventRate in listEventRate %}
-													<option value="{{eventRate.id}}" class="select-option-value">{{eventRate.name}} - {{eventRate.amount}}</option>
-												{% endfor %}
-											</select>
-										</div>
-									</div>
-									<div class="col-6 mb-2">
-										<div class="col-12 card-subtitle">OPTION
-										</div>
-										<div class="col-12 mt-2">
-												{% for eventOption in listEventOption %}
-													{# <div class="form-check">
-														<input class="form-check-input" type="checkbox" value="{{eventOption.name}}" id="member-{{member.id}}-event-{{eventOption.id}}" checked>
-														<label class="form-check-label" for="member-{{member.id}}-event-{{eventOption.id}}">
-															{{eventOption.name}}
-														</label>
-													</div> #}
-
-													<div>
-														<input type="checkbox" id="member-{{eventSubscription.member.id}}-event-{{eventOption.id}}" 
-														name="member-{{eventSubscription.member.id}}-event-{{eventOption.id}}" class="event-option-class" >
-														<label for="member-{{eventSubscription.member.id}}-event-{{eventOption.id}}">{{eventOption.name}}</label>
-    												</div>
-												{% endfor %}
-										</div>
-									</div>
-									<div class="col-6 mb-2">
-										<a href="{{ path('delete_event_subscription',{'id':subscriptionId,'idMember': eventSubscription.member.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
-										<a href="{{ path('update_event_subscription',{'id':subscriptionId,'idMember': eventSubscription.member.id}) }}" class="btn btn-primary btn-sm">Modifier</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					{% endfor %}
 					<div class="mt-4">
 						<a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
-						{# <input id="btn-paid-cash-id" class="btn btn-dark btn-sm" type="submit" value="Payer en Espèce"> #}
 						<a href="{{path('order_resume_esp',{'id': subscriptionId})}}" id="btn-paid-cash-id" class="btn btn-dark btn-sm">Payer en Espèce</a>
 					</div>
 				</div>
@@ -91,25 +45,75 @@
 	<script src="{{ asset('build/bootstrap.min.js') }}"></script>
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script type="text/javascript">
+
+		const addFormToCollection = (e) => {
+			const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+			const item = document.createElement('li');
+
+			item.innerHTML = collectionHolder
+				.dataset
+				.prototype
+				.replace(
+				/__name__/g,
+				collectionHolder.dataset.index
+				);
+
+			collectionHolder.appendChild(item);
+
+			collectionHolder.dataset.index++;
+
+			addTagFormDeleteLink(item);
+		};
+
+		const addTagFormDeleteLink = (item) => {
+			const removeFormButton = document.createElement('button');
+			removeFormButton.classList.add("btn","btn-dark","mt-2"); 
+			removeFormButton.innerText = 'Supprimer ce membre de l\'événement';
+
+			item.append(removeFormButton);
+
+			removeFormButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				// remove the li for the tag form
+				item.remove();
+			});
+		}
+
+
 		$(document).ready(function () {
-var max_fields = 10; // maximum input boxes allowed
-var wrapper = $(".input_fields_wrap"); // Fields wrapper
-var add_button = $(".add_field_button"); // Add button ID
 
-var x = 1; // initlal text box count
-$(add_button).click(function (e) { // on add input button click
-e.preventDefault();
-if (x < max_fields) { // max input box allowed
-x++; // text box increment
-$(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); // add input box
-}
-});
+			document
+				.querySelectorAll('.add_item_link')
+				.forEach(btn => {
+					btn.addEventListener("click", addFormToCollection)
+				});
 
-$(wrapper).on("click", ".remove_field", function (e) { // user click on remove text
-e.preventDefault();
-$(this).parent('div').remove();
-x--;
-})
-});
+				document
+					.querySelectorAll('ul.eventSubscriptions li')
+					.forEach((eventSubscription) => {
+						addTagFormDeleteLink(eventSubscription)
+				});
+
+			var max_fields = 10; // maximum input boxes allowed
+			var wrapper = $(".input_fields_wrap"); // Fields wrapper
+			var add_button = $(".add_field_button"); // Add button ID
+
+			var x = 1; // initlal text box count
+			$(add_button).click(function (e) { // on add input button click
+				e.preventDefault();
+				if (x < max_fields) { // max input box allowed
+					x++; // text box increment
+					$(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); // add input box
+				}
+			});
+
+			$(wrapper).on("click", ".remove_field", function (e) { // user click on remove text
+				e.preventDefault();
+				$(this).parent('div').remove();
+				x--;
+			})
+		});
+
 	</script>
 {% endblock %}
