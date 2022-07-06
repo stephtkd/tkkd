@@ -216,13 +216,13 @@ class SubscriptionController extends AbstractController
 //        ]);
     }
 
-    #[Route('/order/resumeEsp', name: 'order_resume_esp')]
-    public function checkoutEsp(Cart $cart): Response
-    {
-        $cart->persistCart();
+    // #[Route('/order/resumeEsp', name: 'order_resume_esp')]
+    // public function checkoutEsp(Cart $cart): Response
+    // {
+    //     $cart->persistCart();
         
-        return $this->redirectToRoute('app_subscribe_event');
-    }
+    //     return $this->redirectToRoute('app_subscribe_event');
+    // }
 
     #[Route('/order/success/{session_id}', name: 'order_success')]
     public function success($session_id, Cart $cart): Response
@@ -232,21 +232,21 @@ class SubscriptionController extends AbstractController
         return $this->render('order/success.html.twig');
     }
 
-    #[Route('/order/resume/{mean}', name: 'order_resume')]
-    public function checkout(string $mean, Cart $cart): Response
-    {
-        $cart = $session->get('cart',[]);
+    // #[Route('/order/resume/{mean}', name: 'order_resume')]
+    // public function checkout(string $mean, Cart $cart): Response
+    // {
+    //     $cart = $session->get('cart',[]);
 
-        if ($request->request->get('output')) {
-            $cart = $request->request->get('output');
-            $session->set('cart',$cart);
-        }
+    //     if ($request->request->get('output')) {
+    //         $cart = $request->request->get('output');
+    //         $session->set('cart',$cart);
+    //     }
 
 
-        return new JsonResponse([
-            'success' => true,
-        ]);
-    }
+    //     return new JsonResponse([
+    //         'success' => true,
+    //     ]);
+    // }
 
     #[Route('/subscription/{id}/confirmResumeEsp',name:'confirm_resume_esp')]
     public function confirmResumeEsp(

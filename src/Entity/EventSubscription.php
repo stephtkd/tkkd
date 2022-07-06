@@ -245,6 +245,8 @@ class EventSubscription
         }
 
         return $this->getEventRate()->getAmount() + $totalOption;
+    }
+    
     public function isIsPaid(): ?bool
     {
         return $this->isPaid;
