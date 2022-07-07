@@ -21,7 +21,7 @@ class Invoice
 
     /**
      * @var Collection|EventSubscription[] 
-     * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="invoice")
+     * @ORM\OneToMany(targetEntity=EventSubscription::class, mappedBy="invoice",cascade={"persist","remove"})
      * @ORM\JoinTable(name="event_subscription_invoice")
      */
     protected Collection $eventSubscriptions;

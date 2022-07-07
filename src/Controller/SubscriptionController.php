@@ -66,78 +66,69 @@ class SubscriptionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $invoice = $form->getData();
-            // $tabValues = $request->request->all();
-            // $eventSubscription = $form->getData();
+            $invoice->setIsPaid(false);
 
-            // foreach($tabValues['member_event_subscription']['eventOption'] as $value){
-            //     $eventOption = $this->entityManager->getRepository(EventOption::class)->findOneById($value);
-            //     $eventSubscription->addEventOption($eventOption);
+            foreach($invoice->getEventSubscriptions() as $eventSubscription){
+                $eventSubscription->setUser($this->getUser());
+                $eventSubscription->setStatus('ok');
+                $eventSubscription->setEvent($event);
+                $eventSubscription->setInvoice($invoice);
 
-            // }
-            // $eventSubscription->setStatus('ok');
-            // $eventSubscription->setEvent($event);
-            // $eventSubscription->setUser($this->getUser());
-
-
-            //PAYMENT
-            $payment = new Payment();
-            $payment->setStatus('ok');
-            $payment->setAmount(15);
-            $payment->setDate(new \DateTime());
-            $payment->setMean('Espèce');
-            $details = [
-                'user' => [
-                    'id' => $eventSubscription->getUser()->getId(),
-                    'firstName' => $eventSubscription->getUser()->getFirstName(),
-                    'lastName' => $eventSubscription->getUser()->getLastName(),
-                    'email' => $eventSubscription->getUser()->getEmail(),
-                ],
-                'member' => [
-                    'id' => $eventSubscription->getMember()->getId(),
-                    'firstName' => $eventSubscription->getMember()->getFirstName(),
-                    'lastName' => $eventSubscription->getMember()->getLastName(),
-                    'email' => $eventSubscription->getMember()->getEmail(),
-                    'street' => $eventSubscription->getMember()->getStreetAddress(),
-                    'postalCode' => $eventSubscription->getMember()->getPostalCode(),
-                    'city' => $eventSubscription->getMember()->getCity(),
-                    'country' => $eventSubscription->getMember()->getNationality(),
-                ],
-                'event' => [
-                    'id' => $event->getId(),
-                    'slug' => $event->getSlug(),
-                    'startDate' => $event->getStartDate(),
-                    'endDate' => $event->getEndDate(),
-                    'rate' => [
-                        'id' => $eventSubscription->getEventRate()->getId(),
-                        'name' => $eventSubscription->getEventRate()->getName(),
-                        'amount' => $eventSubscription->getEventRate()->getAmount(),
+                //PAYMENT
+                $payment = new Payment();
+                $payment->setStatus('ok');
+                $payment->setAmount(15);
+                $payment->setDate(new \DateTime());
+                $payment->setMean('Espèce');
+                $details = [
+                    'user' => [
+                        'id' => $eventSubscription->getUser()->getId(),
+                        'firstName' => $eventSubscription->getUser()->getFirstName(),
+                        'lastName' => $eventSubscription->getUser()->getLastName(),
+                        'email' => $eventSubscription->getUser()->getEmail(),
                     ],
-                    'options' => [],
-                ],
-            ];
-            foreach ($eventSubscription->getEventOptions() as $option) {
-                $opt = [
-                    'id' => $option->getId(),
-                    'name' => $option->getName(),
-                    'amount' => $option->getAmount(),
+                    'member' => [
+                        'id' => $eventSubscription->getMember()->getId(),
+                        'firstName' => $eventSubscription->getMember()->getFirstName(),
+                        'lastName' => $eventSubscription->getMember()->getLastName(),
+                        'email' => $eventSubscription->getMember()->getEmail(),
+                        'street' => $eventSubscription->getMember()->getStreetAddress(),
+                        'postalCode' => $eventSubscription->getMember()->getPostalCode(),
+                        'city' => $eventSubscription->getMember()->getCity(),
+                        'country' => $eventSubscription->getMember()->getNationality(),
+                    ],
+                    'event' => [
+                        'id' => $event->getId(),
+                        'slug' => $event->getSlug(),
+                        'startDate' => $event->getStartDate(),
+                        'endDate' => $event->getEndDate(),
+                        'rate' => [
+                            'id' => $eventSubscription->getEventRate()->getId(),
+                            'name' => $eventSubscription->getEventRate()->getName(),
+                            'amount' => $eventSubscription->getEventRate()->getAmount(),
+                        ],
+                        'options' => [],
+                    ],
                 ];
-                array_push($details['event']['options'], $opt);
+                foreach ($eventSubscription->getEventOptions() as $option) {
+                    $opt = [
+                        'id' => $option->getId(),
+                        'name' => $option->getName(),
+                        'amount' => $option->getAmount(),
+                    ];
+                    array_push($details['event']['options'], $opt);
+                }
+                $payment->setDetails($details);
+                $eventSubscription->setPayment($payment);
             }
-            $payment->setDetails($details);
-            $eventSubscription->setPayment($payment);
+            
 
-
-            $this->entityManager->persist($eventSubscription);
+            $this->entityManager->persist($invoice);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('app_subscription',['id' => $event->getId()]);
         }
         
-        // foreach($listEventSubscription as $value){
-        //     $invoice->getEventSubscriptions()->add($value);
-        // }
-
-
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
             'listEventSubscription' => $listEventSubscription,
