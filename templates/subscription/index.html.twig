@@ -1,116 +1,119 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tarifs - Taekwonkido Phenix{% endblock %}
+{% block title %}Tarifs - Taekwonkido Phenix
+{% endblock %}
 
 {% block body %}
+		<div class="container">
+		<div class="container pb-5 bg-white rounded shadow-sm row">
+			<div class="row col-lg-6 col-md-12 col-sm-12 py-5 p-4 ">
+				<div class="row col-12">
+					<h4>{{event.name}}</h4>
+					<input type="text" class="col-12 d-none" id="subscription-id" value="{{subscriptionId}}">
+					<input type="text" class="col-12 d-none" id="event-id" value="{{event.id}}">
+				</div>
+				<button type="button" class="add_item_link btn btn-dark btn-sm" data-collection-holder-class="eventSubscriptions">Ajouter un membre</button>
+				{{ form_start(form) }}
+					<ul class="eventSubscriptions mt-2"
+						data-index="{{ form.eventSubscriptions|length > 0 ? form.eventSubscriptions|last.vars.name + 1 : 0 }}"
+						data-prototype="{{ form_widget(form.eventSubscriptions.vars.prototype)|e('html_attr') }}"
+					></ul>
+                {{ form_end(form) }}
+				<div class="col-12">
+					<div class="mt-4">
+						<a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Payer en CB</a>
+						<a href="{{path('order_resume_esp',{'id': subscriptionId})}}" id="btn-paid-cash-id" class="btn btn-dark btn-sm">Payer en Espèce</a>
+					</div>
+				</div>
+			</div>
+			<div class="row col-lg-6 col-md-12 col-sm-12 py-5 p-4 ">
+				<div class="col-12">
+					<a href="{{ path('account_member_add') }}" class="btn btn-dark btn-sm">Création d'un membre</a>
+					Tarif total: <span id="total-price">0</span>€
+				</div>
+				
+			</div>
+		</div>
+	</div>
 
-    <div class="container">
-        <h1>{{ event.name }} </h1>
-        <div class="pb-5 ">
-            <div class="container">
-                <div class="row py-5 p-4 bg-white rounded shadow-sm">
-                    <div class="col-md-6 p-3">
-                        <!-- accordion form -->
-                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                  <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                        Membre à inscrire
-                                      </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                      <div class="accordion-body">
-                                         <!-- formulaire ou select des members -->
-                                          {% for member in app.user.members %}
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option selected></option>
-                                                    <option value="{{ member.id }}">{{ member.firstname }} {{ member.lastname }}</option>
-                                                </select>
-                                          {% endfor %}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        Personne non membre à inscrire
-                                      </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                                        <div class="accordion-body">
-                                        <!-- formulaire ou select des members -->
-                                            <div class="input_fields_wrap">
-                                                <button class="add_field_button mb-3">Ajouter des Personnes</button>
-                                                <div>
-                                                    <label class="sr-only" for="inlineFormInputName">Nom Prénom</label>
-                                                    <input type="text" name="mytext[]" class="form-control mb-2" id="inlineFormInputName">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                  </div>
-
-                            </div>
-                            </div>
-                                <!-- end accordion form -->
-
-                            <div class="col-md-6 p-3">
-                                <h5 class="card-title">Les tarifs :</h5>
-                                <div class="mb-3">
-                                    <label for="rates"></label>
-                                    <select name="rates" id="rates">
-                                        {% for rate in event.eventRates %}
-                                            <option value="{{ rate.id }}">{{ rate.name }} {{ rate.amount/100 }} €</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                {% if event.eventOptions is not empty %}
-                                    <h5 class="card-title">Les options :</h5>
-                                    {% for option in event.eventOptions %}
-                                        <div class="mb-3">
-                                            <input type="checkbox" id="{{ option.id }}" name="{{ option.name }}" >
-                                            <label for="{{ option.id }}">{{ option.name }} {{ option.amount/100 }} €</label>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-
-
-                <a href="{{ path('order_resume', {'mean' : 'cb'}) }}" class="btn btn-dark btn-sm">Payer en CB</a>
-                <a href="{{ path('order_resume', {'mean' : 'espece'}) }}" class="btn btn-dark btn-sm">Payer en Espèce</a>
-            </div>
-        </div>
-    </div>
-
-
+	{{ encore_entry_script_tags('subscription') }}
 {% endblock %}
+
 
 {% block javascripts %}
 
-    <script src="{{ asset('build/bootstrap.min.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var max_fields      = 10; //maximum input boxes allowed
-            var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-            var add_button      = $(".add_field_button"); //Add button ID
+	<script src="{{ asset('build/bootstrap.min.js') }}"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script type="text/javascript">
 
-            var x = 1; //initlal text box count
-            $(add_button).click(function(e){ //on add input button click
-                e.preventDefault();
-                if(x < max_fields)
-                { //max input box allowed
-                    x++; //text box increment
-                    $(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); //add input box
-                }
-            });
+		const addFormToCollection = (e) => {
+			const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
 
-            $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-                e.preventDefault();
-                $(this).parent('div').remove();
-                x--;
-            })
-        });
-    </script>
+			const item = document.createElement('li');
+
+			item.innerHTML = collectionHolder
+				.dataset
+				.prototype
+				.replace(
+				/__name__/g,
+				collectionHolder.dataset.index
+				);
+
+			collectionHolder.appendChild(item);
+
+			collectionHolder.dataset.index++;
+
+			addTagFormDeleteLink(item);
+		};
+
+		const addTagFormDeleteLink = (item) => {
+			const removeFormButton = document.createElement('button');
+			removeFormButton.classList.add("btn","btn-dark","mt-2"); 
+			removeFormButton.innerText = 'Supprimer ce membre de l\'événement';
+
+			item.append(removeFormButton);
+
+			removeFormButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				// remove the li for the tag form
+				item.remove();
+			});
+		}
+
+
+		$(document).ready(function () {
+
+			document
+				.querySelectorAll('.add_item_link')
+				.forEach(btn => {
+					btn.addEventListener("click", addFormToCollection)
+				});
+
+				document
+					.querySelectorAll('ul.eventSubscriptions li')
+					.forEach((eventSubscription) => {
+						addTagFormDeleteLink(eventSubscription)
+				});
+
+			var max_fields = 10; // maximum input boxes allowed
+			var wrapper = $(".input_fields_wrap"); // Fields wrapper
+			var add_button = $(".add_field_button"); // Add button ID
+
+			var x = 1; // initlal text box count
+			$(add_button).click(function (e) { // on add input button click
+				e.preventDefault();
+				if (x < max_fields) { // max input box allowed
+					x++; // text box increment
+					$(wrapper).append('<div><label class="sr-only" for="inlineFormInputName">Nom Prénom</label><input type="text" name="mytext[]" class="form-control" id="inlineFormInputName"/><a href="#" class="remove_field">Supprimer</a></div>'); // add input box
+				}
+			});
+
+			$(wrapper).on("click", ".remove_field", function (e) { // user click on remove text
+				e.preventDefault();
+				$(this).parent('div').remove();
+				x--;
+			})
+		});
+
+	</script>
 {% endblock %}

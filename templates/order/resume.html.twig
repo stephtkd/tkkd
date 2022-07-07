@@ -18,50 +18,61 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
-
                         <!-- Shopping cart table -->
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
-                                <tr>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
-                                        <div class="p-2 px-3 text-uppercase">Evènement</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white">
-                                        <div class="p-2 px-3 text-uppercase">Tarif</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
-                                        <div class="py-2 text-uppercase">Option(s)</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-secondary text-white text-center">
-                                        <div class="py-2 text-uppercase">Prix</div>
-                                    </th>
-                                </tr>
+                                    <tr>
+                                        <th scope="col" class="border-0 bg-secondary text-white">
+                                            <div class="p-2 px-3 text-uppercase">Evènement</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-secondary text-white">
+                                            <div class="p-2 px-3 text-uppercase">Membre</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-secondary text-white">
+                                            <div class="p-2 px-3 text-uppercase">Tarif</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-secondary text-white text-center">
+                                            <div class="py-2 text-uppercase">Option(s)</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-secondary text-white text-center">
+                                            <div class="py-2 text-uppercase">Prix</div>
+                                        </th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 {% for subscription in subscriptions %}
                                     <tr>
-                                    <th scope="row">
-                                        <div class="p-2">
-                                            <div class="ml-3 d-inline-block align-middle">
-                                                <h5 class="mb-0">{{ subscription.event.name }}</h5>
+                                        <th scope="row">
+                                            <div class="p-2">
+                                                <div class="ml-3 d-inline-block align-middle">
+                                                    <h5 class="mb-0">{{ subscription.event.name }}</h5>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </th>
-                                    <td class="align-middle text-center">
-                                        {{ subscription.eventRate.name }}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {% for eventOption in subscription.eventOptions %}
-                                            <p>
-                                                {{ eventOption.name }}
-                                            </p>
-                                        {% endfor %}
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {{ subscription.amount / 100 }} €
-                                    </td>
-                                </tr>
+                                        </th>
+                                        <th scope="row">
+                                            <div class="p-2">
+                                                <div class="ml-3 d-inline-block align-middle">
+                                                    <h5 class="mb-0">{{ subscription.member }}</h5>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td class="align-middle text-center">
+                                            {{ subscription.eventRate.name }}
+                                            {% set total = total + subscription.eventRate.amount %}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            {% for eventOption in subscription.eventOptions %}
+                                                <p>
+                                                    {{ eventOption.name }}
+                                                </p>
+                                                {% set total = total + eventOption.amount %}
+                                            {% endfor %}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            {{ total }} €
+                                        </td>
+                                    </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>
@@ -69,12 +80,11 @@
                         <!-- End -->
                     </div>
                 </div>
-                {% if mean == 'espece' %}
-                    <a href="{{ path('order_resume_esp') }}" class="btn btn-dark btn-sm">Confirmer</a>
-                {% else %}
-                    <a href="{{ path('order_resume_cb') }}" class="btn btn-dark btn-sm">Confirmer</a>
-                {% endif %}
-
+                <a href="{{path('confirm_resume_esp',{'id':subscriptionId})}}" class="btn btn-dark btn-sm">Confirmer</a>
+                <a href="{{ path('delete_cart', { 'id' : subscriptionId }) }}" class="btn btn-danger btn-sm">Annuler</a>
+                <div class="alert alert-info mt-2" role="alert">
+                    {{message}}
+                </div>
             </div>
         </div>
     </div>

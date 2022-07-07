@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\EventSubscription;
+use App\Entity\Member;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

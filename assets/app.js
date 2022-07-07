@@ -8,6 +8,8 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import '../assets/styles/app.scss';
 
+require('./CSS/subscription.css');
+
 // start the Stimulus application
 //import '../public/build/bootstrap';
 

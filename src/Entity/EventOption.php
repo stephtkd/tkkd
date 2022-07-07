@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\EventRateRepository;
+use App\Repository\EventOptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=EventRateRepository::class)
+ * @ORM\Entity(repositoryClass=EventOptionRepository::class)
  */
 class EventOption
 {
