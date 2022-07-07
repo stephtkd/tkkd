@@ -3,15 +3,23 @@
 namespace App\Entity;
 
 use App\Repository\EventRateRepository;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=EventRateRepository::class)
  */
 class EventRate
 {
+
+    public const NOM="NOM";
+    public const MONTANT="MONTANT";
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,6 +29,8 @@ class EventRate
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("export_event_subscription")
+     * @SerializedName(self::NOM)
      */
     private string $name;
 
@@ -31,6 +41,8 @@ class EventRate
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("export_event_subscription")
+     * @SerializedName(self::MONTANT)
      */
     private float $amount;
 

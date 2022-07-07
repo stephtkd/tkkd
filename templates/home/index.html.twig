@@ -24,8 +24,18 @@
     <div class="title-events mt-3">
         <h2>Prochain événements</h2>
     </div>
+        <a href="{{ path('app_export_event_csv') }}" class="btn btn-dark btn-sm">Exporter un CSV - Événement</a>
+        <a href="{{ path('app_export_event_subscription_csv') }}" class="btn btn-dark btn-sm">Exporter un CSV - Inscription</a>
+    <div class="" role="alert" id="alert-success-id">
+    </div>
 
- <!-- Card for the events -->
+    
+    <form class="form" id="myForm" class="mt-2">
+        <input type="file" id="inpFile" />
+        <button type="submit" class="btn btn-dark btn-sm">Importer fichier CSV - Événement</button>
+    </form>
+
+<!-- Card for the events -->
     <div class="row m-3">
         {% for event in events %}
         <div class="card mb-8 shadow p-2 mb-5 bg-white rounded w-50">
@@ -44,5 +54,62 @@
         </div>
         {% endfor %}
     </div>
+
+
+<script>
+
+    const myForm = document.getElementById('myForm');
+    const inpFile = document.getElementById('inpFile');
+
+    myForm.addEventListener('submit', e =>{
+        e.preventDefault();
+        
+        const endpoint = '/import-csv';
+        const formData = new FormData();
+
+        formData.append('inpFile',inpFile.files[0]);
+
+        fetch(endpoint,{
+            method:'post',
+            body: formData
+        })
+        .then( (response) =>{
+
+            if(response.status == 200){
+                var alertSuccessId =  document.getElementById('alert-success-id');
+                var newDiv = document.createElement('div');
+                newDiv.innerHTML='Le fichier CSV a été importé.';
+                newDiv.classList.add('alert');
+                newDiv.classList.add('alert-success');
+                newDiv.classList.add('mt-2');
+                alertSuccessId.appendChild(newDiv);
+
+                setTimeout(function() {
+                    alertSuccessId.removeChild(newDiv);
+                },5000);
+
+            }else if(response.status == 500){
+                var alertSuccessId =  document.getElementById('alert-success-id');
+                var newDiv = document.createElement('div');
+                newDiv.innerHTML='Une erreur est survenue.';
+                newDiv.classList.add('alert');
+                newDiv.classList.add('alert-danger');
+                newDiv.classList.add('mt-2');
+                alertSuccessId.appendChild(newDiv);
+
+                setTimeout(function() {
+                    alertSuccessId.removeChild(newDiv);
+                },5000);
+            }
+        })
+        .catch(console.error);
+        inpFile.value = "";
+
+    });
+
+    inpFile.value = "";
+    
+
+</script>
 
 {% endblock %}

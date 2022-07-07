@@ -3,16 +3,27 @@
 namespace App\Entity;
 
 use App\Repository\EventSubscriptionRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=EventSubscriptionRepository::class)
  */
 class EventSubscription
 {
+
+    public const MEMBRE="MEMBRE";
+    public const EVENEMENT="EVENEMENT";
+    public const UTILISATEUR="UTILISATEUR";
+    public const TARIF="TARIF";
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -23,24 +34,33 @@ class EventSubscription
     /**
      * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="eventSubscriptions")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("export_event_subscription")
+     * @SerializedName(self::EVENEMENT)
      */
     private Event $event;
 
     /**
      * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="eventSubscriptions")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("export_event_subscription")
+     * @SerializedName(self::MEMBRE)
+     * 
      */
     private Member $member;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eventSubscriptions")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("export_event_subscription")
+     * @SerializedName(self::UTILISATEUR)
      */
     private User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=EventRate::class, inversedBy="eventSubscriptions")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("export_event_subscription")
+     * @SerializedName(self::TARIF)
      */
     private EventRate $eventRate;
 
