@@ -66,17 +66,17 @@ class SubscriptionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $invoice = $form->getData();
-            $tabValues = $request->request->all();
-            $eventSubscription = $form->getData();
+            // $tabValues = $request->request->all();
+            // $eventSubscription = $form->getData();
 
-            foreach($tabValues['member_event_subscription']['eventOption'] as $value){
-                $eventOption = $this->entityManager->getRepository(EventOption::class)->findOneById($value);
-                $eventSubscription->addEventOption($eventOption);
+            // foreach($tabValues['member_event_subscription']['eventOption'] as $value){
+            //     $eventOption = $this->entityManager->getRepository(EventOption::class)->findOneById($value);
+            //     $eventSubscription->addEventOption($eventOption);
 
-            }
-            $eventSubscription->setStatus('ok');
-            $eventSubscription->setEvent($event);
-            $eventSubscription->setUser($this->getUser());
+            // }
+            // $eventSubscription->setStatus('ok');
+            // $eventSubscription->setEvent($event);
+            // $eventSubscription->setUser($this->getUser());
 
 
             //PAYMENT
@@ -130,12 +130,12 @@ class SubscriptionController extends AbstractController
             $this->entityManager->persist($eventSubscription);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_subscription',['id' => $id]);
+            return $this->redirectToRoute('app_subscription',['id' => $event->getId()]);
         }
         
-        foreach($listEventSubscription as $value){
-            $invoice->getEventSubscriptions()->add($value);
-        }
+        // foreach($listEventSubscription as $value){
+        //     $invoice->getEventSubscriptions()->add($value);
+        // }
 
 
         return $this->render('subscription/index.html.twig', [

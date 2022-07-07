@@ -6,6 +6,7 @@ use App\Entity\EventOption;
 use App\Entity\EventRate;
 use App\Entity\EventSubscription;
 use App\Entity\Member;
+use App\Form\DataTransformer\NumberToEventOptionTransformer;
 use App\Repository\EventOptionRepository;
 use App\Repository\EventRateRepository;
 use App\Repository\MemberRepository;
@@ -22,6 +23,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MemberEventSubscriptionType extends AbstractType
 {
+    private $transformer;
+
+    public function __construct(NumberToEventOptionTransformer $transformer)
+    {
+        $this->transformer = $transformer;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -40,7 +48,7 @@ class MemberEventSubscriptionType extends AbstractType
                         ->orderBy('er.amount', 'ASC');
                 },
             ])
-            ->add('eventOption', ChoiceType::class, [
+            ->add('eventOptions', ChoiceType::class, [
                 'label' => false,
                 'expanded' => true,
                 'multiple' => true,
@@ -53,6 +61,9 @@ class MemberEventSubscriptionType extends AbstractType
                 ]
             ])
         ;
+
+        $builder->get('eventOptions')
+            ->addModelTransformer($this->transformer);
         
     }
 

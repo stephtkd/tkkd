@@ -34,7 +34,6 @@ class Invoice
     public function __construct()
     {
         $this->eventSubscriptions = new ArrayCollection();
-        $this->tugs = new ArrayCollection();
     }
 
     public function getId(): ?int
