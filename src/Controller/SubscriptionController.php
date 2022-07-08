@@ -17,7 +17,9 @@ use App\Form\MemberEventSubscriptionType;
 use App\Form\OrderType;
 use App\Form\TaskType;
 use App\Repository\EventSubscriptionRepository;
+use App\Repository\InvoiceRepository;
 use App\Service\HelloAssoApiService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,13 +43,11 @@ class SubscriptionController extends AbstractController
     #[Route('/subscription/{id}', name: 'app_subscription')]
     public function index(
         Event $event,
-        Request $request
-        ): Response {
-        $listEventRate = $this->entityManager->getRepository(EventRate::class)->findAll();
+        Request $request,
+        InvoiceRepository $invoiceRepository
+        ): Response 
+    {
         $listEventOption = $this->entityManager->getRepository(EventOption::class)->findBy(['event' => $event->getId()]);
-        $listEventSubscription = $this->entityManager->getRepository(EventSubscription::class)->findBy(['event' =>$event->getId()]);
-
-        $eventSubscription = new EventSubscription();
         $options['responsibleAdult'] = $this->getUser()->getId();
         $options['event'] = $event->getId();
         $resultListEventOption = [];
@@ -60,6 +60,7 @@ class SubscriptionController extends AbstractController
 
         $options['eventOptions'] = $resultListEventOption;
         $invoice = new Invoice();
+
         $form = $this->createForm(InvoiceType::class, $invoice, $options);
 
         $form->handleRequest($request);
@@ -131,9 +132,6 @@ class SubscriptionController extends AbstractController
         
         return $this->render('subscription/index.html.twig', [
             'event' => $event,
-            'listEventSubscription' => $listEventSubscription,
-            'listEventRate' => $listEventRate,
-            'listEventOption' => $listEventOption,
             'subscriptionId' => $event->getId(),
             'form' => $form->createView(),
         ]);

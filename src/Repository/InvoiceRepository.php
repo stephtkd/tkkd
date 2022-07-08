@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\EventSubscription;
 use App\Entity\Invoice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,21 @@ class InvoiceRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @return Invoice
+     */
+    public function findInvoiceByEvent(int $eventId): ?Invoice
+    {
+        return $this->createQueryBuilder('invoice')
+            ->select('invoice')
+            ->innerJoin(EventSubscription::class,'eventSubscription','WITH', 'eventSubscription.invoice = invoice.id')
+            ->andWhere('eventSubscription.event = :event')
+            ->setParameter('event', $eventId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
 //    /**

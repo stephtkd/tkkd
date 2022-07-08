@@ -25,7 +25,7 @@ class NumberToEventOptionTransformer implements DataTransformerInterface
      */
     public function transform($eventOption): array
     {
-        if (null === $eventOption) {
+        if (null === $eventOption /*|| !$eventOption instanceof EventOption*/) {
             return [];
         }
 
