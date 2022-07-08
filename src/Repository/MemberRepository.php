@@ -35,26 +35,29 @@ class MemberRepository extends ServiceEntityRepository
 
     public function findForEventSubscription($options){
         $qb = null;
-        $not = $this->createQueryBuilder('mb1')
-                    ->select('mb1.id')
-                    ->innerJoin(EventSubscription::class,'eventSubscription','WITH','eventSubscription.member = mb1.id')
-                    ->where('mb1.responsibleAdult =:responsibleAdult ')
-                    ->setParameter('responsibleAdult', $options['responsibleAdult'])
-                    ->andWhere('eventSubscription.event =:event')
-                    ->setParameter('event',$options['event'])
-                    ;
-
-        if(count($not->getQuery()->getResult()) > 0){
-            $qb= $this->createQueryBuilder('memberAs');
-            $qb->where('memberAs.responsibleAdult =:responsibleAdult')
-            ->setParameter('responsibleAdult', $options['responsibleAdult'])
-            ->andWhere($qb->expr()->notIn('memberAs.id', $not->getQuery()->getResult()[0]))
-            ;
-        }else{
-            $qb= $this->createQueryBuilder('memberAs');
+        // $not = $this->createQueryBuilder('mb1')
+        //             ->select('mb1.id')
+        //             ->innerJoin(EventSubscription::class,'eventSubscription','WITH','eventSubscription.member = mb1.id')
+        //             ->where('mb1.responsibleAdult =:responsibleAdult ')
+        //             ->setParameter('responsibleAdult', $options['responsibleAdult'])
+        //             ->andWhere('eventSubscription.event =:event')
+        //             ->setParameter('event',$options['event'])
+        //             ;
+        
+        // if(count($not->getQuery()->getResult()) > 0){
+        //     $qb= $this->createQueryBuilder('memberAs');
+        //     $qb->where('memberAs.responsibleAdult =:responsibleAdult')
+        //     ->setParameter('responsibleAdult', $options['responsibleAdult'])
+        //     ->andWhere($qb->expr()->notIn('memberAs.id', $not->getQuery()->getResult()[0]))
+        //     ;
+        // }else{
+        //     $qb= $this->createQueryBuilder('memberAs');
+        //     $qb->where('memberAs.responsibleAdult =:responsibleAdult')
+        //     ->setParameter('responsibleAdult', $options['responsibleAdult']);
+        // }
+        $qb= $this->createQueryBuilder('memberAs');
             $qb->where('memberAs.responsibleAdult =:responsibleAdult')
             ->setParameter('responsibleAdult', $options['responsibleAdult']);
-        }
         
         return $qb;
     }

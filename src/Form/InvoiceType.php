@@ -15,7 +15,12 @@ class InvoiceType extends AbstractType
         $builder->add('eventSubscriptions', CollectionType::class, [
             'entry_type' => MemberEventSubscriptionType::class,
             'label' =>false,
-            // 'entry_options' => $options,
+            'entry_options' => [
+                'label' => false, 
+                "responsibleAdult" => $options['responsibleAdult'],
+                "event" => $options['event'],
+                "eventOptions" => $options['eventOptions'],
+            ],
             'allow_add' => true,
             'by_reference' => false,
             'allow_delete' => true,
